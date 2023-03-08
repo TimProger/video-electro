@@ -1,0 +1,55 @@
+@import "../_vars.scss";
+
+.btn{
+  outline: none;
+  border: 1px solid #00000000;
+  border-radius: $border-radios-button;
+  cursor: pointer;
+  transition: background-color .25s, color .1s, border-color .25s;
+
+  &__big{
+    padding: 15px 20px;
+  }
+
+  &__medium{
+    padding: 10px 20px;
+  }
+
+  &__small{
+    padding: 5px 15px;
+  }
+
+  &__filled{
+    background: $block-main;
+    color: $text-third;
+
+    &:active{
+      background: $block-sec;
+      color: $text-sec;
+      border: 1px solid $block-main;
+    }
+  }
+
+  &__outlined{
+    background: $block-sec;
+    color: $text-sec;
+    border: 1px solid $block-main;
+
+    &:active{
+      background: $block-main;
+      color: $text-third;
+    }
+  }
+
+  &__disabled{
+    background: $block-disabled;
+    color: $text-third;
+    cursor: unset;
+
+    &:active{
+      background: $block-disabled;
+      color: $text-third;
+      border: 1px solid #00000000;
+    }
+  }
+}
