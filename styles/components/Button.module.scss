@@ -23,6 +23,11 @@
     background: $block-main;
     color: $text-third;
 
+    &:hover{
+      background: $block-main-hover;
+      color: $text-third;
+    }
+
     &:active{
       background: $block-sec;
       color: $text-sec;
@@ -34,6 +39,11 @@
     background: $block-sec;
     color: $text-sec;
     border: 1px solid $block-main;
+
+    &:hover{
+      background: $block-sec-hover;
+      color: $text-sec;
+    }
 
     &:active{
       background: $block-main;
@@ -50,6 +60,15 @@
       background: $block-disabled;
       color: $text-third;
       border: 1px solid #00000000;
+    }
+  }
+
+  &__error{
+    background: $block-error;
+    color: $text-third;
+
+    &:active{
+      background: $block-error-hover;
     }
   }
 }
