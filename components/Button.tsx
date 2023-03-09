@@ -7,12 +7,38 @@ interface IButtonProps {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  id?: string;
+  key?: number | string | null;
   type?: 'link' | 'btn';
   href?: string;
   disabled?: boolean;
+  error?: boolean;
   success?: boolean;
   style?: 'outlined' | 'filled';
   size?: 'big' | 'medium' | 'small';
+  ripple?: boolean;
+  external?: boolean;
+}
+
+function createRipple(event: React.MouseEvent<HTMLElement>) {
+  const button = event.currentTarget;
+
+  const circle = document.createElement("span");
+  const diameter = Math.max(button.clientWidth, button.clientHeight);
+  const radius = diameter / 2;
+
+  circle.style.width = circle.style.height = `${diameter}px`;
+  circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+  circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+  circle.classList.add(s.ripple);
+
+  const ripple = button.getElementsByClassName(s.ripple)[0];
+
+  if (ripple) {
+    ripple.remove();
+  }
+
+  button.appendChild(circle);
 }
 
 const Button: React.FC<IButtonProps> = ({
@@ -22,9 +48,14 @@ const Button: React.FC<IButtonProps> = ({
                                           type = 'btn',
                                           href,
                                           disabled,
+                                          error,
                                           success,
                                           style = 'filled',
                                           size = 'small',
+                                          ripple = true,
+                                          external,
+                                          key = null,
+                                          id = '',
                                         }) => {
   const cn = classNames(
     s.btn,
@@ -35,12 +66,21 @@ const Button: React.FC<IButtonProps> = ({
     {[s.btn__outlined]: style === 'outlined'},
     {[s.btn__filled]: style === 'filled'},
     {[s.btn__disabled]: disabled},
+    {[s.btn__error]: error},
     {[s.btn__success]: success})
   switch (type){
     case 'link':
       return (
         <Link
-          href={href || '/'}
+          id={id}
+          key={key}
+          href={href || '/d'}
+          target={external ? '_blank' : ''}
+          onMouseDown={ripple ? (e)=>{
+            e.preventDefault()
+            createRipple(e)
+          } : () => null}
+          onClick={() => onClick && onClick()}
           className={cn}
         >
           {children}
@@ -49,14 +89,13 @@ const Button: React.FC<IButtonProps> = ({
     case 'btn':
       return (
         <button
+          id={id}
+          key={key}
           disabled={disabled}
-          onClick={()=>{
-            if(onClick){
-              if(!disabled){
-                onClick()
-              }
-            }
-          }}
+          onMouseDown={ripple ? (e)=>{
+            createRipple(e)
+          } : () => null}
+          onClick={() => onClick && onClick()}
           className={cn}
         >
           {children}

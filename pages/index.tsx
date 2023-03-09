@@ -3,6 +3,7 @@ import React from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import Button from "@/components/Button";
+import Text from "@/components/Text";
 
 interface IMainProps {
 }
@@ -12,10 +13,17 @@ const Main: React.FC<IMainProps> = () => {
   return (
     <div>
       <Button
-        style={'filled'}
+        style={'outlined'}
         size={'small'}>
         Text
       </Button>
+      <Text
+        size={'small'}
+        type={'link'}
+        external
+      >
+        Title
+      </Text>
     </div>
   )
 }

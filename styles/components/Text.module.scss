@@ -1,0 +1,27 @@
+@import "../_vars.scss";
+
+.text{
+  color: $text-main;
+  text-decoration: none;
+
+  &__small{
+    font-size: $font-size-small;
+  }
+
+  &__medium{
+    font-size: $font-size-medium;
+  }
+
+  &__big{
+    font-size: $font-size-big;
+  }
+
+  &__colored{
+    color: $text-sec;
+  }
+
+  &__link{
+    color: $text-sec;
+    text-decoration: underline;
+  }
+}

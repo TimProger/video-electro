@@ -1,11 +1,15 @@
 @import "../_vars.scss";
 
 .btn{
+  font-size: $font-size-small;
   outline: none;
   border: 1px solid #00000000;
   border-radius: $border-radios-button;
   cursor: pointer;
   transition: background-color .25s, color .1s, border-color .25s;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none;
 
   &__big{
     padding: 15px 20px;
@@ -27,12 +31,6 @@
       background: $block-main-hover;
       color: $text-third;
     }
-
-    &:active{
-      background: $block-sec;
-      color: $text-sec;
-      border: 1px solid $block-main;
-    }
   }
 
   &__outlined{
@@ -41,12 +39,12 @@
     border: 1px solid $block-main;
 
     &:hover{
-      background: $block-sec-hover;
-      color: $text-sec;
+      background: $block-main;
+      color: $text-third;
     }
 
     &:active{
-      background: $block-main;
+      background: $block-main-hover;
       color: $text-third;
     }
   }
@@ -70,5 +68,27 @@
     &:active{
       background: $block-error-hover;
     }
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple $ripple-animation-time linear;
+}
+
+.btn__outlined span.ripple {
+  background-color: rgba(0, 0, 0, $ripple-opacity);
+}
+
+.btn__filled span.ripple {
+  background-color: rgba(255, 255, 255, $ripple-opacity);
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
   }
 }
