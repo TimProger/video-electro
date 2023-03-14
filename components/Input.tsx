@@ -7,6 +7,7 @@ interface IInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   type?: 'text' | 'number';
+  error?: boolean;
   min?: number;
   max?: number;
   placeholder: string;
@@ -19,6 +20,7 @@ const Input: React.FC<IInputProps> = ({
                                           onChange,
                                           className,
                                           type,
+                                          error,
                                           min,
                                           max,
                                           placeholder,
@@ -27,11 +29,12 @@ const Input: React.FC<IInputProps> = ({
                                         }) => {
   const cn = classNames(
     s.input,
-    className)
+    className,
+    {[s.input__error]: error})
   switch (type){
     case 'text':
       return (
-        <div className={s.input}>
+        <div className={cn}>
           <div className={s.input__icon}>
             {icon}
           </div>
@@ -41,13 +44,12 @@ const Input: React.FC<IInputProps> = ({
             value={value}
             onChange={(e)=>onChange(e)}
             placeholder={placeholder}
-            className={cn}
           />
         </div>
       )
     case 'number':
       return (
-        <div className={s.input}>
+        <div className={cn}>
           <div className={s.input__icon}>
             {icon}
           </div>
@@ -56,7 +58,6 @@ const Input: React.FC<IInputProps> = ({
             value={value}
             onChange={(e)=>onChange(e)}
             placeholder={placeholder}
-            className={cn}
             min={min}
             max={max}
           />
@@ -64,7 +65,7 @@ const Input: React.FC<IInputProps> = ({
       )
     default:
       return (
-        <div className={s.input}>
+        <div className={cn}>
           <div className={s.input__icon}>
             {icon}
           </div>
@@ -74,7 +75,6 @@ const Input: React.FC<IInputProps> = ({
             value={value}
             onChange={(e)=>onChange(e)}
             placeholder={placeholder}
-            className={cn}
           />
         </div>
       )

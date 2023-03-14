@@ -115,6 +115,18 @@
     background: $block-error;
     color: $text-third;
 
+    &:hover{
+      background: $block-error-hover;
+      color: $text-third;
+
+      & svg{
+
+        & path{
+          stroke: $text-third;
+        }
+      }
+    }
+
     &:active{
       background: $block-error-hover;
     }

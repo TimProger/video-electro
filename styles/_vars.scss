@@ -14,7 +14,8 @@ $block-disabled: #898989;
 $under-line-color: #D7D7D7;
 $block-success: #44B571;
 $block-error: #F95B5B;
-$block-error-hover: #c24a4a;
+$block-error-sec: #fffcfc;
+$block-error-hover: #de4242;
 
 $scroll-main: #bdbfc0;
 $scroll-sec: #dedcdc;
@@ -22,6 +23,8 @@ $scroll-sec: #dedcdc;
 $border-color-main: #5B74F9;
 $border-color-sec: #DDDDDD;
 $border-color-third: #5B74F925;
+$border-color-error: #F95B5B50;
+$border-color-error-sec: #de424280;
 
 // Values
 $z-index-base: 3;
