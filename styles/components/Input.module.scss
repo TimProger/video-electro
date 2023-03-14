@@ -1,0 +1,55 @@
+@import "../_vars.scss";
+
+.input{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  width: 400px;
+  height: 40px;
+  border: 1px solid $border-color-sec;
+  background-color: $block-forth;
+  color: $text-main;
+  overflow: hidden;
+  border-radius: $border-radius-block;
+  font-size: 16px;
+  transition: all 0.1s;
+
+  &:focus-within{
+    border: 1px solid $border-color-main;
+    box-shadow: 0 0 0 4px $border-color-third, 0 0 0 2px $border-color-sec;
+
+    & svg{
+
+      & path{
+        stroke: $border-color-main;
+      }
+    }
+
+    & input{
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  &__icon{
+    padding: 0 10px 0 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+
+  & input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding-left: 2px;
+
+    &::placeholder{
+      padding-left: 2px;
+    }
+  }
+}

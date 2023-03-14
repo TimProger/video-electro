@@ -9,6 +9,7 @@ $block-main-hover: #495BBD;
 $block-sec: #FFFFFF;
 $block-sec-hover: #eae5e5;
 $block-third: #EFEFEF;
+$block-forth: #F9F9FF;
 $block-disabled: #898989;
 $under-line-color: #D7D7D7;
 $block-success: #44B571;
@@ -18,6 +19,10 @@ $block-error-hover: #c24a4a;
 $scroll-main: #bdbfc0;
 $scroll-sec: #dedcdc;
 
+$border-color-main: #5B74F9;
+$border-color-sec: #DDDDDD;
+$border-color-third: #5B74F925;
+
 // Values
 $z-index-base: 3;
 $z-index-dropdown: 4;
@@ -25,8 +30,8 @@ $z-index-popup: 5;
 $z-index-modal: 6;
 $z-index-page: 7;
 
-$border-radios-block: 40px;
-$border-radios-button: 50px;
+$border-radius-block: 40px;
+$border-radius-button: 50px;
 
 $font-size-small: 16px;
 $font-size-medium: 22px;

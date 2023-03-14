@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import Modal from "@/components/Modal";
+import Input from "@/components/Input";
 
 interface IMainProps {
 }
@@ -10,6 +11,7 @@ interface IMainProps {
 const Main: React.FC<IMainProps> = () => {
 
   const [showModal, setShowModel] = useState<boolean>(false)
+  const [value, setValue] = useState<string>('')
 
   return (
     <div>
@@ -27,18 +29,17 @@ const Main: React.FC<IMainProps> = () => {
         Title
       </Text>
       <Modal showModal={showModal} closeHandler={()=>setShowModel(false)}>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
-        <h1>Hello</h1>
+        <h1>Test</h1>
       </Modal>
+      <Input type={'text'}
+             value={value}
+             onChange={(e)=>setValue(e.target.value)}
+             key={'s'}
+             placeholder={'Введите текст'}
+             icon={<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M13.7955 13.8111L19 19M16 8.5C16 12.6421 12.6421 16 8.5 16C4.35786 16 1 12.6421 1 8.5C1 4.35786 4.35786 1 8.5 1C12.6421 1 16 4.35786 16 8.5Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>}
+      />
     </div>
   )
 }
