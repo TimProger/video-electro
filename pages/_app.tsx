@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {AppProps} from 'next/app';
 import {wrapper} from "@/store";
+import '@/styles/_globals.scss'
 
 const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
 

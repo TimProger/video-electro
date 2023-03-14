@@ -3,7 +3,7 @@ import s from '@/styles/components/Text.module.scss'
 import classNames from "classnames";
 import Link from "next/link";
 
-interface IButtonProps {
+interface ITextProps {
   children: React.ReactNode;
   className?: string;
   href?: string;
@@ -13,7 +13,7 @@ interface IButtonProps {
   external?: boolean;
 }
 
-const Text: React.FC<IButtonProps> = ({
+const Text: React.FC<ITextProps> = ({
                                           children,
                                           className,
                                           href,
