@@ -1,7 +1,6 @@
 @import "../_vars.scss";
 
 .btn{
-  font-size: $font-size-small;
   outline: none;
   border: 1px solid #00000000;
   border-radius: $border-radius-button;
@@ -10,9 +9,18 @@
   overflow: hidden;
   position: relative;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: $font-size-small;
+
+  & svg{
+    height: 15px;
+  }
 
   &__big{
-    padding: 15px 20px;
+    padding: 15px 30px;
   }
 
   &__medium{
@@ -27,9 +35,23 @@
     background: $block-main;
     color: $text-third;
 
+    & svg{
+
+      & path{
+        stroke: $text-third;
+      }
+    }
+
     &:hover{
       background: $block-main-hover;
       color: $text-third;
+
+      & svg{
+
+        & path{
+          stroke: $text-third;
+        }
+      }
     }
   }
 
@@ -38,14 +60,35 @@
     color: $text-sec;
     border: 1px solid $block-main;
 
+    & svg{
+
+      & path{
+        stroke: $text-sec;
+      }
+    }
+
     &:hover{
       background: $block-main;
       color: $text-third;
+
+      & svg{
+
+        & path{
+          stroke: $text-third;
+        }
+      }
     }
 
     &:active{
       background: $block-main-hover;
       color: $text-third;
+
+      & svg{
+
+        & path{
+          stroke: $text-third;
+        }
+      }
     }
   }
 
@@ -53,6 +96,13 @@
     background: $block-disabled;
     color: $text-third;
     cursor: unset;
+
+    & svg{
+
+      & path{
+        stroke: $text-third;
+      }
+    }
 
     &:active{
       background: $block-disabled;
