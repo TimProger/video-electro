@@ -14,6 +14,7 @@ interface IButtonProps {
   disabled?: boolean;
   error?: boolean;
   success?: boolean;
+  full?: boolean;
   style?: 'outlined' | 'filled';
   size?: 'big' | 'medium' | 'small';
   ripple?: boolean;
@@ -23,14 +24,18 @@ interface IButtonProps {
 function createRipple(event: React.MouseEvent<HTMLElement>) {
   const button = event.currentTarget;
 
-  const circle = document.createElement("span");
-  const diameter = Math.max(button.clientWidth, button.clientHeight);
-  const radius = diameter / 2;
-
-  circle.style.width = circle.style.height = `${diameter}px`;
-  circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-  circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+  const circle = document.createElement('span');
   circle.classList.add(s.ripple);
+
+  const rect = button.getBoundingClientRect();
+  const offsetX = event.clientX - rect.left;
+  const offsetY = event.clientY - rect.top;
+  const size = Math.max(rect.width, rect.height);
+
+  circle.style.width = `${size}px`;
+  circle.style.height = `${size}px`;
+  circle.style.left = `${offsetX - size/2}px`;
+  circle.style.top = `${offsetY - size/2}px`;
 
   const ripple = button.getElementsByClassName(s.ripple)[0];
 
@@ -50,6 +55,7 @@ const Button: React.FC<IButtonProps> = ({
                                           disabled,
                                           error,
                                           success,
+                                          full,
                                           style = 'filled',
                                           size = 'small',
                                           ripple = true,
@@ -67,7 +73,8 @@ const Button: React.FC<IButtonProps> = ({
     {[s.btn__filled]: style === 'filled'},
     {[s.btn__disabled]: disabled},
     {[s.btn__error]: error},
-    {[s.btn__success]: success})
+    {[s.btn__success]: success},
+    {[s.btn__full]: full})
   switch (type){
     case 'link':
       return (

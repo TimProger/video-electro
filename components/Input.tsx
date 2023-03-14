@@ -12,6 +12,7 @@ interface IInputProps {
   max?: number;
   placeholder: string;
   key: any;
+  full?: boolean;
   icon?: React.ReactElement
 }
 
@@ -24,12 +25,14 @@ const Input: React.FC<IInputProps> = ({
                                           min,
                                           max,
                                           placeholder,
+                                          full,
                                           key,
                                           icon,
                                         }) => {
   const cn = classNames(
     s.input,
     className,
+    {[s.input__full]: full},
     {[s.input__error]: error})
   switch (type){
     case 'text':

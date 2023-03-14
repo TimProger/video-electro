@@ -28,15 +28,16 @@
 
   &__block{
     position: absolute;
+    min-height: 350px;
     top: -800px;
-    width: 800px;
+    width: 650px;
     height: auto;
     padding: 50px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-    background: $block-third;
+    background: $block-sec;
     transition: all 0.5s;
     font-size: 18px;
     cursor: auto;
@@ -46,13 +47,13 @@
     &__content{
       overflow-y: auto;
       max-height: 700px;
+      padding: 0 10px 10px 10px;
     }
 
     &__close {
       width: 100%;
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 20px;
 
       svg {
         position: relative;
@@ -68,7 +69,7 @@
     }
 
     &__container{
-      width: 70%;
+      width: 80%;
       height: 80%;
       gap: 20px;
       display: flex;
