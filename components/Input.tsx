@@ -6,7 +6,7 @@ interface IInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
-  type?: 'text' | 'number';
+  type?: 'text' | 'number' | 'phone';
   error?: boolean;
   min?: number;
   max?: number;
@@ -29,11 +29,13 @@ const Input: React.FC<IInputProps> = ({
                                           key,
                                           icon,
                                         }) => {
+
   const cn = classNames(
     s.input,
     className,
     {[s.input__full]: full},
     {[s.input__error]: error})
+
   switch (type){
     case 'text':
       return (

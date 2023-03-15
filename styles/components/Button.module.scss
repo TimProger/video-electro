@@ -35,6 +35,12 @@
     padding: 5px 15px;
   }
 
+  &__icon{
+    padding: 0 !important;
+    width: 41px;
+    height: 41px;
+  }
+
   &__filled{
     background: $block-main;
     color: $text-third;

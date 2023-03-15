@@ -19,6 +19,7 @@ interface IButtonProps {
   size?: 'big' | 'medium' | 'small';
   ripple?: boolean;
   external?: boolean;
+  icon?: boolean;
 }
 
 function createRipple(event: React.MouseEvent<HTMLElement>) {
@@ -62,6 +63,7 @@ const Button: React.FC<IButtonProps> = ({
                                           external,
                                           key = null,
                                           id = '',
+                                          icon,
                                         }) => {
   const cn = classNames(
     s.btn,
@@ -74,6 +76,7 @@ const Button: React.FC<IButtonProps> = ({
     {[s.btn__disabled]: disabled},
     {[s.btn__error]: error},
     {[s.btn__success]: success},
+    {[s.btn__icon]: icon},
     {[s.btn__full]: full})
   switch (type){
     case 'link':
