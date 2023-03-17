@@ -11,6 +11,8 @@ interface ITextProps {
   type?: 'p' | 'span' | 'link' | 'h1' | 'h2' | 'h3';
   size?: 'big' | 'medium' | 'small';
   external?: boolean;
+  bold?: boolean;
+  no_td?: boolean;
 }
 
 const Text: React.FC<ITextProps> = ({
@@ -20,7 +22,9 @@ const Text: React.FC<ITextProps> = ({
                                           colored,
                                           type,
                                           size = 'small',
-                                          external
+                                          external,
+                                          bold,
+                                          no_td
                                         }) => {
   const cn = classNames(
     s.text,
@@ -29,6 +33,8 @@ const Text: React.FC<ITextProps> = ({
     {[s.text__medium]: size === 'medium'},
     {[s.text__small]: size === 'small'},
     {[s.text__colored]: colored},
+    {[s.text__bold]: bold},
+    {[s.text__no_td]: no_td},
     {[s.text__link]: type === 'link'})
   switch (type){
     case 'p':

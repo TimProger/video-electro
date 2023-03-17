@@ -5,6 +5,7 @@ import Text from "@/components/Text";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import Card from "@/components/Card";
+import Header from "@/components/Header";
 
 interface IMainProps {
 }
@@ -15,7 +16,8 @@ const Main: React.FC<IMainProps> = () => {
   const [value, setValue] = useState<string>('')
 
   return (
-    <div>
+    <div style={{width: 1200}}>
+      <Header />
       <Button
         onClick={()=>setShowModel(true)}
         style={'filled'}
@@ -28,6 +30,7 @@ const Main: React.FC<IMainProps> = () => {
       <Text
         size={'small'}
         type={'link'}
+        colored={true}
         external
       >
         Title

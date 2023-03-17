@@ -17,11 +17,18 @@
   }
 
   &__colored{
-    color: $text-sec;
+    color: $text-sec !important;
   }
 
   &__link{
-    color: $text-sec;
     text-decoration: underline;
+  }
+
+  &__bold{
+    font-weight: 900;
+  }
+
+  &__no_td{
+    text-decoration: none;
   }
 }

@@ -1,0 +1,46 @@
+@import "../_vars.scss";
+
+.header{
+  width: 100%;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  background-color: $block-sec;
+  border-radius: $border-radius-block;
+
+  &__top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__left{
+      display: flex;
+      align-items: center;
+      gap: 50px;
+
+      &__links{
+        display: flex;
+        align-items: center;
+        gap: 30px;
+
+        & a{
+          color: $text-forth;
+        }
+      }
+    }
+
+    &__right{
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+  }
+
+  &__bottom{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+}
