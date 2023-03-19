@@ -16,7 +16,7 @@ interface IButtonProps {
   success?: boolean;
   full?: boolean;
   style?: 'outlined' | 'filled';
-  size?: 'big' | 'medium' | 'small';
+  size?: 'bigger' | 'big' | 'medium' | 'small';
   ripple?: boolean;
   external?: boolean;
   icon?: boolean;
@@ -68,6 +68,7 @@ const Button: React.FC<IButtonProps> = ({
   const cn = classNames(
     s.btn,
     className,
+    {[s.btn__bigger]: size === 'bigger'},
     {[s.btn__big]: size === 'big'},
     {[s.btn__medium]: size === 'medium'},
     {[s.btn__small]: size === 'small'},

@@ -3,18 +3,21 @@ import s from '@/styles/components/Card.module.scss'
 import classNames from "classnames";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
+import {IProduct} from "@/store/Slices/Product.slice";
 
 interface ICardProps {
+  product: IProduct;
   className?: string;
   type?: 'link' | 'btn';
   key?: number | string | null;
 }
 
 const Card: React.FC<ICardProps> = ({
-                                          className,
-                                          type,
-                                          key = null,
-                                        }) => {
+                                      product,
+                                      className,
+                                      type,
+                                      key = null,
+                                    }) => {
   const cn = classNames(
     s.card,
     className)
@@ -28,7 +31,7 @@ const Card: React.FC<ICardProps> = ({
             <div className={s.card__image__discount}>-100%</div>
           </div>
           <Text>
-            Заголовок на 3 строчки растянутый и сокращается 3мя точка...
+            {product.name}
           </Text>
           <div className={s.card__price}>
             <Text className={s.card__price__old} size={'small'}>

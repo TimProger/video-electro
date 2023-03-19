@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 import {combineReducers} from "@reduxjs/toolkit";
+import ProductSlice from "@/store/Slices/Product.slice";
 
 const combinedReducer = combineReducers({
+  product: ProductSlice
 });
 
 export const Store = () =>

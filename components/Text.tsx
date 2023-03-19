@@ -9,7 +9,7 @@ interface ITextProps {
   href?: string;
   colored?: boolean;
   type?: 'p' | 'span' | 'link' | 'h1' | 'h2' | 'h3';
-  size?: 'big' | 'medium' | 'small';
+  size?: 'bigger' | 'big' | 'medium' | 'small';
   external?: boolean;
   bold?: boolean;
   no_td?: boolean;
@@ -29,6 +29,7 @@ const Text: React.FC<ITextProps> = ({
   const cn = classNames(
     s.text,
     className,
+    {[s.text__bigger]: size === 'bigger'},
     {[s.text__big]: size === 'big'},
     {[s.text__medium]: size === 'medium'},
     {[s.text__small]: size === 'small'},

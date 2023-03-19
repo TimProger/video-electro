@@ -23,6 +23,11 @@
     height: 12px;
   }
 
+  &__bigger{
+    padding: 15px 70px;
+    font-size: $font-size-medium;
+  }
+
   &__big{
     padding: 15px 40px;
   }

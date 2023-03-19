@@ -5,20 +5,11 @@
   flex-direction: column;
 
   &__wrapper{
-    width: 1400px;
+    width: 1050px;
     display: flex;
     align-items: center;
     flex-direction: column;
     margin-bottom: 20px;
-  }
-}
-
-@media screen and (max-width: 1400px) {
-  .container {
-
-    &__wrapper{
-      width: 1000px;
-    }
   }
 }
 
