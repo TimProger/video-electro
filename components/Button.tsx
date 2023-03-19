@@ -29,9 +29,9 @@ function createRipple(event: React.MouseEvent<HTMLElement>) {
   circle.classList.add(s.ripple);
 
   const rect = button.getBoundingClientRect();
-  const offsetX = event.clientX - rect.left;
-  const offsetY = event.clientY - rect.top;
-  const size = Math.max(rect.width, rect.height);
+  let size = Math.max(rect.width, rect.height);
+  let offsetX = event.clientX - rect.left;
+  let offsetY = event.clientY - rect.top;
 
   circle.style.width = `${size}px`;
   circle.style.height = `${size}px`;

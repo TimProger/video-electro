@@ -3,7 +3,7 @@ import s from '@/styles/components/Card.module.scss'
 import classNames from "classnames";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import {IProduct} from "@/store/Slices/Product.slice";
+import {IProduct} from "@/types/Product.types";
 
 interface ICardProps {
   product: IProduct;
@@ -18,14 +18,11 @@ const Card: React.FC<ICardProps> = ({
                                       type,
                                       key = null,
                                     }) => {
-  const cn = classNames(
-    s.card,
-    className)
 
   switch (type){
     default:
       return (
-        <div className={cn} key={key}>
+        <div className={classNames(s.card, className)} key={key}>
           <div className={s.card__image}>
             <img src="" alt=""/>
             <div className={s.card__image__discount}>-100%</div>
@@ -48,6 +45,9 @@ const Card: React.FC<ICardProps> = ({
               </svg>
             </Button>
             <Button size={'medium'} style={'filled'}>
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
               В корзину
             </Button>
           </div>

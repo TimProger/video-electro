@@ -26,11 +26,11 @@ const Main: React.FC<IMainProps> = () => {
           <div className={s.main__catalog}>
             <div className={s.main__catalog__header}>
               <Text size={'bigger'} type={'h2'}>Каталог</Text>
-              <Button size={'bigger'}>Смотреть все</Button>
+              <Button type={'link'} href={'/catalog'} size={'bigger'}>Смотреть все</Button>
             </div>
             <div className={s.main__catalog__cards}>
               {products.map((el)=>{
-                return <Card product={el} />
+                return <Card className={s.main__catalog__cards__card} product={el} />
               })}
             </div>
           </div>

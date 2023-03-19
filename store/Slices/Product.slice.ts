@@ -18,6 +18,18 @@ const initialState: IProductState = {
     },
     {
       name: 'Sadawdawdsspp'
+    },
+    {
+      name: 'Sadawdawdsspp'
+    },
+    {
+      name: 'Sadawdawdsspp'
+    },
+    {
+      name: 'Sadawdawdsspp'
+    },
+    {
+      name: 'Sadawdawdsspp'
     }
   ],
 }
