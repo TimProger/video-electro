@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from '@/styles/components/Card.module.scss'
 import classNames from "classnames";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
-import {IProduct} from "@/types/Product.types";
+import {IProduct, IProductMore} from "@/types/Product.types";
 
 interface ICardProps {
   product: IProduct;
@@ -19,23 +19,26 @@ const Card: React.FC<ICardProps> = ({
                                       key = null,
                                     }) => {
 
+  const [more] = useState<IProductMore>(product.product_more[0])
+
+
   switch (type){
     default:
       return (
         <div className={classNames(s.card, className)} key={key}>
           <div className={s.card__image}>
-            <img src="" alt=""/>
-            <div className={s.card__image__discount}>-100%</div>
+            <img src={product.image} alt=""/>
+            {product.discount && <div className={s.card__image__discount}>-${product.discount}%</div>}
           </div>
           <Text>
             {product.name}
           </Text>
           <div className={s.card__price}>
-            <Text className={s.card__price__old} size={'small'}>
-              1 000 000 Р.
-            </Text>
+            {product.discount && <Text className={s.card__price__old} size={'small'}>
+              {`${more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}Р.
+            </Text>}
             <Text colored={true} size={'medium'}>
-              1 000 000 Р.
+              {`${product.discount ? more.price-(more.price / 100 * product.discount) : more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Р.
             </Text>
           </div>
           <div className={s.card__btns}>
