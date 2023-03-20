@@ -10,6 +10,12 @@
   background-color: $block-sec;
   border-radius: $border-radius-block;
 
+  @media screen and (max-width: 1050px) {
+    & {
+      width: 800px;
+    }
+  }
+
   &__top{
     display: flex;
     align-items: center;

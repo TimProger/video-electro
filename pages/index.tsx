@@ -8,10 +8,12 @@ import Text from "@/components/Text";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
-import team__ivan from "@/public/images/team/ivan_vlad.png"
-import team__petrov from "@/public/images/team/petrov_oleg.png"
-import team__aranian from "@/public/images/team/aranian_viktorya.png"
-import team__belov from "@/public/images/team/belov_arseniy.png"
+import team__ivan from "@/public/images/pages/main/team/ivan_vlad.png"
+import team__petrov from "@/public/images/pages/main/team/petrov_oleg.png"
+import team__aranian from "@/public/images/pages/main/team/aranian_viktorya.png"
+import team__belov from "@/public/images/pages/main/team/belov_arseniy.png"
+import about from "@/public/images/pages/main/about.jpg"
+import Image from "next/image";
 
 interface IMainProps {
 }
@@ -45,7 +47,7 @@ const Main: React.FC<IMainProps> = () => {
               <Button type={'link'} href={'/about'} size={'bigger'}>Подробнее</Button>
             </div>
             <div className={s.main__about__image}>
-              <img src="https://sun9-7.userapi.com/impg/k71bIFfoQD6ku8yfYySUqCsgrh0dIzg8kP0CBQ/GIGpP9JmTmo.jpg?size=500x321&quality=96&sign=16ebb6eeb16cc7cc867a9d16121b0076&type=album" alt=""/>
+              <Image unoptimized width={225} height={225} src={about.src} alt=""/>
             </div>
           </div>
           <div className={s.main__team}>
@@ -54,22 +56,22 @@ const Main: React.FC<IMainProps> = () => {
             </div>
             <div className={s.main__team__list}>
               <div className={s.main__team__list__teammate}>
-                <img src={team__ivan.src} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={team__ivan.src} alt="Иванов Владислав Валерьевич"/>
                 <Text bold size={'medium'}>Иванов Владислав Валерьевич</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Генеральный директор</Text>
               </div>
               <div className={s.main__team__list__teammate}>
-                <img src={team__petrov.src} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={team__petrov.src} alt="Иванов Владислав Валерьевич"/>
                 <Text bold size={'medium'}>Петров Олег Андреевич</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Заведующий складом</Text>
               </div>
               <div className={s.main__team__list__teammate}>
-                <img src={team__aranian.src} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={team__aranian.src} alt="Иванов Владислав Валерьевич"/>
                 <Text bold size={'medium'}>Араньян Виктория Сергеевна</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Менеджер</Text>
               </div>
               <div className={s.main__team__list__teammate}>
-                <img src={team__belov.src} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={team__belov.src} alt="Иванов Владислав Валерьевич"/>
                 <Text bold size={'medium'}>Белов Арсений Аркадьевич</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Бухгалтер</Text>
               </div>

@@ -37,12 +37,24 @@
     justify-content: space-between;
     gap: 50px;
 
+    @media screen and (max-width: 1050px) {
+      & {
+        height: 470px;
+      }
+    }
+
     &__info{
       width: 50%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-between;
+
+      @media screen and (max-width: 1050px) {
+        & {
+          width: 70%;
+        }
+      }
 
       & p {
         color: $text-forth;
@@ -90,6 +102,8 @@
         text-align: center;
 
         & img{
+          width: 225px;
+          height: 225px;
           border-radius: $border-radius-block;
         }
 
