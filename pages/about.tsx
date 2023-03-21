@@ -1,8 +1,8 @@
 import { GetStaticProps } from 'next'
 import React from "react";
-import Text from "@/components/Text";
+import Text from "@/components/UI/Text";
 import Layout from '@/components/Layout';
-import Container from '@/components/Container';
+import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/Main.module.scss'
 

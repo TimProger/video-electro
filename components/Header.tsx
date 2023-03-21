@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import s from '@/styles/components/Header.module.scss'
-import Text from "@/components/Text";
-import Button from "@/components/Button";
+import Text from "@/components/UI/Text";
+import Button from "@/components/UI/Button";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import Input from "@/components/Input";
+import Input from "@/components/UI/Input";
 
 interface IHeaderProps {
 }

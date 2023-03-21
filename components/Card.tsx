@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import s from '@/styles/components/Card.module.scss'
 import classNames from "classnames";
-import Text from "@/components/Text";
-import Button from "@/components/Button";
+import Text from "@/components/UI/Text";
+import Button from "@/components/UI/Button";
 import {IProduct, IProductMore} from "@/types/Product.types";
 
 interface ICardProps {

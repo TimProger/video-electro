@@ -1,0 +1,34 @@
+@import "../_vars.scss";
+
+.dropdown{
+  width: 100%;
+  background-color: $block-sec;
+  border-radius: $border-radius-block;
+
+  &__header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    cursor: pointer;
+  }
+
+  &__text{
+    width: 100%;
+    transition: all .3s linear;
+    overflow: hidden;
+    height: 0;
+    box-sizing: border-box;
+
+    &__active{
+      height: 100px !important;
+      transition: height .3s linear;
+    }
+
+    & p{
+      margin: 0 30px 30px 30px;
+      color: $text-forth !important;
+    }
+  }
+}
