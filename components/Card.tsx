@@ -30,7 +30,7 @@ const Card: React.FC<ICardProps> = ({
             <img src={product.image} alt=""/>
             {product.discount && <div className={s.card__image__discount}>-${product.discount}%</div>}
           </div>
-          <Text>
+          <Text className={s.card__name}>
             {product.name}
           </Text>
           <div className={s.card__price}>

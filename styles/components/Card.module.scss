@@ -1,12 +1,13 @@
 @import "../_vars.scss";
 
 .card {
-  width: 245px;
-  height: 420px;
+  width: 255px;
+  height: 472px;
   background-color: $block-sec;
   border-radius: $border-radius-card;
   padding: 20px;
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid #00000000;
@@ -17,8 +18,8 @@
   }
 
   &__image {
-    width: 205px;
-    height: 200px;
+    width: 235px;
+    height: 230px;
     border-radius: $border-radius-card;
     overflow: hidden;
     display: flex;
@@ -39,6 +40,11 @@
     }
   }
 
+  &__name{
+    height: 80px;
+    width: 100%;
+  }
+
   &__price{
     display: flex;
     justify-content: flex-end;
@@ -52,6 +58,7 @@
   }
 
   &__btns{
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
