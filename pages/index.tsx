@@ -114,8 +114,10 @@ const Main: React.FC<IMainProps> = () => {
 
   const onDropdownClick = (elIndex: number) => {
     setDropdowns(dropdowns.map((_el, index: number) => {
-      return index === elIndex;
-
+      if(index === elIndex){
+        return !dropdowns[index]
+      }
+      return false;
     }))
   }
 
