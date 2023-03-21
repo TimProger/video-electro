@@ -1,7 +1,7 @@
 @import "../_vars.scss";
 
 .footer{
-  width: 1050px;
+  width: 1110px;
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,7 @@
   border-radius: $border-radius-block;
   margin: 20px 0 30px 0;
 
-  @media screen and (max-width: 1050px) {
+  @media screen and (max-width: 1150px) {
     & {
       width: 800px;
     }

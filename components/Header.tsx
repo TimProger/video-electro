@@ -19,7 +19,7 @@ const Header: React.FC<IHeaderProps> = () => {
     <div className={s.header}>
       <div className={s.header__top}>
         <div className={s.header__top__left}>
-          <Text bold size={'big'}>Video-<Text bold type={'span'} size={'big'} colored={true}>Electro</Text></Text>
+          <Text type={'link'} no_td={true} href={'/'} bold size={'big'}>Video-<Text bold type={'span'} size={'big'} colored={true}>Electro</Text></Text>
           <div className={s.header__top__left__links}>
             <Text type={'link'} no_td={true} href={'/'} colored={pathname === "/"}>Главная</Text>
             <Text type={'link'} no_td={true} href={'/about'} colored={pathname === "/about"}>О нас</Text>

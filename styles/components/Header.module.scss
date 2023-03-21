@@ -1,17 +1,17 @@
 @import "../_vars.scss";
 
 .header{
-  width: 1050px;
-  padding: 20px 30px;
+  width: 1110px;
+  padding: 27px 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 30px;
+  gap: 33px;
   background-color: $block-sec;
   border-radius: $border-radius-block;
-  margin-top: 30px;
+  margin-top: 40px;
 
-  @media screen and (max-width: 1050px) {
+  @media screen and (max-width: 1150px) {
     & {
       width: 800px;
     }
@@ -30,7 +30,7 @@
       &__links{
         display: flex;
         align-items: center;
-        gap: 30px;
+        gap: 45px;
 
         & a{
           color: $text-forth;
@@ -41,13 +41,20 @@
     &__right{
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 48px;
+
+      &__link{
+
+        & svg{
+          height: 35px;
+        }
+      }
     }
   }
 
   &__bottom{
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 40px;
   }
 }
