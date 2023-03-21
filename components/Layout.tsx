@@ -2,6 +2,7 @@ import React from 'react';
 import Header from "./Header";
 import Head from "next/head";
 import s from '../styles/components/Layout.module.scss'
+import Footer from "@/components/Footer";
 
 interface ILayoutProps {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ const Layout: React.FC<ILayoutProps>
       <div className={s.container}>
         <Header />
         {children}
+        <Footer />
       </div>
     </>
   );
