@@ -1,5 +1,5 @@
 import React from 'react';
-import s from '@/styles/components/Container.module.scss'
+import s from '@/styles/components/UI/Container.module.scss'
 
 interface ICardProps {
   children?: React.ReactNode;

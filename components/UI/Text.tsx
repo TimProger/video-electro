@@ -1,5 +1,5 @@
 import React from 'react';
-import s from '@/styles/components/Text.module.scss'
+import s from '@/styles/components/UI/Text.module.scss'
 import classNames from "classnames";
 import Link from "next/link";
 

@@ -179,7 +179,7 @@ const Main: React.FC<IMainProps> = () => {
           </div>
           <div className={s.main__questions}>
             <div className={s.main__questions__title}>
-              <Text size={'bigger'} type={'h2'}>О компании</Text>
+              <Text size={'bigger'} type={'h2'}>Часто задаваемые вопросы</Text>
             </div>
             <div className={s.main__questions__dropdowns}>
               {dropdownArray.map((el, index: number)=>{

@@ -1,5 +1,5 @@
 import React from 'react';
-import s from '@/styles/components/Dropdown.module.scss'
+import s from '@/styles/components/UI/Dropdown.module.scss'
 import Text from "@/components/UI/Text";
 import classNames from "classnames";
 

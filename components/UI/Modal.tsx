@@ -1,5 +1,5 @@
 import React, {MouseEvent} from 'react';
-import s from '@/styles/components/Modal.module.scss'
+import s from '@/styles/components/UI/Modal.module.scss'
 
 interface IModalProps {
   showModal: boolean;
@@ -29,7 +29,7 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
             </svg>
           </div>
           <div className={s.modal__block__content}>
-            {children}
+            {showModal ? children : ''}
           </div>
         </div>
       </div>

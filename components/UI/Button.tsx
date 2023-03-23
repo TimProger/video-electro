@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from "next/link";
-import s from '@/styles/components/Button.module.scss'
+import s from '@/styles/components/UI/Button.module.scss'
 import classNames from "classnames";
 
 interface IButtonProps {

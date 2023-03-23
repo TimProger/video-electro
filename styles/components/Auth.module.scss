@@ -1,0 +1,28 @@
+@import "../_vars.scss";
+
+.auth{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__header{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__title{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__text{
+      color: $text-forth;
+    }
+  }
+}
