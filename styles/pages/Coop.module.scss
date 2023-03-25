@@ -1,0 +1,88 @@
+@import "../_vars.scss";
+
+.coop{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  gap: 30px;
+
+  &__content{
+    width: 100%;
+    padding: 42px;
+    border-radius: $border-radius-block;
+    background-color: $block-sec;
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+
+    & p{
+      color: $text-forth;
+    }
+
+    &__left{
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      & img{
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    &__right{
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      & img{
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  &__call{
+    width: 100%;
+    height: 636px;
+    padding: 42px;
+    border-radius: $border-radius-block;
+    background-color: $block-sec;
+    display: flex;
+    gap: 100px;
+    justify-content: space-between;
+    border: 1px solid $border-color-main;
+    box-shadow: 0 0 5px 4px $border-color-third,
+    0 0 5px 2px $border-color-sec;
+
+    &__left{
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      & p{
+        color: $text-forth;
+      }
+    }
+
+    &__right{
+      width: 45%;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+
+      &__input{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+}

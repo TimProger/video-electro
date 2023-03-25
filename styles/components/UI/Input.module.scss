@@ -6,14 +6,22 @@
   justify-content: space-between;
   text-decoration: none;
   width: 450px;
-  height: 40px;
+  height: auto;
   border: 1px solid $border-color-sec;
   background-color: $block-forth;
   color: $text-main;
   overflow: hidden;
-  border-radius: $border-radius-block;
+  border-radius: $border-radius-card;
   font-size: 18px;
   transition: all 0.1s;
+
+  &__short{
+    width: 350px;
+  }
+
+  &__medium{
+    width: 400px;
+  }
 
   &__full{
     width: 100%;
@@ -23,7 +31,7 @@
     border: 1px solid $block-error !important;
     background-color: $block-error-sec;
 
-    & input{
+    & input, & textarea{
       background-color: $block-error-sec !important;
     }
 
@@ -54,22 +62,41 @@
   }
 
   &__icon{
-    padding: 0 10px 0 15px;
+    padding: 0 5px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     user-select: none;
+
+    & svg{
+      margin: 0 5px 0 10px;
+    }
   }
 
   & input{
+    height: 40px;
     font-size: 18px;
     width: 100%;
-    height: 100%;
     border: none;
     outline: none;
     padding-left: 2px;
     background-color: $block-forth;
+
+    &::placeholder{
+      padding-left: 2px;
+    }
+  }
+
+  & textarea{
+    height: 150px;
+    font-size: 18px;
+    width: 100%;
+    border: none;
+    outline: none;
+    margin: 10px;
+    background-color: $block-forth;
+    resize: none;
 
     &::placeholder{
       padding-left: 2px;

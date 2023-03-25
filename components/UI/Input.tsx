@@ -4,15 +4,17 @@ import classNames from "classnames";
 
 interface IInputProps {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<any>) => void;
   className?: string;
-  type?: 'text' | 'number' | 'phone';
+  type?: 'text' | 'textarea' | 'number' | 'phone';
   error?: boolean;
   min?: number;
   max?: number;
   placeholder: string;
   key: any;
   full?: boolean;
+  short?: boolean;
+  medium?: boolean;
   icon?: React.ReactElement
 }
 
@@ -26,6 +28,8 @@ const Input: React.FC<IInputProps> = ({
                                           max,
                                           placeholder,
                                           full,
+                                          short,
+                                          medium,
                                           key,
                                           icon,
                                         }) => {
@@ -33,6 +37,8 @@ const Input: React.FC<IInputProps> = ({
   const cn = classNames(
     s.input,
     className,
+    {[s.input__short]: short},
+    {[s.input__medium]: medium},
     {[s.input__full]: full},
     {[s.input__error]: error})
 
@@ -46,6 +52,20 @@ const Input: React.FC<IInputProps> = ({
           <input
             name={key}
             type={'text'}
+            value={value}
+            onChange={(e)=>onChange(e)}
+            placeholder={placeholder}
+          />
+        </div>
+      )
+    case 'textarea':
+      return (
+        <div className={cn}>
+          <div className={s.input__icon}>
+            {icon}
+          </div>
+          <textarea
+            name={key}
             value={value}
             onChange={(e)=>onChange(e)}
             placeholder={placeholder}
