@@ -5,7 +5,7 @@ interface ICardProps {
   children?: React.ReactNode;
 }
 
-const Card: React.FC<ICardProps> = ({
+const Container: React.FC<ICardProps> = ({
                                       children,
                                     }) => {
 
@@ -18,4 +18,4 @@ const Card: React.FC<ICardProps> = ({
   )
 };
 
-export default Card;
+export default Container;
