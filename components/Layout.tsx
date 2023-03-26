@@ -3,6 +3,8 @@ import Header from "./Header";
 import Head from "next/head";
 import s from '../styles/components/Layout.module.scss'
 import Footer from "@/components/Footer";
+import icon_16 from "@/public/images/icons/favicon-16x16.png";
+import icon_32 from "@/public/images/icons/favicon-32x32.png";
 
 interface ILayoutProps {
   children: React.ReactNode;
@@ -23,6 +25,8 @@ const Layout: React.FC<ILayoutProps>
       <Head>
         <title>{title}</title>
         <meta name="keywords" content={keywords || "Video-Electro Video Electro"} />
+        <link rel="icon" type="image/png" sizes="16x16" href={icon_16.src} />
+        <link rel="icon" type="image/png" sizes="32x32" href={icon_32.src} />
       </Head>
       <div className={s.container}>
         <Header />

@@ -13,6 +13,7 @@ import team__petrov from "@/public/images/pages/main/team/petrov_oleg.png"
 import team__aranian from "@/public/images/pages/main/team/aranian_viktorya.png"
 import team__belov from "@/public/images/pages/main/team/belov_arseniy.png"
 import about from "@/public/images/pages/main/about.jpg"
+import welcome from "@/public/images/pages/main/welcome.jpg"
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Dropdown from "@/components/UI/Dropdown";
@@ -128,6 +129,10 @@ const Main: React.FC<IMainProps> = () => {
       </Head>
       <Container>
         <div className={s.main}>
+          <div className={s.main__welcome} style={{backgroundImage: `url(${welcome.src})`}}>
+            <Text bold={false} size={'bigger'} type={'h1'}>Время приобрести электрику <span>в <Text colored size={'bigger'} type={'span'}>Video-Electro</Text></span></Text>
+            <Button type={'link'} href={'/catalog'} size={'bigger'}>В каталог</Button>
+          </div>
           <div className={s.main__catalog}>
             <div className={s.main__catalog__header}>
               <Text size={'bigger'} type={'h2'}>Каталог</Text>

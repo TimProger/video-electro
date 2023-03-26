@@ -7,6 +7,26 @@
   margin-top: 30px;
   gap: 30px;
 
+  &__welcome{
+    width: 100%;
+    height: 520px;
+    border-radius: $border-radius-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+
+    & h1{
+      width: 50%;
+      text-align: center;
+
+      & span{
+        white-space: nowrap;
+      }
+    }
+  }
+
   &__catalog{
     width: 100%;
     display: flex;
