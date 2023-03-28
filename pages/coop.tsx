@@ -72,7 +72,7 @@ const Coop: React.FC<ICoopProps> = () => {
     if(coopFormPhone.length < 16){
       errors.phone = true
     }
-    if(coopFormDesc.length < 16){
+    if(coopFormDesc.length < 1){
       errors.desc = true
     }
     setErrors(JSON.parse(JSON.stringify(errors)))

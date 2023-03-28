@@ -15,7 +15,6 @@ interface IModalProps {
 const Dropdown: React.FC<IModalProps> = ({setDropdowns, title, text, open, onClick}) => {
 
   const ref = useOnclickOutside((e: any) => {
-    console.log(e)
     if(e.target.classList && e.target.classList.length > 0 && e.target.classList[0] === s.dropdown__header) return
     setDropdowns(prev => prev.map(_ => false))
   });
