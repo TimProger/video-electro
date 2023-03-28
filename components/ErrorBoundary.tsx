@@ -1,4 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
+import Head from "next/head";
+import ErrorPage from "@/components/ErrorPage";
+import Layout from "@/components/Layout";
 
 interface Props {
   children: ReactNode;
@@ -6,15 +9,20 @@ interface Props {
 
 interface State {
   hasError: boolean;
+  error: null | Error
 }
 
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
+    error: null
   };
 
-  public static getDerivedStateFromError(_: Error): State {
-    return { hasError: true };
+  public static getDerivedStateFromError(error: Error): State {
+    return {
+      hasError: true,
+      error: error
+    };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -23,7 +31,12 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <h1>Sorry.. there was an error</h1>;
+      return <Layout>
+        <Head>
+          <title>404 | Not Found</title>
+        </Head>
+        <ErrorPage code={404} text={'Страница не найдена'} />
+      </Layout>
     }
 
     return this.props.children;
