@@ -114,7 +114,9 @@ const Faq: React.FC = () => {
                 return <Dropdown title={el.title}
                                  text={el.text}
                                  open={dropdowns[index]}
-                                 onClick={()=>onDropdownClick(index)} />
+                                 onClick={()=>onDropdownClick(index)}
+                                 setDropdowns={setDropdowns}
+                />
               })}
             </div>
           </div>

@@ -191,7 +191,9 @@ const Main: React.FC<IMainProps> = () => {
                 return <Dropdown title={el.title}
                                  text={el.text}
                                  open={dropdowns[index]}
-                                 onClick={()=>onDropdownClick(index)} />
+                                 onClick={()=>onDropdownClick(index)}
+                                 setDropdowns={setDropdowns}
+                />
               })}
               <Button type={'link'} href={'/faq'} size={'bigger'}>Смотреть все</Button>
             </div>

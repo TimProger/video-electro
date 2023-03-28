@@ -22,6 +22,6 @@ module.exports = (phase) => {
       development: isDev,
       production: isProd
     },
-    basePath: '/'
+    basePath: ''
   }
 }

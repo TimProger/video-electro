@@ -27,15 +27,16 @@ class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
+    this.state.error = error
   }
 
   public render() {
     if (this.state.hasError) {
       return <Layout>
         <Head>
-          <title>404 | Not Found</title>
+          <title>Error | Not Found</title>
         </Head>
-        <ErrorPage code={404} text={'Страница не найдена'} />
+        <ErrorPage code={this.state.error?.name || '404'} text={this.state.error?.message || 'Произошла ошибка'} />
       </Layout>
     }
 

@@ -4,7 +4,7 @@ import s from '@/styles/components/ErrorPage.module.scss'
 import Text from "@/components/UI/Text";
 
 interface IErrorPageProps {
-  code: number;
+  code: number | string;
   text: string;
 }
 
