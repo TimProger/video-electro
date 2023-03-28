@@ -15,7 +15,7 @@ module.exports = (phase) => {
   return {
     reactStrictMode: true,
     images: {
-      domains: ['api.tm-she.com']
+      domains: ['api.video-electro.com']
     },
     swcMinify: true,
     env: {
