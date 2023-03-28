@@ -17,6 +17,7 @@ import welcome from "@/public/images/pages/main/welcome.jpg"
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Dropdown from "@/components/UI/Dropdown";
+import Select from "@/components/UI/Select";
 
 interface IMainProps {
 }
@@ -122,12 +123,20 @@ const Main: React.FC<IMainProps> = () => {
     }))
   }
 
+  // const [values, _setValues] = useState<string[]>(['yo','yo1','yo2','yo3','yo4'])
+  // const [value, setValue] = useState<string>(values[0])
+  //
+  // const onSelectClick = (value: string) => {
+  //   setValue(value)
+  // }
+
   return (
     <Layout>
       <Head>
         <title>Главная</title>
       </Head>
       <Container>
+        {/*<Select value={value} values={values} onClick={onSelectClick} />*/}
         <div className={s.main}>
           <div className={s.main__welcome} style={{backgroundImage: `url(${welcome.src})`}}>
             <Text bold={false} size={'bigger'} type={'h1'}>Время приобрести электрику <span>в <Text colored size={'bigger'} type={'span'}>Video-Electro</Text></span></Text>

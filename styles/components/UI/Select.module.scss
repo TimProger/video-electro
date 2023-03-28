@@ -1,0 +1,106 @@
+@import "../../vars";
+
+.select{
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all .3s linear;
+  border: 1px solid #00000000;
+  border-radius: $border-radius-card;
+
+  & svg{
+
+    & path{
+      transition: all .3s;
+      stroke: $text-forth;
+    }
+  }
+
+  &__active{
+    border: 1px solid $border-color-main;
+    box-shadow: 0 0 0 4px $border-color-third,
+    0 0 0 2px $border-color-sec;
+
+    & svg{
+
+      & path{
+        stroke: $text-sec;
+      }
+    }
+  }
+
+  &__value{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    background-color: $block-sec;
+    border-radius: $border-radius-card;
+    border: 1px solid $border-color-sec;
+
+    & p{
+      color: $text-forth;
+    }
+  }
+
+  &__values{
+    position: absolute;
+    margin-top: 50px;
+    width: 350px;
+    box-sizing: border-box;
+    border-radius: $border-radius-card;
+    background-color: #00000000;
+    border: 1px solid #00000000;
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
+    transition: background-color 1s, max-height 0.5s, box-shadow .1s, border .5s;
+    box-shadow: 0 0 0 0 #00000000;
+
+    &__space{
+      padding: 10px 15px;
+    }
+
+    &__block{
+      padding: 5px 25px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all .1s;
+
+      &:hover{
+        background-color: $block-forth-hover;
+      }
+
+      &__active{
+        background-color: $block-main !important;
+
+        &:hover{
+          background-color: $block-main-hover !important;
+        }
+
+        & p{
+          color: $text-third !important;
+        }
+      }
+    }
+
+    &__active{
+      background-color: $block-sec;
+      max-height: 300px;
+      transition: max-height 0.5s, box-shadow .5s;
+      border: 1px solid $border-color-main;
+      box-shadow: 0 0 0 4px $border-color-third,
+                  0 0 0 2px $border-color-sec;
+    }
+
+    & p{
+      color: $text-forth;
+    }
+  }
+}
+

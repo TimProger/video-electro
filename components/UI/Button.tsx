@@ -2,6 +2,7 @@ import React from 'react';
 import Link from "next/link";
 import s from '@/styles/components/UI/Button.module.scss'
 import classNames from "classnames";
+import {createRipple} from "@/utils/createRipple";
 
 interface IButtonProps {
   children: React.ReactNode;
@@ -20,31 +21,6 @@ interface IButtonProps {
   ripple?: boolean;
   external?: boolean;
   icon?: boolean;
-}
-
-function createRipple(event: React.MouseEvent<HTMLElement>) {
-  const button = event.currentTarget;
-
-  const circle = document.createElement('span');
-  circle.classList.add(s.ripple);
-
-  const rect = button.getBoundingClientRect();
-  let size = Math.max(rect.width, rect.height);
-  let offsetX = event.clientX - rect.left;
-  let offsetY = event.clientY - rect.top;
-
-  circle.style.width = `${size}px`;
-  circle.style.height = `${size}px`;
-  circle.style.left = `${offsetX - size/2}px`;
-  circle.style.top = `${offsetY - size/2}px`;
-
-  const ripple = button.getElementsByClassName(s.ripple)[0];
-
-  if (ripple) {
-    ripple.remove();
-  }
-
-  button.appendChild(circle);
 }
 
 const Button: React.FC<IButtonProps> = ({
@@ -89,7 +65,7 @@ const Button: React.FC<IButtonProps> = ({
           target={external ? '_blank' : ''}
           onMouseDown={ripple ? (e)=>{
             e.preventDefault()
-            createRipple(e)
+            createRipple(s, e)
           } : () => null}
           onClick={() => onClick && onClick()}
           className={cn}
@@ -104,7 +80,7 @@ const Button: React.FC<IButtonProps> = ({
           key={key}
           disabled={disabled}
           onMouseDown={ripple ? (e)=>{
-            createRipple(e)
+            createRipple(s, e)
           } : () => null}
           onClick={() => onClick && onClick()}
           className={cn}

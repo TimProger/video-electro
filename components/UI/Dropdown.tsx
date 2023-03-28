@@ -4,7 +4,7 @@ import Text from "@/components/UI/Text";
 import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-interface IModalProps {
+interface IDropdownProps {
   title: string;
   text: string;
   open: boolean;
@@ -12,7 +12,7 @@ interface IModalProps {
   setDropdowns: (Dispatch<SetStateAction<boolean[]>>)
 }
 
-const Dropdown: React.FC<IModalProps> = ({setDropdowns, title, text, open, onClick}) => {
+const Dropdown: React.FC<IDropdownProps> = ({setDropdowns, title, text, open, onClick}) => {
 
   const ref = useOnclickOutside((e: any) => {
     if(e.target.classList && e.target.classList.length > 0 && e.target.classList[0] === s.dropdown__header) return
