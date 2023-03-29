@@ -48,10 +48,23 @@
         & svg{
           height: 35px;
         }
-      }
 
-      &__auth{
-        cursor: pointer;
+        &__svg{
+          height: 34px;
+          width: 34px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 1px solid $border-color-main;
+          cursor: pointer;
+
+          & svg{
+            height: 34px;
+            width: 34px;
+          }
+        }
       }
     }
   }
