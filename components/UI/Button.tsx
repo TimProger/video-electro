@@ -7,7 +7,7 @@ import {createRipple} from "@/utils/createRipple";
 interface IButtonProps {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent) => void;
   id?: string;
   key?: number | string | null;
   type?: 'link' | 'btn';
@@ -67,7 +67,7 @@ const Button: React.FC<IButtonProps> = ({
             e.preventDefault()
             createRipple(s, e)
           } : () => null}
-          onClick={() => onClick && onClick()}
+          onClick={(e) => onClick && onClick(e)}
           className={cn}
         >
           {children}
@@ -82,7 +82,7 @@ const Button: React.FC<IButtonProps> = ({
           onMouseDown={ripple ? (e)=>{
             createRipple(s, e)
           } : () => null}
-          onClick={() => onClick && onClick()}
+          onClick={(e) => onClick && onClick(e)}
           className={cn}
         >
           {children}
