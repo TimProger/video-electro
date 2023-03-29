@@ -36,6 +36,17 @@
           gap: 10px;
         }
       }
+
+      &__btns{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &__container{
+          display: flex;
+          justify-content: space-between;
+        }
+      }
     }
 
     &__cards{
