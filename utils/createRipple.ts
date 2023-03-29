@@ -16,11 +16,13 @@ export function createRipple(s: any, event: React.MouseEvent<HTMLElement>) {
   circle.style.left = `${offsetX - size/2}px`;
   circle.style.top = `${offsetY - size/2}px`;
 
-  const ripple = button.getElementsByClassName(s.ripple)[0];
+  const ripple = button.getElementsByClassName(s.ripple)[button.getElementsByClassName(s.ripple).length-1];
 
-  if (ripple) {
-    ripple.remove();
-  }
+  setTimeout(()=>{
+    if (ripple) {
+      ripple.remove();
+    }
+  }, 1000)
 
   button.appendChild(circle);
 }
