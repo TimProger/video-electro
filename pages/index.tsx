@@ -17,7 +17,6 @@ import welcome from "@/public/images/pages/main/welcome.jpg"
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Dropdown from "@/components/UI/Dropdown";
-import Select from "@/components/UI/Select";
 
 interface IMainProps {
 }
