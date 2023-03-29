@@ -133,6 +133,7 @@ const Main: React.FC<IMainProps> = () => {
     <Layout>
       <Head>
         <title>Главная</title>
+        <meta name={"og:title"} content={"Главная"} />
       </Head>
       <Container>
         {/*<Select value={value} values={values} onClick={onSelectClick} />*/}

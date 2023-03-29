@@ -102,6 +102,7 @@ const Faq: React.FC = () => {
     <Layout>
       <Head>
         <title>FAQ</title>
+        <meta name={"og:title"} content={"FAQ"} />
       </Head>
       <Container>
         <div className={s.faq}>

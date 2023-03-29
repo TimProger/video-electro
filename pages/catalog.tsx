@@ -37,6 +37,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
     <Layout>
       <Head>
         <title>Каталог</title>
+        <meta name={"og:title"} content={"Каталог"} />
       </Head>
       <Container>
         <div className={s.catalog}>

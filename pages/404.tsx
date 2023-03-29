@@ -15,6 +15,7 @@ const NotFound: React.FC<INotFoundProps> = () => {
     <Layout>
       <Head>
         <title>404 | Not Found</title>
+        <meta name={"og:title"} content={"Страница не найдена"} />
       </Head>
       <ErrorPage code={404} text={'Страница не найдена'} />
     </Layout>

@@ -21,6 +21,7 @@ const About: React.FC<IAboutProps> = () => {
     <Layout>
       <Head>
         <title>О нас</title>
+        <meta name={"og:title"} content={"О нас"} />
       </Head>
         <Container>
           <div className={s.about}>
