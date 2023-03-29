@@ -5,6 +5,7 @@ import Text from "@/components/UI/Text";
 import Button from "@/components/UI/Button";
 import {IProduct, IProductMore} from "@/types/Product.types";
 import Link from "next/link";
+import {Storage} from "@/utils/storage";
 
 interface ICardProps {
   product: IProduct;
@@ -29,11 +30,15 @@ const Card: React.FC<ICardProps> = ({
   switch (type){
     default:
       return (
-        <Link href={`/product/${product.id}`} className={classNames(s.card, className)} key={key}>
-          <div className={s.card__image}>
+        <div className={classNames(s.card, className)} key={key}>
+          <Link href={`/product/${product.id}`}
+                onClick={()=>{
+                  Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
+                }}
+                className={s.card__image}>
             <img src={product.image} alt=""/>
             {product.discount && <div className={s.card__image__discount}>-${product.discount}%</div>}
-          </div>
+          </Link>
           <Text className={s.card__name}>
             {product.name}
           </Text>
@@ -60,7 +65,7 @@ const Card: React.FC<ICardProps> = ({
               В корзину
             </Button>
           </div>
-        </Link>
+        </div>
       )
   }
 };

@@ -58,7 +58,7 @@
     height: auto;
     max-height: 0;
     overflow: hidden;
-    transition: background-color 1s, max-height 0.5s, box-shadow .1s, border .5s;
+    transition: background-color .5s ease-in, max-height 0.5s, box-shadow .1s, border .5s;
     box-shadow: 0 0 0 0 #00000000;
 
     &__space{
