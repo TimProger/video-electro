@@ -4,8 +4,8 @@ import s from '@/styles/components/UI/Button.module.scss'
 import classNames from "classnames";
 import {createRipple} from "@/utils/createRipple";
 
-interface IButtonProps {
-  children: React.ReactNode;
+export interface IButtonProps {
+  children: React.ReactNode | string;
   className?: string;
   onClick?: (event: React.MouseEvent) => void;
   id?: string;
