@@ -154,10 +154,12 @@
   }
 
   &__price{
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     gap: 10px;
+    padding-bottom: 5px;
 
     &__old{
       color: $text-forth;
