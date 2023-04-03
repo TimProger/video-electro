@@ -3,7 +3,7 @@ import s from '@/styles/components/UI/Text.module.scss'
 import classNames from "classnames";
 import Link from "next/link";
 
-interface ITextProps {
+export interface ITextProps {
   children: React.ReactNode;
   className?: string;
   href?: string;

@@ -2,7 +2,7 @@ import React from 'react';
 import s from '@/styles/components/UI/Input.module.scss'
 import classNames from "classnames";
 
-interface IInputProps {
+export interface IInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<any>) => void;
   className?: string;
