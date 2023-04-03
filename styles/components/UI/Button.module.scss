@@ -159,6 +159,27 @@
       background: $block-error-hover;
     }
   }
+
+  &__success{
+    background: $block-success;
+    color: $text-third;
+
+    &:hover{
+      background: $block-success-hover;
+      color: $text-third;
+
+      & svg{
+
+        & path{
+          stroke: $text-third;
+        }
+      }
+    }
+
+    &:active{
+      background: $block-success-hover;
+    }
+  }
 }
 
 .ripple {
