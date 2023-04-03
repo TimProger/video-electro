@@ -4,7 +4,7 @@ import Text from "@/components/UI/Text";
 import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-interface ISelectProps {
+export interface ISelectProps {
   value: string;
   values: string[];
   onClick: (value: string) => void;

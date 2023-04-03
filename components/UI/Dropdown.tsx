@@ -4,7 +4,7 @@ import Text from "@/components/UI/Text";
 import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 
-interface IDropdownProps {
+export interface IDropdownProps {
   title: string;
   text: string;
   open: boolean;
