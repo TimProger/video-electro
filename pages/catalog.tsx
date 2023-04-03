@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
@@ -9,6 +9,7 @@ import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import Select from "@/components/UI/Select";
+import {Storage} from "@/utils/storage";
 
 interface ICatalogProps {
 }
@@ -32,6 +33,18 @@ const Catalog: React.FC<ICatalogProps> = () => {
   }
 
   const [viewStyle, setViewStyle] = useState<number>(0)
+
+  const onViewStyleChange = (val: number) => {
+    setViewStyle(val)
+    Storage.set('catalog_view', val)
+  }
+
+  useEffect(()=>{
+    const storageView = Storage.get('catalog_view')
+    if(storageView){
+      setViewStyle(storageView)
+    }
+  }, [])
 
   return (
     <Layout>
@@ -62,7 +75,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
                 <Text>Вид каталога</Text>
                 <div className={s.catalog__catalog__settings__btns__container}>
                   <Button icon
-                          onClick={()=>setViewStyle(0)}
+                          onClick={()=>onViewStyleChange(0)}
                           style={viewStyle === 0 ? 'filled' : 'outlined'}>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M11 2.6C11 2.03995 11 1.75992 11.109 1.54601C11.2049 1.35785 11.3578 1.20487 11.546 1.10899C11.7599 1 12.0399 1 12.6 1H15.4C15.9601 1 16.2401 1 16.454 1.10899C16.6422 1.20487 16.7951 1.35785 16.891 1.54601C17 1.75992 17 2.03995 17 2.6V5.4C17 5.96005 17 6.24008 16.891 6.45399C16.7951 6.64215 16.6422 6.79513 16.454 6.89101C16.2401 7 15.9601 7 15.4 7H12.6C12.0399 7 11.7599 7 11.546 6.89101C11.3578 6.79513 11.2049 6.64215 11.109 6.45399C11 6.24008 11 5.96005 11 5.4V2.6Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -72,7 +85,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
                     </svg>
                   </Button>
                   <Button icon
-                          onClick={()=>setViewStyle(1)}
+                          onClick={()=>onViewStyleChange(1)}
                           style={viewStyle === 1 ? 'filled' : 'outlined'}>
                     <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M6 2L19 2.00078M6 8L19 8.00078M6 14L19 14.0007M1 2.5H2V1.5H1V2.5ZM1 8.5H2V7.5H1V8.5ZM1 14.5H2V13.5H1V14.5Z" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -83,7 +96,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
             </div>
             <div className={s.catalog__catalog__cards}>
               {products.map((el)=>{
-                return <Card product={el} />
+                return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
               })}
             </div>
           </div>
