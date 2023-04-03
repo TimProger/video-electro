@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token=3bce9be8dd67"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
@@ -41,6 +42,9 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
-    "babel-loader": "^8.3.0"
-  }
+    "babel-loader": "^8.3.0",
+    "chromatic": "^6.17.2"
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "video-electro@0.1.0"
 }
