@@ -7,6 +7,10 @@
   transition: all .3s linear;
   border: 1px solid $border-color-sec;
 
+  & *{
+    margin: 0;
+  }
+
   &__active{
     border: 1px solid $border-color-main;
     box-shadow: 0 0 5px 4px $border-color-third,
@@ -20,6 +24,7 @@
     align-items: center;
     padding: 30px;
     cursor: pointer;
+    box-sizing: border-box;
   }
 
   &__text{
