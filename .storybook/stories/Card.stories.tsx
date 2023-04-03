@@ -3,7 +3,7 @@ import { Meta, Story } from "@storybook/react";
 import Card, {ICardProps} from "@/components/Card";
 
 export default {
-  title: 'Card',
+  title: 'UI/Card',
   component: Card,
   parameters: {
     backgrounds: {
