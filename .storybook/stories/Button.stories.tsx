@@ -5,6 +5,17 @@ import Button, {IButtonProps} from "@/components/UI/Button";
 export default {
   title: 'UI/Button',
   component: Button,
+  parameters: {
+    backgrounds: {
+      default: 'main',
+      values: [
+        {
+          name: 'main',
+          value: '#f5f2f2',
+        }
+      ],
+    },
+  },
 } as Meta;
 
 export const Default: Story<IButtonProps> = (args) => <Button {...args} />;

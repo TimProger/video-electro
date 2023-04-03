@@ -2,6 +2,8 @@
 
 .card_long{
   width: 100%;
+  max-width: 1110px;
+  height: 235px;
   background-color: $block-sec;
   border-radius: $border-radius-card;
   padding: 20px;
@@ -10,9 +12,21 @@
   border: 1px solid #00000000;
   transition: border 0.2s;
   gap: 20px;
+  box-sizing: border-box;
 
   &:hover{
     border: 1px solid $border-color-main;
+  }
+
+  & *{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", serif;
+  }
+
+  & span{
+    color: $text-forth;
+    text-decoration: line-through;
   }
 
   &__image {
@@ -44,6 +58,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    & a{
+      color: $text-main;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
     &__statuses{
       display: flex;
@@ -102,6 +122,18 @@
   justify-content: space-between;
   border: 1px solid #00000000;
   transition: border 0.2s;
+  box-sizing: border-box;
+
+  & *{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", serif;
+  }
+
+  & span{
+    color: $text-forth;
+    text-decoration: line-through;
+  }
 
   &:hover{
     border: 1px solid $border-color-main;
@@ -151,6 +183,12 @@
   &__name{
     height: 80px;
     width: 100%;
+
+    & a{
+      color: $text-main;
+      text-decoration: none;
+      font-weight: bold;
+    }
   }
 
   &__price{

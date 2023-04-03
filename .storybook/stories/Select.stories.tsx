@@ -6,6 +6,17 @@ import {useState} from "@storybook/store";
 export default {
   title: 'UI/Select',
   component: Select,
+  parameters: {
+    backgrounds: {
+      default: 'main',
+      values: [
+        {
+          name: 'main',
+          value: '#f5f2f2',
+        }
+      ],
+    },
+  },
 } as Meta;
 
 export const Default: Story<ISelectProps> = () => {

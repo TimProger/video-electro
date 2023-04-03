@@ -5,6 +5,17 @@ import Text, {ITextProps} from "@/components/UI/Text";
 export default {
   title: 'UI/Text',
   component: Text,
+  parameters: {
+    backgrounds: {
+      default: 'main',
+      values: [
+        {
+          name: 'main',
+          value: '#f5f2f2',
+        }
+      ],
+    },
+  },
 } as Meta;
 
 export const Default: Story<ITextProps> = (args) => <Text {...args} />;

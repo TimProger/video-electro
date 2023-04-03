@@ -5,6 +5,17 @@ import Input, {IInputProps} from "@/components/UI/Input";
 export default {
   title: 'UI/Inputs/Text',
   component: Input,
+  parameters: {
+    backgrounds: {
+      default: 'main',
+      values: [
+        {
+          name: 'main',
+          value: '#f5f2f2',
+        }
+      ],
+    },
+  },
 } as Meta;
 
 export const Default: Story<IInputProps> = (args) => <Input {...args} />;
