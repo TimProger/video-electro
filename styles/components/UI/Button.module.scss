@@ -119,6 +119,19 @@
       }
     }
 
+    &:hover{
+      background: $block-disabled;
+      color: $text-third;
+      cursor: unset;
+
+      & svg{
+
+        & path{
+          stroke: $text-third;
+        }
+      }
+    }
+
     &:active{
       background: $block-disabled;
       color: $text-third;

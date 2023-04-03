@@ -41,6 +41,26 @@
 
   &__info{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__statuses{
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+
+      & div{
+        background-color: $block-main;
+        border-radius: $border-radius-card;
+        padding: 5px 10px;
+        color: $text-third;
+      }
+
+      &__not{
+        background-color: $block-disabled !important;
+      }
+    }
   }
 
   &__content{
@@ -93,7 +113,25 @@
     border-radius: $border-radius-card;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
+
+    &__statuses{
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      & div{
+        background-color: $block-main;
+        border-radius: $border-radius-card;
+        padding: 5px 10px;
+        color: $text-third;
+      }
+
+      &__not{
+        background-color: $block-disabled !important;
+      }
+    }
 
     & img {
       width: 100%;

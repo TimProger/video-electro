@@ -67,7 +67,11 @@ const Button: React.FC<IButtonProps> = ({
             e.preventDefault()
             createRipple(s, e)
           } : () => null}
-          onClick={(e) => onClick && onClick(e)}
+          onClick={(e) => {
+            if(!disabled && onClick){
+              onClick(e)
+            }
+          }}
           className={cn}
         >
           {children}
@@ -82,7 +86,11 @@ const Button: React.FC<IButtonProps> = ({
           onMouseDown={ripple ? (e)=>{
             createRipple(s, e)
           } : () => null}
-          onClick={(e) => onClick && onClick(e)}
+          onClick={(e) => {
+            if(!disabled && onClick){
+              onClick(e)
+            }
+          }}
           className={cn}
         >
           {children}

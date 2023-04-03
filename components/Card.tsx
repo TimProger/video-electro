@@ -37,12 +37,17 @@ const Card: React.FC<ICardProps> = ({
                 }}
                 className={s.card_long__image}>
             <img src={product.image} alt=""/>
-            {product.discount && <div className={s.card__image__discount}>-${product.discount}%</div>}
           </Link>
           <div className={s.card_long__info}>
             <Text type={'link'} href={`/product/${product.id}`} no_td bold className={s.card_long__info__name}>
               {product.name}
             </Text>
+            <div className={s.card_long__info__statuses}>
+              {product.product_more[0].availability <= 0 && <div className={s.card_long__info__statuses__not}>Нет в наличии</div>}
+              {product.is_hit && <div>Хит продаж</div>}
+              {product.is_new && <div>Новинка</div>}
+              {product.discount && <div>-${product.discount}%</div>}
+            </div>
           </div>
           <div className={s.card_long__content}>
             <Button icon={true}
@@ -61,7 +66,7 @@ const Card: React.FC<ICardProps> = ({
                   {`${product.discount ? more.price-(more.price / 100 * product.discount) : more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
-              <Button full size={'medium'} style={'filled'}>
+              <Button disabled={product.product_more[0].availability <= 0} full size={'medium'} style={'filled'}>
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -79,8 +84,13 @@ const Card: React.FC<ICardProps> = ({
                   Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
                 }}
                 className={s.card__image}>
+            <div className={s.card__image__statuses}>
+              {product.product_more[0].availability <= 0 && <div className={s.card_long__info__statuses__not}>Нет в наличии</div>}
+              {product.is_hit && <div>Хит продаж</div>}
+              {product.is_new && <div>Новинка</div>}
+              {product.discount && <div>-${product.discount}%</div>}
+            </div>
             <img src={product.image} alt=""/>
-            {product.discount && <div className={s.card__image__discount}>-${product.discount}%</div>}
           </Link>
           <div className={s.card__name}>
             <Text type={'link'} href={`/product/${product.id}`} no_td bold>
