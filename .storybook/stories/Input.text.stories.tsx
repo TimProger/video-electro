@@ -3,7 +3,7 @@ import { Meta, Story } from "@storybook/react";
 import Input, {IInputProps} from "@/components/UI/Input";
 
 export default {
-  title: 'Inputs/Text',
+  title: 'UI/Inputs/Text',
   component: Input,
 } as Meta;
 

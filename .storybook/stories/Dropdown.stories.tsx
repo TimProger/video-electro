@@ -4,7 +4,7 @@ import Dropdown, {IDropdownProps} from "@/components/UI/Dropdown";
 import {useState} from "@storybook/store";
 
 export default {
-  title: 'Dropdown',
+  title: 'UI/Dropdown',
   component: Dropdown,
 } as Meta;
 

@@ -3,7 +3,7 @@ import { Meta, Story } from "@storybook/react";
 import Text, {ITextProps} from "@/components/UI/Text";
 
 export default {
-  title: 'Text',
+  title: 'UI/Text',
   component: Text,
 } as Meta;
 

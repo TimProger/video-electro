@@ -4,7 +4,7 @@ import Select, {ISelectProps} from "@/components/UI/Select";
 import {useState} from "@storybook/store";
 
 export default {
-  title: 'Select',
+  title: 'UI/Select',
   component: Select,
 } as Meta;
 
