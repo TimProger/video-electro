@@ -22,7 +22,7 @@
     }
   }
 
-  &__active{
+  &_active{
     border: 1px solid $border-color-main;
     box-shadow: 0 0 0 4px $border-color-third,
     0 0 0 2px $border-color-sec;
@@ -81,7 +81,7 @@
         background-color: $block-forth-hover;
       }
 
-      &__active{
+      &_active{
         background-color: $block-main !important;
 
         &:hover{
@@ -94,7 +94,7 @@
       }
     }
 
-    &__active{
+    &_active{
       background-color: $block-sec;
       max-height: 300px;
       transition: max-height 0.5s, box-shadow .5s;
