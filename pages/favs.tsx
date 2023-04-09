@@ -50,7 +50,7 @@ const Favs: React.FC<IFavsProps> = () => {
             <div className={s.favs__container__cards}>
               {products.length > 0 ? products.map((el)=>{
                 return <Card favs type={'long'} product={el} />
-              }) : <div className={s.favs__container__no_cards}>
+              }) : <div className={s.favs__container__noCards}>
                 <Text size={'small'} type={'p'}>В избранном нет товаров</Text>
                 <Button size={'medium'}
                         type={'link'}
