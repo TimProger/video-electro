@@ -4,39 +4,39 @@
   color: $text-main;
   text-decoration: none;
 
-  &__small{
+  &_small{
     font-size: $font-size-small;
   }
 
-  &__medium{
+  &_medium{
     font-size: $font-size-medium;
   }
 
-  &__big{
+  &_big{
     font-size: $font-size-big;
   }
 
-  &__big_plus{
+  &_bigPlus{
     font-size: $font-size-big_plus;
   }
 
-  &__bigger{
+  &_bigger{
     font-size: $font-size-bigger;
   }
 
-  &__colored{
+  &_colored{
     color: $text-sec !important;
   }
 
-  &__link{
+  &_link{
     text-decoration: underline;
   }
 
-  &__bold{
+  &_bold{
     font-weight: 900;
   }
 
-  &__no_td{
+  &_noTd{
     text-decoration: none !important;
   }
 }

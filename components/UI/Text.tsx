@@ -29,15 +29,15 @@ const Text: React.FC<ITextProps> = ({
   const cn = classNames(
     s.text,
     className,
-    {[s.text__bigger]: size === 'bigger'},
-    {[s.text__big]: size === 'big'},
-    {[s.text__big_plus]: size === 'big+'},
-    {[s.text__medium]: size === 'medium'},
-    {[s.text__small]: size === 'small'},
-    {[s.text__colored]: colored},
-    {[s.text__bold]: bold},
-    {[s.text__no_td]: no_td},
-    {[s.text__link]: type === 'link'})
+    {[s.text_bigger]: size === 'bigger'},
+    {[s.text_big]: size === 'big'},
+    {[s.text_bigPlus]: size === 'big+'},
+    {[s.text_medium]: size === 'medium'},
+    {[s.text_small]: size === 'small'},
+    {[s.text_colored]: colored},
+    {[s.text_bold]: bold},
+    {[s.text_noTd]: no_td},
+    {[s.text_link]: type === 'link'})
   switch (type){
     case 'p':
       return (
