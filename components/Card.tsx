@@ -57,26 +57,26 @@ const Card: React.FC<ICardProps> = ({
   switch (type){
     case 'long':
       return (
-        <div className={classNames(s.card_long, {[s.card_long_catalog]: !favs && !basket}, className)} key={key}>
+        <div className={classNames(s.cardLong, {[s.cardLong_catalog]: !favs && !basket}, className)} key={key}>
           <Link href={`/product/${product.id}`}
                 onClick={()=>{
                   Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
                 }}
-                className={s.card_long__image}>
+                className={s.cardLong__image}>
             <img src={product.image} alt={product.name}/>
           </Link>
-          <div className={s.card_long__info}>
-            <Text type={'link'} href={`/product/${product.id}`} no_td bold className={s.card_long__info__name}>
+          <div className={s.cardLong__info}>
+            <Text type={'link'} href={`/product/${product.id}`} no_td bold className={s.cardLong__info__name}>
               {product.name}
             </Text>
-            <div className={s.card_long__info__statuses}>
-              {product.product_more[0].availability <= 0 && <div className={s.card_long__info__statuses__not}>Нет в наличии</div>}
+            <div className={s.cardLong__info__statuses}>
+              {product.product_more[0].availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}
               {product.is_hit && <div>Хит продаж</div>}
               {product.is_new && <div>Новинка</div>}
               {product.discount && <div>-${product.discount}%</div>}
             </div>
           </div>
-          <div className={s.card_long__content}>
+          <div className={s.cardLong__content}>
             {!favs ? <Button icon={true}
                              onClick={onToggleFavs}
                              style={isFav ? 'filled' : 'outlined'}>
@@ -86,16 +86,16 @@ const Card: React.FC<ICardProps> = ({
                       stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </Button> : <span></span>}
-            <div className={s.card_long__content__bottom}>
-              <div className={s.card_long__content__bottom__price}>
-                {product.discount && <Text type={'span'} className={s.card_long__content__bottom__price__old} size={'small'}>
+            <div className={s.cardLong__content__bottom}>
+              <div className={s.cardLong__content__bottom__price}>
+                {product.discount && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
                   {`${more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 <Text bold colored={true} size={'medium'}>
                   {`${product.discount ? more.price-(more.price / 100 * product.discount) : more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
-              <div className={s.card_long__content__bottom__btns}>
+              <div className={s.cardLong__content__bottom__btns}>
                 {favs ? <Button onClick={()=>onRemoveFavs(product.id)}
                                 size={'medium'}
                                 style={'borderless'}>
@@ -127,7 +127,7 @@ const Card: React.FC<ICardProps> = ({
           >
             <div className={s.card__image}>
               <div className={s.card__image__statuses}>
-                {product.product_more[0].availability <= 0 && <div className={s.card_long__info__statuses__not}>Нет в наличии</div>}
+                {product.product_more[0].availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}
                 {product.is_hit && <div>Хит продаж</div>}
                 {product.is_new && <div>Новинка</div>}
                 {product.discount && <div>-${product.discount}%</div>}

@@ -1,6 +1,6 @@
 @import "../_vars.scss";
 
-.card_long{
+.cardLong{
   width: 100%;
   max-width: 1110px;
   height: 235px;
@@ -17,7 +17,7 @@
 
   &_catalog{
 
-    & .card_long__content{
+    & .cardLong__content{
       position: relative;
       height: 100%;
     }
