@@ -44,18 +44,18 @@ const Button: React.FC<IButtonProps> = ({
   const cn = classNames(
     s.btn,
     className,
-    {[s.btn__bigger]: size === 'bigger'},
-    {[s.btn__big]: size === 'big'},
-    {[s.btn__medium]: size === 'medium'},
-    {[s.btn__small]: size === 'small'},
-    {[s.btn__outlined]: style === 'outlined'},
-    {[s.btn__borderless]: style === 'borderless'},
-    {[s.btn__filled]: style === 'filled'},
-    {[s.btn__disabled]: disabled},
-    {[s.btn__error]: error},
-    {[s.btn__success]: success},
-    {[s.btn__icon]: icon},
-    {[s.btn__full]: full})
+    {[s.btn_bigger]: size === 'bigger'},
+    {[s.btn_big]: size === 'big'},
+    {[s.btn_medium]: size === 'medium'},
+    {[s.btn_small]: size === 'small'},
+    {[s.btn_outlined]: style === 'outlined'},
+    {[s.btn_borderless]: style === 'borderless'},
+    {[s.btn_filled]: style === 'filled'},
+    {[s.btn_disabled]: disabled},
+    {[s.btn_error]: error},
+    {[s.btn_success]: success},
+    {[s.btn_icon]: icon},
+    {[s.btn_full]: full})
   switch (type){
     case 'link':
       return (

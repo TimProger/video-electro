@@ -15,7 +15,7 @@
   gap: 10px;
   font-size: $font-size-small;
 
-  &__full{
+  &_full{
     width: 100%;
   }
 
@@ -23,31 +23,31 @@
     height: 17px;
   }
 
-  &__bigger{
+  &_bigger{
     padding: 15px 87px;
     font-size: $font-size-medium;
   }
 
-  &__big{
+  &_big{
     padding: 20px 60px;
   }
 
-  &__medium{
+  &_medium{
     padding: 10px 25px;
     min-width: 142px !important;
   }
 
-  &__small{
+  &_small{
     padding: 5px 15px;
   }
 
-  &__icon{
+  &_icon{
     padding: 0 !important;
     width: 41px;
     height: 41px;
   }
 
-  &__filled{
+  &_filled{
     background: $block-main;
     color: $text-third;
 
@@ -71,7 +71,7 @@
     }
   }
 
-  &__borderless{
+  &_borderless{
     background: $block-sec;
     color: $text-forth;
     border: none;
@@ -106,7 +106,7 @@
     }
   }
 
-  &__outlined{
+  &_outlined{
     background: $block-sec;
     color: $text-sec;
     border: 1px solid $block-main;
@@ -143,7 +143,7 @@
     }
   }
 
-  &__disabled{
+  &_disabled{
     background: $block-disabled;
     color: $text-third;
     cursor: unset;
@@ -175,7 +175,7 @@
     }
   }
 
-  &__error{
+  &_error{
     background: $block-error;
     color: $text-third;
 
@@ -196,7 +196,7 @@
     }
   }
 
-  &__success{
+  &_success{
     background: $block-success;
     color: $text-third;
 
@@ -225,15 +225,15 @@
   animation: ripple $ripple-animation-time linear;
 }
 
-.btn__borderless span.ripple {
+.btn_borderless span.ripple {
   background-color: rgba(0, 0, 0, $ripple-opacity);
 }
 
-.btn__outlined span.ripple {
+.btn_outlined span.ripple {
   background-color: rgba(0, 0, 0, $ripple-opacity);
 }
 
-.btn__filled span.ripple {
+.btn_filled span.ripple {
   background-color: rgba(255, 255, 255, $ripple-opacity);
 }
 
