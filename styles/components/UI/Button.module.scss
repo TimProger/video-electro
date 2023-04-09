@@ -71,6 +71,41 @@
     }
   }
 
+  &__borderless{
+    background: $block-sec;
+    color: $text-forth;
+    border: none;
+
+    & svg{
+
+      & path{
+        stroke: $text-forth;
+      }
+    }
+
+    &:hover{
+      color: $text-error;
+
+      & svg{
+
+        & path{
+          stroke: $text-error;
+        }
+      }
+    }
+
+    &:active{
+      color: $text-error;
+
+      & svg{
+
+        & path{
+          stroke: $text-error;
+        }
+      }
+    }
+  }
+
   &__outlined{
     background: $block-sec;
     color: $text-sec;
@@ -188,6 +223,10 @@
   border-radius: 50%;
   transform: scale(0);
   animation: ripple $ripple-animation-time linear;
+}
+
+.btn__borderless span.ripple {
+  background-color: rgba(0, 0, 0, $ripple-opacity);
 }
 
 .btn__outlined span.ripple {

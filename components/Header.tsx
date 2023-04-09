@@ -38,12 +38,12 @@ const Header: React.FC<IHeaderProps> = () => {
           <div className={s.header__top__right}>
             <div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/favs'})}>
               <Link href={'/favs'}>
+                {favs.products.length > 0 && <div
+                  className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
                 <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M13 4.00018C10.6008 1.20415 6.59169 0.340049 3.58563 2.90037C0.579573 5.46069 0.156361 9.74142 2.51704 12.7695C4.47978 15.2872 10.4197 20.5971 12.3665 22.3157C12.5843 22.508 12.6932 22.6042 12.8203 22.6419C12.9311 22.6749 13.0524 22.6749 13.1633 22.6419C13.2903 22.6042 13.3992 22.508 13.617 22.3157C15.5638 20.5971 21.5038 15.2872 23.4665 12.7695C25.8272 9.74142 25.4557 5.43376 22.3979 2.90037C19.3402 0.366981 15.3992 1.20415 13 4.00018Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </Link>
-              {favs.products.length > 0 && <div
-                className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
             </div>
             <div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/basket'})}>
               <Link href={'/basket'}>
