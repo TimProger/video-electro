@@ -17,7 +17,7 @@
   cursor: pointer;
   transition: all 0.3s;
 
-  &__active{
+  &_active{
     visibility: visible;
     opacity: 1 !important;
 
@@ -63,7 +63,7 @@
         cursor: pointer;
       }
 
-      &__active svg{
+      &_active svg{
 
       }
     }
