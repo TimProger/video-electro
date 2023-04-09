@@ -15,19 +15,19 @@
   font-size: 18px;
   transition: all 0.1s;
 
-  &__short{
+  &_short{
     width: 350px;
   }
 
-  &__medium{
+  &_medium{
     width: 400px;
   }
 
-  &__full{
+  &_full{
     width: 100%;
   }
 
-  &__error{
+  &_error{
     border: 1px solid $block-error !important;
     background-color: $block-error-sec;
 

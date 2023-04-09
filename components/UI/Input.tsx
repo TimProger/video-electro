@@ -37,10 +37,10 @@ const Input: React.FC<IInputProps> = ({
   const cn = classNames(
     s.input,
     className,
-    {[s.input__short]: short},
-    {[s.input__medium]: medium},
-    {[s.input__full]: full},
-    {[s.input__error]: error})
+    {[s.input_short]: short},
+    {[s.input_medium]: medium},
+    {[s.input_full]: full},
+    {[s.input_error]: error})
 
   switch (type){
     case 'text':
