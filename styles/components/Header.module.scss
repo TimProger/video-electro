@@ -64,6 +64,30 @@
             width: 34px;
           }
         }
+
+        &__active{
+
+          & svg{
+
+            & path{
+              stroke: $border-color-main;
+            }
+          }
+        }
+
+        &__count{
+          position: absolute;
+          background: $block-main;
+          color: $text-third;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: -38px;
+          margin-left: 14px;
+        }
       }
     }
   }
