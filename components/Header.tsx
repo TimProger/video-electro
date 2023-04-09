@@ -36,7 +36,7 @@ const Header: React.FC<IHeaderProps> = () => {
             </div>
           </div>
           <div className={s.header__top__right}>
-            <div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/favs'})}>
+            <div className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: pathname === '/favs'})}>
               <Link href={'/favs'}>
                 {favs.products.length > 0 && <div
                   className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
