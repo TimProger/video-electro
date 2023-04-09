@@ -9,7 +9,7 @@ import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setProducts} from "@/store/Slices/Favs.slice";
+import {setFavsProducts} from "@/store/Slices/Favs.slice";
 
 interface IFavsProps {
 }
@@ -20,7 +20,7 @@ const Favs: React.FC<IFavsProps> = () => {
   const { products } = useTypedSelector(state => state.favs)
 
   const onClear = () => {
-    dispatch(setProducts([]))
+    dispatch(setFavsProducts([]))
   }
 
   useEffect(()=>{
@@ -46,7 +46,7 @@ const Favs: React.FC<IFavsProps> = () => {
             </div>
             <div className={s.favs__container__cards}>
               {products.length > 0 ? products.map((el)=>{
-                return <Card type={'long'} product={el} />
+                return <Card favs type={'long'} product={el} />
               }) : <div className={s.favs__container__no_cards}>
                 <Text size={'small'} type={'p'}>В избранном нет товаров</Text>
                 <Button size={'medium'}

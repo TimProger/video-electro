@@ -13,3 +13,9 @@ export interface IProductMore {
   availability: number;
   price: number;
 }
+
+export interface IFavProduct {
+  id: number;
+  more: number
+  product_id: number;
+}

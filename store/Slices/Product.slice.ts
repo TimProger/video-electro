@@ -24,7 +24,7 @@ const initialState: IProductState = {
     },
     {
       id: 1,
-      name: "Пресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭК",
+      name: "Пресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭКПресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭКПресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭК",
       image: 'https://sun9-66.userapi.com/impg/z60XzcTSDTO48u4U6k4Nf0fizg5WUhs0-4GyQw/FWhdFXk8P_Y.jpg?size=686x653&quality=96&sign=2367b18bc0afbd885c07b962898d9438&type=album',
       is_hit: true,
       is_new: true,
