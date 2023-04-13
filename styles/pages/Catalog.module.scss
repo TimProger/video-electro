@@ -57,3 +57,37 @@
     }
   }
 }
+
+.filters{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__header{
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+
+    & button{
+      color: $text-error !important;
+      margin-bottom: 5px;
+
+      & svg{
+
+        & path{
+          stroke: $text-error !important;
+        }
+      }
+    }
+  }
+
+  &__content{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}

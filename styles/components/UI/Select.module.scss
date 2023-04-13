@@ -10,6 +10,12 @@
   border: 1px solid #00000000;
   border-radius: $border-radius-card;
 
+  @media screen and (max-width: 1150px) {
+    & {
+      width: 250px;
+    }
+  }
+
   *{
     margin: 0;
   }
@@ -65,6 +71,12 @@
     overflow: hidden;
     transition: background-color .5s ease-in, max-height 0.5s, box-shadow .1s, border .5s;
     box-shadow: 0 0 0 0 #00000000;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        width: 250px;
+      }
+    }
 
     &__space{
       padding: 10px 15px;
