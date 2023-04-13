@@ -10,7 +10,7 @@ export interface ICheckboxProps {
   colored?: boolean;
 }
 
-const Checkbox: React.FC<ICheckboxProps> = ({label, colored}) => {
+const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false}) => {
 
   // const cn = classNames(
   //   s.checkbox,
