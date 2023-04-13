@@ -6,7 +6,7 @@ export interface IInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<any>) => void;
   className?: string;
-  type?: 'text' | 'textarea' | 'number' | 'phone';
+  type?: 'text' | 'textarea' | 'number';
   error?: boolean;
   min?: number;
   max?: number;

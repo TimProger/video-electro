@@ -10,6 +10,7 @@ import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import Select from "@/components/UI/Select";
 import {Storage} from "@/utils/storage";
+import Modal from "@/components/UI/Modal";
 
 interface ICatalogProps {
 }
@@ -46,6 +47,8 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
   }, [])
 
+  const [isFilters, setIsFilters] = useState<boolean>(false)
+
   return (
     <Layout>
       <Head>
@@ -53,12 +56,16 @@ const Catalog: React.FC<ICatalogProps> = () => {
         <meta name={"og:title"} content={"Каталог"} />
       </Head>
       <Container>
+        <Modal showModal={isFilters} closeHandler={()=>setIsFilters(false)}>
+          s
+        </Modal>
         <div className={s.catalog}>
           <div className={s.catalog__catalog}>
             <div className={s.catalog__catalog__header}>
               <Text size={'bigger'} type={'h2'}>Кабели и провода силовые на 2
                 строчки максимум а дальше...</Text>
-              <Button size={'bigger'}>Фильтры</Button>
+              <Button onClick={()=>setIsFilters(true)}
+                      size={'bigger'}>Фильтры</Button>
             </div>
             <div className={s.catalog__catalog__settings}>
               <div className={s.catalog__catalog__settings__selects}>

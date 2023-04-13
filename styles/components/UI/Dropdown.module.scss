@@ -26,23 +26,22 @@
     padding: 30px;
     cursor: pointer;
     box-sizing: border-box;
+
+    &__text {
+      display: flex;
+    }
   }
 
   &__text{
     width: 100%;
     transition: all .3s linear;
     overflow: hidden;
-    height: 0;
     box-sizing: border-box;
-
-    &_active{
-      height: 120px !important;
-      transition: height .3s linear;
-    }
 
     & p{
       margin: 0 30px 30px 30px;
       color: $text-forth !important;
+      overflow: hidden;
     }
   }
 }
