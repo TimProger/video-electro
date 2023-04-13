@@ -128,6 +128,55 @@ const Product: React.FC<IProductProps> = ({id}) => {
               </div>
             </div>
           </div>
+          <div className={s.product__info}>
+            <div className={s.product__info__details}>
+              <Text size={'big+'} type={'h2'}>Характеристики</Text>
+              <div>
+                <Text bold>Брэнд</Text>
+                <Text>CHINT</Text>
+              </div>
+              <div>
+                <Text bold>Серия</Text>
+                <Text>NXC</Text>
+              </div>
+              <div>
+                <Text bold>Наименование товара производителя</Text>
+                <Text>Пылезащитный кожух AXC-2 для NXC-25-38 (CHINT)</Text>
+              </div>
+              <div>
+                <Text bold>Артикул производителя</Text>
+                <Text>Промэлектроснаб</Text>
+              </div>
+              <div>
+                <Text bold>Штрих код</Text>
+                <Text>6901800822493</Text>
+              </div>
+              <div>
+                <Text bold>Гарантийный срок</Text>
+                <Text>18 месяцев</Text>
+              </div>
+              <div>
+                <Text bold>Произведено</Text>
+                <Text>Китай</Text>
+              </div>
+              <div>
+                <Text bold>Исполнение</Text>
+                <Text>Поверхностный</Text>
+              </div>
+              <div>
+                <Text bold>Материал корпуса</Text>
+                <Text>Пластик</Text>
+              </div>
+              <div>
+                <Text bold>С прозрачной крышкой</Text>
+                <Text>Да</Text>
+              </div>
+            </div>
+            <div className={s.product__info__desc}>
+              <Text size={'big+'} type={'h2'}>Описание</Text>
+              <Text className={s.product__info__desc__text}>В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!... В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!...В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!...</Text>
+            </div>
+          </div>
         </div>
       </Container>
     </Layout>
