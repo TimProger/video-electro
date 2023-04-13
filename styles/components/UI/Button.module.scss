@@ -15,6 +15,17 @@
   gap: 10px;
   font-size: $font-size-small;
 
+  &_icon{
+    padding: 0 !important;
+    width: 44px;
+    height: 44px;
+
+    &_bigger{
+      width: 59px;
+      height: 59px;
+    }
+  }
+
   &_full{
     width: 100%;
   }
@@ -39,12 +50,6 @@
 
   &_small{
     padding: 5px 15px;
-  }
-
-  &_icon{
-    padding: 0 !important;
-    width: 41px;
-    height: 41px;
   }
 
   &_filled{

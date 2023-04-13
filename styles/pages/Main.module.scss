@@ -57,22 +57,22 @@
     justify-content: space-between;
     gap: 50px;
 
-    @media screen and (max-width: 1050px) {
+    @media screen and (max-width: 1150px) {
       & {
-        height: 470px;
+        height: 520px;
       }
     }
 
     &__info{
-      width: 50%;
+      width: 55%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-between;
 
-      @media screen and (max-width: 1050px) {
+      @media screen and (max-width: 1150px) {
         & {
-          width: 70%;
+          width: 60%;
         }
       }
 
@@ -82,12 +82,20 @@
     }
 
     &__image{
+      width: 45%;
       height: 100%;
+
+      @media screen and (max-width: 1150px) {
+        & {
+          width: 65%;
+        }
+      }
 
       & img{
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: right;
         border-radius: $border-radius-block;
       }
     }
@@ -112,6 +120,13 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+
+      @media screen and (max-width: 1150px) {
+        & {
+          gap: 50px;
+        }
+      }
 
       &__teammate{
         width: 225px;
@@ -120,6 +135,12 @@
         flex-direction: column;
         gap: 15px;
         text-align: center;
+
+        @media screen and (max-width: 650px) {
+          & {
+            width: 100%;
+          }
+        }
 
         & img{
           width: 225px;

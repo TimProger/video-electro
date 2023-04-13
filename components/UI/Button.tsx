@@ -17,7 +17,7 @@ export interface IButtonProps {
   success?: boolean;
   full?: boolean;
   style?: 'outlined' | 'filled' | 'borderless';
-  size?: 'bigger' | 'big' | 'medium' | 'small';
+  size?: 'bigger' | 'big' | 'medium' | 'small' | 'icon_bigger';
   ripple?: boolean;
   external?: boolean;
   icon?: boolean;
@@ -44,7 +44,9 @@ const Button: React.FC<IButtonProps> = ({
   const cn = classNames(
     s.btn,
     className,
+    {[s.btn_icon]: icon},
     {[s.btn_bigger]: size === 'bigger'},
+    {[s.btn_icon_bigger]: size === 'icon_bigger'},
     {[s.btn_big]: size === 'big'},
     {[s.btn_medium]: size === 'medium'},
     {[s.btn_small]: size === 'small'},
@@ -54,7 +56,6 @@ const Button: React.FC<IButtonProps> = ({
     {[s.btn_disabled]: disabled},
     {[s.btn_error]: error},
     {[s.btn_success]: success},
-    {[s.btn_icon]: icon},
     {[s.btn_full]: full})
   switch (type){
     case 'link':

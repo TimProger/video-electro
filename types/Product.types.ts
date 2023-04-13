@@ -3,6 +3,7 @@ export interface IProduct {
   name: string;
   image: string;
   discount?: number | null;
+  article: string,
   is_new?: boolean;
   is_hit?: boolean;
   product_more: IProductMore[]
