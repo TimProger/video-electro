@@ -37,19 +37,43 @@
   &_bigger{
     padding: 15px 87px;
     font-size: $font-size-medium;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        padding: 15px 60px;
+      }
+    }
   }
 
   &_big{
     padding: 20px 60px;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        padding: 20px 50px;
+      }
+    }
   }
 
   &_medium{
     padding: 10px 25px;
     min-width: 142px !important;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        padding: 10px 25px;
+      }
+    }
   }
 
   &_small{
     padding: 5px 15px;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        padding: 5px 15px;
+      }
+    }
   }
 
   &_filled{

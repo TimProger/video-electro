@@ -10,18 +10,42 @@
 
   &_medium{
     font-size: $font-size-medium;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        font-size: $font-size-small;
+      }
+    }
   }
 
   &_big{
     font-size: $font-size-big;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        font-size: $font-size-medium;
+      }
+    }
   }
 
   &_bigPlus{
     font-size: $font-size-big_plus;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        font-size: $font-size-big;
+      }
+    }
   }
 
   &_bigger{
     font-size: $font-size-bigger;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        font-size: $font-size-big_plus;
+      }
+    }
   }
 
   &_colored{

@@ -29,7 +29,7 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
             </svg>
           </div>
           <div className={s.modal__block__content}>
-            {showModal ? children : ''}
+            {children}
           </div>
         </div>
       </div>

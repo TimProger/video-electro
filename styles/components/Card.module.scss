@@ -69,6 +69,13 @@
     flex-direction: column;
     justify-content: space-between;
 
+    @media screen and (max-width: 1150px) {
+      & {
+        justify-content: flex-start;
+        gap: 20px;
+      }
+    }
+
     & a{
       color: $text-main;
       text-decoration: none;

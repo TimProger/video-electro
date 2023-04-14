@@ -182,12 +182,13 @@
     background-color: $block-sec;
     display: flex;
     justify-content: space-between;
-    gap: 120px;
+    gap: 20px;
     border: 1px solid $border-color-main;
     box-shadow: 0 0 5px 4px $border-color-third,
     0 0 5px 2px $border-color-sec;
 
     &__left{
+      width: 55%;
       display: flex;
       flex-direction: column;
       gap: 20px;

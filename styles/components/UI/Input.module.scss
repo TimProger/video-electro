@@ -15,12 +15,30 @@
   font-size: 18px;
   transition: all 0.1s;
 
+  @media screen and (max-width: 1150px) {
+    & {
+      width: 300px;
+    }
+  }
+
   &_short{
     width: 350px;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        width: 250px;
+      }
+    }
   }
 
   &_medium{
     width: 400px;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        width: 300px;
+      }
+    }
   }
 
   &_full{
