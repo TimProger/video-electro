@@ -49,9 +49,9 @@ const Product: React.FC<IProductProps> = ({id}) => {
 
   const resize = () => {
     if(window){
-      if(window.innerWidth > 1050){
+      if(window.innerWidth > 1150){
         setWidth('desktop')
-      }else if(window.innerWidth <= 1050 && window.innerWidth > 700) {
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
         setWidth('tablet')
       }else if(window.innerWidth <= 700) {
         setWidth('mobile')
@@ -64,9 +64,9 @@ const Product: React.FC<IProductProps> = ({id}) => {
   useEffect(()=>{
     window.addEventListener('resize', resize)
     if(window){
-      if(window.innerWidth > 1050){
+      if(window.innerWidth > 1150){
         setWidth('desktop')
-      }else if(window.innerWidth <= 1050 && window.innerWidth > 700) {
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
         setWidth('tablet')
       }else if(window.innerWidth <= 700) {
         setWidth('mobile')
@@ -115,7 +115,7 @@ const Product: React.FC<IProductProps> = ({id}) => {
             <div className={s.product__content__info}>
               <div className={s.product__content__info__header}>
                 <div className={s.product__content__info__header__statuses}>
-                  {product.product_more[0].availability <= 0 && <div className={s.product__content__info__statuses__not}>Нет в наличии</div>}
+                  {product.product_more[0].availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}
                   {product.is_hit && <div>Хит продаж</div>}
                   {product.is_new && <div>Новинка</div>}
                   {product.discount && <div>-${product.discount}%</div>}
