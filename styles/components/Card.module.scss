@@ -88,6 +88,7 @@
     &__statuses{
       display: flex;
       align-items: flex-start;
+      flex-wrap: wrap;
       gap: 10px;
 
       & div{
@@ -104,7 +105,7 @@
   }
 
   &__content{
-    min-width: 320px;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
