@@ -172,7 +172,7 @@
   }
 
   &__image {
-    width: 235px;
+    width: 220px;
     height: 230px;
     border-radius: $border-radius-card;
     overflow: hidden;
@@ -180,7 +180,7 @@
 
     @media screen and (max-width: 1150px) {
       & {
-        width: 365px;
+        width: 345px;
         height: 250px;
       }
     }
