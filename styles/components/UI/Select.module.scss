@@ -52,6 +52,7 @@
     border-radius: $border-radius-card;
     border: 1px solid $border-color-sec;
     box-sizing: border-box;
+    z-index: $z-index-dropdown-upper;
 
     & p{
       color: $text-forth;
@@ -69,13 +70,19 @@
     box-shadow: 0 0 0 4px $border-color-third,
     0 0 0 2px $border-color-sec;
 
+    &__container{
+      padding-top: 30px;
+      padding-bottom: 20px;
+    }
+
     &__animated{
       position: absolute;
       width: 360px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 50px;
+      margin-top: 15px;
+      z-index: $z-index-dropdown;
     }
 
     @media screen and (max-width: 1150px) {

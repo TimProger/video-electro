@@ -31,11 +31,12 @@ $border-color-error: #F95B5B50;
 $border-color-error-sec: #de424280;
 
 // Values
-$z-index-base: 3;
-$z-index-dropdown: 4;
-$z-index-popup: 5;
-$z-index-modal: 6;
-$z-index-page: 7;
+$z-index-base: 30;
+$z-index-dropdown: 40;
+$z-index-dropdown-upper: 41;
+$z-index-popup: 50;
+$z-index-modal: 60;
+$z-index-page: 70;
 
 $border-radius-card: 30px;
 $border-radius-block: 40px;

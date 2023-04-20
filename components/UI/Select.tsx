@@ -26,8 +26,12 @@ const Select: React.FC<ISelectProps> = ({sort, value, values, onClick}) => {
   const [refBlock, { height }] = useMeasure<HTMLDivElement>();
 
   const expand = useSpring({
-    config: { friction: !open ? 30 : 15 },
-    height: open ? `${contentHeight+10}px` : '0px',
+    config: {
+      friction: open ? 17 : 40,
+      tension: open ? 200 : 300
+    },
+    height: open ? `${contentHeight+70}px` : '0px',
+    opacity: open ? 1 : 0,
     overflow: 'hidden'
   });
 
@@ -47,20 +51,22 @@ const Select: React.FC<ISelectProps> = ({sort, value, values, onClick}) => {
           <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <animated.div className={classNames(s.select__values__animated, {[s.select__values__animated_active]: open})} style={expand}>
-        <div ref={refBlock} className={classNames(s.select__values)}>
-          <div className={s.select__values__space}></div>
-          {values.map((el)=>{
-            return <div onClick={()=>{
-              onClick(el)
-              setOpen(false)
-            }} className={classNames(s.select__values__block, {[s.select__values__block_active]: el === value})}>
-              <Text>{sort ? `По ${el}` : el}</Text>
+        <animated.div className={classNames(s.select__values__animated, {[s.select__values__animated_active]: open})} style={expand}>
+          <div className={s.select__values__container}>
+            <div ref={refBlock} className={classNames(s.select__values)}>
+              <div className={s.select__values__space}></div>
+              {values.map((el)=>{
+                return <div onClick={()=>{
+                  onClick(el)
+                  setOpen(false)
+                }} className={classNames(s.select__values__block, {[s.select__values__block_active]: el === value})}>
+                  <Text>{sort ? `По ${el}` : el}</Text>
+                </div>
+              })}
+              <div className={s.select__values__space}></div>
             </div>
-          })}
-          <div className={s.select__values__space}></div>
-        </div>
-      </animated.div>
+          </div>
+        </animated.div>
     </div>
   );
 };

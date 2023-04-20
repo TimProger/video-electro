@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import s from '@/styles/components/Header.module.scss'
 import Text from "@/components/UI/Text";
 import Button from "@/components/UI/Button";
@@ -8,6 +8,9 @@ import Input from "@/components/UI/Input";
 import Auth from "@/components/Auth";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
 import classNames from "classnames";
+import useOnclickOutside from "react-cool-onclickoutside";
+import {useMeasure} from "react-use";
+import {animated, useSpring} from "react-spring";
 
 interface IHeaderProps {
 }
@@ -19,11 +22,35 @@ const Header: React.FC<IHeaderProps> = () => {
   const favs = useTypedSelector(state => state.favs)
 
   const [searchValue, setSearchValue] = useState('')
-  const [show, setShow] = useState<boolean>(false)
+  const [showAuth, setShowAuth] = useState<boolean>(false)
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+
+  const ref = useOnclickOutside((e: any) => {
+    if(e.target.classList && e.target.classList.length > 0 && (e.target.classList[1] === s.header__bottom__btn || e.target.parentElement.classList[1] === s.header__bottom__btn)) return
+    setShowMenu(false)
+  });
+
+  const [contentHeight, setContentHeight] = useState<number>(0);
+  const [refMenu, { height }] = useMeasure<HTMLDivElement>();
+
+  const expand = useSpring({
+    config: { friction: 15 },
+    height: showMenu ? `${contentHeight+10}px` : '0px',
+    minHeight: showMenu ? `800px` : `0px`,
+    overflow: 'hidden'
+  });
+
+  useEffect(() => {
+    setContentHeight(height);
+
+    window.addEventListener("resize", ()=>setContentHeight(height));
+
+    return window.removeEventListener("resize", ()=>setContentHeight(height));
+  }, [height, showMenu]);
 
   return (
     <>
-      <Auth show={show} setShow={setShow} />
+      <Auth show={showAuth} setShow={setShowAuth} />
       <div className={s.header}>
         <div className={s.header__top}>
           <div className={s.header__top__left}>
@@ -59,7 +86,7 @@ const Header: React.FC<IHeaderProps> = () => {
                     d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z"
                     stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </Link> : <div onClick={()=>setShow(true)} className={s.header__top__right__link__svg}>
+              </Link> : <div onClick={()=>setShowAuth(true)} className={s.header__top__right__link__svg}>
                 <svg width="35" height="35" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_11_163)">
                     <rect width="200" height="200" fill="#F9F9FF"/>
@@ -78,7 +105,10 @@ const Header: React.FC<IHeaderProps> = () => {
           </div>
         </div>
         <div className={s.header__bottom}>
-          <Button size={'big'}>
+          <Button size={'big'}
+                  className={s.header__bottom__btn}
+                  onClick={()=>setShowMenu(prev => !prev)}
+          >
             <svg width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.5 1H17.5M1.5 7H17.5M1.5 13H17.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -89,6 +119,13 @@ const Header: React.FC<IHeaderProps> = () => {
           </svg>} />
         </div>
       </div>
+      <animated.div className={classNames(s.headerMenu__animated)} style={expand}>
+        <div ref={refMenu} className={s.headerMenu__measureRef}>
+          <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
+            daw
+          </div>
+        </div>
+      </animated.div>
     </>
   )
 };

@@ -101,7 +101,7 @@
   }
 
   &_borderless{
-    background: $block-sec;
+    background: inherit;
     color: $text-forth;
     border: none;
 
