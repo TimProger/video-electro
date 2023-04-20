@@ -12,13 +12,23 @@ import Select from "@/components/UI/Select";
 import {Storage} from "@/utils/storage";
 import Modal from "@/components/UI/Modal";
 import Checkbox from "@/components/UI/Checkbox";
+import {animated, useTrail} from "react-spring";
+import {setProducts} from "@/store/Slices/Product.slice";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import classNames from "classnames";
 
 interface ICatalogProps {
 }
 
 const Catalog: React.FC<ICatalogProps> = () => {
 
+  const dispatch = useAppDispatch()
   const { products } = useTypedSelector(state => state.product)
+
+  const trailProducts = useTrail(products.length, {
+    from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
+    to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' }
+  });
 
   const [sortTypes, _setSortTypes] = useState<string[]>(['убыванию цены','возрастанию цены','популярности'])
   const [sortType, setSortType] = useState<string>(sortTypes[0])
@@ -127,8 +137,10 @@ const Catalog: React.FC<ICatalogProps> = () => {
               </div>
             </div>
             <div className={s.catalog__catalog__cards}>
-              {products.map((el)=>{
-                return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
+              {trailProducts.map((styles, index)=>{
+                return <animated.div className={classNames(s.catalog__catalog__cards__animated, {[s.catalog__catalog__cards__animated_float]: viewStyle === 1})} key={products[index].id} style={styles}>
+                  <Card type={viewStyle === 0 ? 'short' : 'long'} product={products[index]} />
+                </animated.div>
               })}
             </div>
           </div>

@@ -119,11 +119,9 @@ const Header: React.FC<IHeaderProps> = () => {
           </svg>} />
         </div>
       </div>
-      <animated.div className={classNames(s.headerMenu__animated)} style={expand}>
-        <div ref={refMenu} className={s.headerMenu__measureRef}>
-          <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
-            daw
-          </div>
+      <animated.div ref={ref} className={classNames(s.headerMenu__animated)} style={expand}>
+        <div ref={refMenu} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
+          daw
         </div>
       </animated.div>
     </>

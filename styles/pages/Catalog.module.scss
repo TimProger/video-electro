@@ -54,6 +54,13 @@
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 20px;
+
+      &__animated{
+
+        &_float{
+          width: 100%;
+        }
+      }
     }
   }
 }
