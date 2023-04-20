@@ -14,12 +14,15 @@ import Modal from "@/components/UI/Modal";
 import Checkbox from "@/components/UI/Checkbox";
 import {animated, useTrail} from "react-spring";
 import classNames from "classnames";
+import {setProducts} from "@/store/Slices/Product.slice";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
 
 interface ICatalogProps {
 }
 
 const Catalog: React.FC<ICatalogProps> = () => {
 
+  const dispatch = useAppDispatch()
   const { products } = useTypedSelector(state => state.product)
 
   const trailProducts = useTrail(products.length, {
@@ -45,6 +48,11 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const onViewStyleChange = (val: number) => {
     setViewStyle(val)
+    const newProducts = [...products]
+    dispatch(setProducts([]))
+    setTimeout(()=>{
+      dispatch(setProducts([...newProducts]))
+    },0)
     Storage.set('catalog_view', val)
   }
 
