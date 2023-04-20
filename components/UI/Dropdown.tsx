@@ -25,7 +25,7 @@ const Dropdown: React.FC<IDropdownProps> = ({setDropdowns, title, text, open, on
   const [refText, { height }] = useMeasure<HTMLDivElement>();
 
   const expand = useSpring({
-    config: { friction: 16 },
+    config: { friction: open ? 16 : 25 },
     height: open ? `${contentHeight}px` : '0px',
     overflow: 'hidden'
   });
