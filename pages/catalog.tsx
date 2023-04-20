@@ -13,8 +13,6 @@ import {Storage} from "@/utils/storage";
 import Modal from "@/components/UI/Modal";
 import Checkbox from "@/components/UI/Checkbox";
 import {animated, useTrail} from "react-spring";
-import {setProducts} from "@/store/Slices/Product.slice";
-import {useAppDispatch} from "@/hooks/useAppDispatch";
 import classNames from "classnames";
 
 interface ICatalogProps {
@@ -22,7 +20,6 @@ interface ICatalogProps {
 
 const Catalog: React.FC<ICatalogProps> = () => {
 
-  const dispatch = useAppDispatch()
   const { products } = useTypedSelector(state => state.product)
 
   const trailProducts = useTrail(products.length, {

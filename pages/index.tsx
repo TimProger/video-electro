@@ -17,6 +17,7 @@ import welcome from "@/public/images/pages/main/welcome.jpg"
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Dropdown from "@/components/UI/Dropdown";
+import {animated, useTrail} from "react-spring";
 
 interface IMainProps {
 }
@@ -24,6 +25,11 @@ interface IMainProps {
 const Main: React.FC<IMainProps> = () => {
 
   const { products } = useTypedSelector(state => state.product)
+
+  const trailProducts = useTrail(products.length, {
+    from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
+    to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' }
+  });
 
   const [errors, setErrors] = useState<{
     name: boolean;
@@ -152,8 +158,11 @@ const Main: React.FC<IMainProps> = () => {
               <Button type={'link'} href={'/catalog'} size={'bigger'}>Смотреть все</Button>
             </div>
             <div className={s.main__catalog__cards}>
-              {products.map((el)=>{
-                return <Card product={el} />
+              {trailProducts.map((styles, index)=>{
+                return <animated.div  key={products[index].id} style={styles}>
+                  <Card product={products[index]} />
+                </animated.div>
+
               })}
             </div>
           </div>
