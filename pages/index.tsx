@@ -162,7 +162,6 @@ const Main: React.FC<IMainProps> = () => {
                 return <animated.div  key={products[index].id} style={styles}>
                   <Card product={products[index]} />
                 </animated.div>
-
               })}
             </div>
           </div>

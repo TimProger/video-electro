@@ -10,6 +10,7 @@ import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {setFavsProducts} from "@/store/Slices/Favs.slice";
+import {animated, useTrail} from "react-spring";
 
 interface IFavsProps {
 }
@@ -18,6 +19,11 @@ const Favs: React.FC<IFavsProps> = () => {
 
   const dispatch = useAppDispatch()
   const { products } = useTypedSelector(state => state.favs)
+
+  const trailProducts = useTrail(products.length, {
+    from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
+    to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
+  });
 
   const onClear = () => {
     dispatch(setFavsProducts([]))
@@ -48,8 +54,10 @@ const Favs: React.FC<IFavsProps> = () => {
                 Удалить все</Button>}
             </div>
             <div className={s.favs__container__cards}>
-              {products.length > 0 ? products.map((el)=>{
-                return <Card favs type={'long'} product={el} />
+              {trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
+                return <animated.div className={s.favs__container__cards__animated} key={products[index].id} style={styles}>
+                  <Card favs type={'long'} product={products[index]} />
+                </animated.div>
               }) : <div className={s.favs__container__noCards}>
                 <Text size={'small'} type={'p'}>В избранном нет товаров</Text>
                 <Button size={'medium'}

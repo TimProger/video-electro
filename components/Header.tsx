@@ -34,9 +34,11 @@ const Header: React.FC<IHeaderProps> = () => {
   const [refMenu, { height }] = useMeasure<HTMLDivElement>();
 
   const expand = useSpring({
-    config: { friction: 15 },
-    height: showMenu ? `${contentHeight+10}px` : '0px',
-    minHeight: showMenu ? `800px` : `0px`,
+    config: {
+      friction: showMenu ? 15 : 30,
+      tension: showMenu ? 200 : 300
+    },
+    height: showMenu ? `${contentHeight}px` : '0px',
     overflow: 'hidden'
   });
 
@@ -119,9 +121,24 @@ const Header: React.FC<IHeaderProps> = () => {
           </svg>} />
         </div>
       </div>
-      <animated.div ref={ref} className={classNames(s.headerMenu__animated)} style={expand}>
+      <animated.div className={classNames(s.headerMenu__animated)} style={expand}>
         <div ref={refMenu} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
-          daw
+          <div ref={ref} className={s.headerMenu__left}>
+            <div className={s.headerMenu__left__space}></div>
+            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div className={s.headerMenu__left__space}></div>
+          </div>
         </div>
       </animated.div>
     </>
