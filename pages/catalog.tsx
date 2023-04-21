@@ -47,6 +47,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
   const [viewStyle, setViewStyle] = useState<number>(0)
 
   const onViewStyleChange = (val: number) => {
+    if(viewStyle === val) return
     setViewStyle(val)
     const newProducts = [...products]
     dispatch(setProducts([]))
@@ -142,11 +143,11 @@ const Catalog: React.FC<ICatalogProps> = () => {
               </div>
             </div>
             <div className={s.catalog__catalog__cards}>
-              {trailProducts.map((styles, index)=>{
+              {trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
                 return <animated.div className={classNames(s.catalog__catalog__cards__animated, {[s.catalog__catalog__cards__animated_float]: viewStyle === 1})} key={products[index].id} style={styles}>
                   <Card type={viewStyle === 0 ? 'short' : 'long'} product={products[index]} />
                 </animated.div>
-              })}
+              }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
           </div>
         </div>

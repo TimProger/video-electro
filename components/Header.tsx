@@ -24,21 +24,34 @@ const Header: React.FC<IHeaderProps> = () => {
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
   const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [menuContent, setMenuContent] = useState<string[]>([])
 
   const ref = useOnclickOutside((e: any) => {
+    setTimeout(()=>{
+      setMenuContent([])
+    },300)
     if(e.target.classList && e.target.classList.length > 0 && (e.target.classList[1] === s.header__bottom__btn || e.target.parentElement.classList[1] === s.header__bottom__btn)) return
     setShowMenu(false)
   });
 
   const [contentHeight, setContentHeight] = useState<number>(0);
-  const [refMenu, { height }] = useMeasure<HTMLDivElement>();
+  const [refMenuLeft, { height }] = useMeasure<HTMLDivElement>();
 
-  const expand = useSpring({
+  const expand__left = useSpring({
     config: {
       friction: showMenu ? 15 : 30,
       tension: showMenu ? 200 : 300
     },
     height: showMenu ? `${contentHeight}px` : '0px',
+    overflow: 'hidden'
+  });
+
+  const expand__right = useSpring({
+    config: {
+      friction: menuContent.length > 0 ? 15 : 50,
+      tension: menuContent.length > 0 ? 200 : 500
+    },
+    width: menuContent.length > 0 ? `810px` : '0px',
     overflow: 'hidden'
   });
 
@@ -49,6 +62,10 @@ const Header: React.FC<IHeaderProps> = () => {
 
     return window.removeEventListener("resize", ()=>setContentHeight(height));
   }, [height, showMenu]);
+
+  const onMenuClick = (content: string[]) => {
+    setMenuContent(content)
+  }
 
   return (
     <>
@@ -121,11 +138,11 @@ const Header: React.FC<IHeaderProps> = () => {
           </svg>} />
         </div>
       </div>
-      <animated.div className={classNames(s.headerMenu__animated)} style={expand}>
-        <div ref={refMenu} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
-          <div ref={ref} className={s.headerMenu__left}>
+      <animated.div className={classNames(s.headerMenu__animated)} style={expand__left}>
+        <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
+          <div ref={refMenuLeft} className={s.headerMenu__left}>
             <div className={s.headerMenu__left__space}></div>
-            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
+            <div onClick={()=>onMenuClick(['Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование'])} className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
             <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
             <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
             <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
@@ -139,6 +156,15 @@ const Header: React.FC<IHeaderProps> = () => {
             <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
             <div className={s.headerMenu__left__space}></div>
           </div>
+          <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
+            <div className={s.headerMenu__right}>
+              <div className={s.headerMenu__right__space}></div>
+              {menuContent.map((el, index)=>{
+                return <div key={index} className={s.headerMenu__right__item}>{el}</div>
+              })}
+              <div className={s.headerMenu__right__space}></div>
+            </div>
+          </animated.div>
         </div>
       </animated.div>
     </>
