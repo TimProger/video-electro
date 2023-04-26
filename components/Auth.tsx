@@ -276,7 +276,7 @@ const Auth: React.FC<IAuthProps> = ({
           <div className={s.authorization}>
             <div className={s.authorization__header}>
               <div className={s.authorization__header__title}>
-                <Text size={'big'} type={'h2'}>Авторизация</Text>
+                <Text size={'big+'} type={'h2'}>Авторизация</Text>
                 <Button onClick={() => onChangeType('registration')}>
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 7H13M7 1V13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -313,7 +313,7 @@ const Auth: React.FC<IAuthProps> = ({
           <div className={s.registration}>
             <div className={s.registration__header}>
               <div className={s.registration__header__title}>
-                <Text size={'big'} type={'h2'}>Регистрация</Text>
+                <Text size={'big+'} type={'h2'}>Регистрация</Text>
                 <Button onClick={() => onChangeType('authorization')}>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 17C5.47273 14.7178 7.53167 13 10 13C12.4683 13 14.5273 14.7178 15 17M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10ZM12 8C12 9.10457 11.1046 10 10 10C8.89543 10 8 9.10457 8 8C8 6.89543 8.89543 6 10 6C11.1046 6 12 6.89543 12 8Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
