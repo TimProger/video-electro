@@ -19,14 +19,51 @@ interface IHeaderProps {
 const Header: React.FC<IHeaderProps> = () => {
   const { pathname } = useRouter();
 
+  const [width, setWidth] = useState<string>('desktop')
+
+  const resize = () => {
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 700) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', resize)
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 700) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
   const favs = useTypedSelector(state => state.favs)
 
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [menuContent, setMenuContent] = useState<string[]>([])
+  const [menuContentShow, setMenuContentShow] = useState<boolean>(false)
 
   const ref = useOnclickOutside((e: any) => {
+    setMenuContentShow(false)
     setTimeout(()=>{
       setMenuContent([])
     },300)
@@ -39,19 +76,20 @@ const Header: React.FC<IHeaderProps> = () => {
 
   const expand__left = useSpring({
     config: {
-      friction: showMenu ? 15 : 30,
+      friction: showMenu ? 25 : 30,
       tension: showMenu ? 200 : 300
     },
-    height: showMenu ? `${contentHeight}px` : '0px',
+    height: showMenu ? `${contentHeight+10}px` : '0px',
     overflow: 'hidden'
   });
 
   const expand__right = useSpring({
     config: {
-      friction: menuContent.length > 0 ? 15 : 50,
-      tension: menuContent.length > 0 ? 200 : 500
+      friction: menuContentShow ? 30 : 50,
+      tension: menuContentShow ? 200 : 500
     },
-    width: menuContent.length > 0 ? `810px` : '0px',
+    width: menuContentShow ? (width === 'desktop' ? `688px` : `470px`) : '0px',
+    height: `${contentHeight+3}px`,
     overflow: 'hidden'
   });
 
@@ -142,18 +180,101 @@ const Header: React.FC<IHeaderProps> = () => {
         <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
           <div ref={refMenuLeft} className={s.headerMenu__left}>
             <div className={s.headerMenu__left__space}></div>
-            <div onClick={()=>onMenuClick(['Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование'])} className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
-            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
-            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
-            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
-            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
-            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
-            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
-            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
-            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
-            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
-            <div className={s.headerMenu__left__item}>Кабельно-проводниковая продукция</div>
-            <div className={s.headerMenu__left__item}>Высоковольтное оборудование</div>
+            <div onClick={()=>{
+              if(menuContentShow){
+                setMenuContentShow(false)
+                setTimeout(()=>{
+                  setMenuContent([])
+                }, 300)
+              }else{
+                setMenuContentShow(true)
+                onMenuClick(['Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование'])
+              }
+            }} className={s.headerMenu__left__item}>
+              <div>
+                <Text>Кабельно-проводниковая продукция</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContentShow ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Высоковольтное оборудование</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Кабельно-проводниковая продукция</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Высоковольтное оборудование</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Кабельно-проводниковая продукция</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Высоковольтное оборудование</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Кабельно-проводниковая продукция</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Высоковольтное оборудование</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Кабельно-проводниковая продукция</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Высоковольтное оборудование</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Кабельно-проводниковая продукция</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
+            <div className={s.headerMenu__left__item}>
+              <div>
+                <Text>Высоковольтное оборудование</Text>
+              </div>
+              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg></div>
             <div className={s.headerMenu__left__space}></div>
           </div>
           <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>

@@ -13,6 +13,7 @@ export interface ITextProps {
   external?: boolean;
   bold?: boolean;
   no_td?: boolean;
+  onClick?: () => void;
 }
 
 const Text: React.FC<ITextProps> = ({
@@ -24,7 +25,8 @@ const Text: React.FC<ITextProps> = ({
                                           size = 'small',
                                           external,
                                           bold,
-                                          no_td
+                                          no_td,
+                                          onClick
                                         }) => {
   const cn = classNames(
     s.text,
@@ -58,6 +60,11 @@ const Text: React.FC<ITextProps> = ({
     case 'link':
       return (
         <Link
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           target={external ? '_blank' : ''}
           href={href || '/'}
           className={cn}

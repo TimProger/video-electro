@@ -66,7 +66,12 @@ const Card: React.FC<ICardProps> = ({
             <img src={product.image} alt={product.name}/>
           </Link>
           <div className={s.cardLong__info}>
-            <Text type={'link'} href={`/product/${product.id}`} no_td bold className={s.cardLong__info__name}>
+            <Text type={'link'}
+                  onClick={()=>{
+                    Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
+                  }}
+                  href={`/product/${product.id}`}
+                  no_td bold className={s.cardLong__info__name}>
               {product.name}
             </Text>
             <div className={s.cardLong__info__statuses}>
@@ -136,7 +141,11 @@ const Card: React.FC<ICardProps> = ({
             </div>
           </Link>
           <div className={s.card__name}>
-            <Text type={'link'} href={`/product/${product.id}`} no_td bold>
+            <Text type={'link'}
+                  onClick={()=>{
+                    Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
+                  }}
+                  href={`/product/${product.id}`} no_td bold>
               {product.name}
             </Text>
           </div>
