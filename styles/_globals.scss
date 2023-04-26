@@ -26,6 +26,10 @@ body {
   background-color: $block-third;
 }
 
+.no_scroll {
+  overflow-y: hidden;
+}
+
 html{
   scrollbar-color: $scroll-main #00000000;
   scrollbar-width: thin;

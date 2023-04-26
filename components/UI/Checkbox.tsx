@@ -8,16 +8,17 @@ export interface ICheckboxProps {
   className?: string;
   label: string;
   colored?: boolean;
+  onChange: () => void;
+  isChecked: boolean;
 }
 
-const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false}) => {
+const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false, onChange, isChecked}) => {
 
   // const cn = classNames(
   //   s.checkbox,
   //   className,
   //   {[s.checkbox_checked]: isChecked})
 
-    const [isChecked, setIsChecked] = useState(false)
     const checkboxAnimationRef = useSpringRef();
     const checkboxAnimationStyle = useSpring({
       backgroundColor: isChecked ? "#5B74F9" : "#fff",
@@ -47,7 +48,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false}) => {
           className={s.input}
           type="checkbox"
           onChange={() => {
-            setIsChecked(!isChecked);
+            onChange()
           }}
         />
         <animated.svg
@@ -59,7 +60,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false}) => {
         >
           <animated.path
             d="M2 5.5L5.5 9L13 2"
-            strokeWidth="1"
+            strokeWidth="1.5"
             stroke="#fff"
             ref={(ref) => {
               if (ref) {

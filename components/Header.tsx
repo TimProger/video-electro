@@ -96,7 +96,7 @@ const Header: React.FC<IHeaderProps> = () => {
   useEffect(() => {
     setContentHeight(height);
 
-    window.addEventListener("resize", ()=>setContentHeight(height));
+    window.addEventListener("resize", () => setContentHeight(height));
 
     return window.removeEventListener("resize", ()=>setContentHeight(height));
   }, [height, showMenu]);
@@ -143,7 +143,10 @@ const Header: React.FC<IHeaderProps> = () => {
                     d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z"
                     stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-              </Link> : <div onClick={()=>setShowAuth(true)} className={s.header__top__right__link__svg}>
+              </Link> : <div onClick={()=>{
+                setShowAuth(true)
+                document.body.classList.toggle('no-scroll', showAuth);
+              }} className={s.header__top__right__link__svg}>
                 <svg width="35" height="35" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_11_163)">
                     <rect width="200" height="200" fill="#F9F9FF"/>

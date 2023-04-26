@@ -12,6 +12,7 @@ interface IModalProps {
 
 const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
 
+
   const outsideClickHandler = () => {
     closeHandler()
   }
@@ -25,7 +26,7 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
 
   const expand = useSpring({
     config: { friction: 18 },
-    top: showModal ? `150px` : `-${contentHeight}px`,
+    top: showModal ? `${(window.innerHeight-contentHeight-100) / 2}px` : `-${contentHeight}px`,
   });
 
   useEffect(() => {

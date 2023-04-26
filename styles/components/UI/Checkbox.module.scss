@@ -1,9 +1,10 @@
 @import "../../vars";
 
 .label {
-  display: inline-flex;
   gap: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .input {

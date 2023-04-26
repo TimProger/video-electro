@@ -90,13 +90,13 @@ const Catalog: React.FC<ICatalogProps> = () => {
             </div>
             <div className={s.filters__content}>
               <Text>Подкатегории</Text>
-              <Checkbox colored label={'Выбрать все'} />
-              <Checkbox label={'Провода'} />
-              <Checkbox label={'Розетки'} />
-              <Checkbox label={'Подкатегория 3'} />
-              <Checkbox label={'Провода'} />
-              <Checkbox label={'Розетки'} />
-              <Checkbox label={'Подкатегория 3'} />
+              <Checkbox isChecked={false} onChange={()=>{}} colored label={'Выбрать все'} />
+              <Checkbox isChecked={false} onChange={()=>{}} label={'Провода'} />
+              <Checkbox isChecked={false} onChange={()=>{}} label={'Розетки'} />
+              <Checkbox isChecked={false} onChange={()=>{}} label={'Подкатегория 3'} />
+              <Checkbox isChecked={false} onChange={()=>{}} label={'Провода'} />
+              <Checkbox isChecked={false} onChange={()=>{}} label={'Розетки'} />
+              <Checkbox isChecked={false} onChange={()=>{}} label={'Подкатегория 3'} />
             </div>
           </div>
         </Modal>
