@@ -40,6 +40,9 @@ interface IAuthBody {
     confirmation: boolean;
   }
 }
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
 
 const Auth: React.FC<IAuthProps> = ({
                                       show,
@@ -237,7 +240,7 @@ const Auth: React.FC<IAuthProps> = ({
   const onSubmit = (type: 'authorization' | 'registration') => {
     switch (type){
       case "authorization":
-        if(body.auth.email.length <= 1){
+        if(!validEmailRegex.test(body.auth.email)){
           errors.auth.email = [true, 'Введите корректный Email']
         }
         if(body.auth.password.length <= 1){
@@ -249,7 +252,7 @@ const Auth: React.FC<IAuthProps> = ({
         if(body.reg.name.length <= 1){
           errors.reg.name = [true, 'Введите корректное ФИО']
         }
-        if(body.reg.email.length <= 1){
+        if(!validEmailRegex.test(body.reg.email)){
           errors.reg.email = [true, 'Введите корректный Email']
         }
         if(body.reg.phone.length < 16){
