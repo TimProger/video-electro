@@ -22,7 +22,7 @@ import {animated, useTrail} from "react-spring";
 interface IMainProps {
 }
 
-interface IFormBody {
+interface IFormErrors {
   name: [boolean, string];
   phone: [boolean, string];
 }
@@ -36,7 +36,7 @@ const Main: React.FC<IMainProps> = () => {
     to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' }
   });
 
-  const [errors, setErrors] = useState<IFormBody>({
+  const [errors, setErrors] = useState<IFormErrors>({
     name: [false, ''],
     phone: [false, '']
   })
