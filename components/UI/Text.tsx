@@ -14,6 +14,7 @@ export interface ITextProps {
   bold?: boolean;
   no_td?: boolean;
   onClick?: () => void;
+  error?: boolean;
 }
 
 const Text: React.FC<ITextProps> = ({
@@ -26,7 +27,8 @@ const Text: React.FC<ITextProps> = ({
                                           external,
                                           bold,
                                           no_td,
-                                          onClick
+                                          onClick,
+                                          error = false,
                                         }) => {
   const cn = classNames(
     s.text,
@@ -37,6 +39,7 @@ const Text: React.FC<ITextProps> = ({
     {[s.text_medium]: size === 'medium'},
     {[s.text_small]: size === 'small'},
     {[s.text_colored]: colored},
+    {[s.text_error]: error},
     {[s.text_bold]: bold},
     {[s.text_noTd]: no_td},
     {[s.text_link]: type === 'link'})

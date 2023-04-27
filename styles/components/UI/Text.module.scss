@@ -52,6 +52,10 @@
     color: $text-sec !important;
   }
 
+  &_error{
+    color: $text-error !important;
+  }
+
   &_link{
     text-decoration: underline;
   }

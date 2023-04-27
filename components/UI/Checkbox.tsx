@@ -3,6 +3,7 @@ import s from '@/styles/components/UI/Checkbox.module.scss'
 // import classNames from "classnames";
 import {animated, config, useChain, useSpring, useSpringRef} from "react-spring";
 import Text from "@/components/UI/Text";
+import classNames from "classnames";
 
 export interface ICheckboxProps {
   className?: string;
@@ -10,9 +11,15 @@ export interface ICheckboxProps {
   colored?: boolean;
   onChange: () => void;
   isChecked: boolean;
+  error?: boolean;
 }
 
-const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false, onChange, isChecked}) => {
+const Checkbox: React.FC<ICheckboxProps> = ({
+                                              label,
+                                              colored = false,
+                                              onChange,
+                                              isChecked,
+                                              error = false}) => {
 
   // const cn = classNames(
   //   s.checkbox,
@@ -53,7 +60,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false, onChange, i
         />
         <animated.svg
           style={checkboxAnimationStyle}
-          className={s.checkbox}
+          className={classNames(s.checkbox, {[s.checkbox_error]: error})}
           aria-hidden="true"
           viewBox="0 0 15 11"
           fill="none"
@@ -71,7 +78,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({label, colored = false, onChange, i
             strokeDashoffset={checkmarkAnimationStyle.x}
           />
         </animated.svg>
-        <Text colored={colored}>
+        <Text colored={colored} error={error}>
           {label}
         </Text>
       </label>

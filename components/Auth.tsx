@@ -264,6 +264,12 @@ const Auth: React.FC<IAuthProps> = ({
         if(body.reg.password_repeat !== body.reg.password){
           errors.reg.password_repeat = [true, 'Пароли не совпадают']
         }
+        if(body.reg.password_repeat.length <= 1){
+          errors.reg.password_repeat = [true, 'Слишком короткий пароль']
+        }
+        if(!body.reg.confirmation){
+          errors.reg.confirmation = [true, 'Подтвердите данный пункт']
+        }
         setErrors(JSON.parse(JSON.stringify(errors)))
         break;
     }
@@ -370,6 +376,7 @@ const Auth: React.FC<IAuthProps> = ({
             <div className={s.registration__inputs}>
               <Checkbox onChange={()=>onChangeConfirmation()}
                         isChecked={body.reg.confirmation}
+                        error={errors.reg.confirmation[0]}
                         label={'Согласен с политикой конфиденциальности'} />
             </div>
             <Button size={'bigger'} onClick={() => onSubmit('registration')} full>
