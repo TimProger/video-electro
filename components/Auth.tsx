@@ -40,6 +40,7 @@ interface IAuthBody {
     confirmation: boolean;
   }
 }
+
 const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
@@ -299,6 +300,7 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'Email'}
                      key={'email'} />
+              {errors.auth.email[1].length > 0 && <Text error={errors.auth.email[0]}>{errors.auth.email[1]}</Text>}
             </div>
             <div className={s.authorization__inputs}>
               <Text size={'small'} type={'p'}>Введите пароль</Text>
@@ -308,6 +310,7 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'Пароль'}
                      key={'password'} />
+              {errors.auth.password[1].length > 0 && <Text error={errors.auth.password[0]}>{errors.auth.password[1]}</Text>}
             </div>
             <Button size={'bigger'} onClick={() => onSubmit('authorization')} full>
               Авторизоваться
@@ -336,6 +339,7 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'Иванов Иван Иванович'}
                      key={'name'} />
+              {errors.reg.name[1].length > 0 && <Text error={errors.reg.name[0]}>{errors.reg.name[1]}</Text>}
             </div>
             <div className={s.registration__inputs}>
               <Text size={'small'} type={'p'}>Введите Email</Text>
@@ -345,6 +349,7 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'video-electro@mail.ru'}
                      key={'email'} />
+              {errors.reg.email[1].length > 0 && <Text error={errors.reg.email[0]}>{errors.reg.email[1]}</Text>}
             </div>
             <div className={s.registration__inputs}>
               <Text size={'small'} type={'p'}>Введите телефон</Text>
@@ -354,6 +359,7 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'+7 999 000 00 01'}
                      key={'phone'} />
+              {errors.reg.phone[1].length > 0 && <Text error={errors.reg.phone[0]}>{errors.reg.phone[1]}</Text>}
             </div>
             <div className={s.registration__inputs}>
               <Text size={'small'} type={'p'}>Придумайте пароль</Text>
@@ -363,6 +369,7 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'Пароль'}
                      key={'password'} />
+              {errors.reg.password[1].length > 0 && <Text error={errors.reg.password[0]}>{errors.reg.password[1]}</Text>}
             </div>
             <div className={s.registration__inputs}>
               <Text size={'small'} type={'p'}>Повторите пароль</Text>
@@ -372,12 +379,14 @@ const Auth: React.FC<IAuthProps> = ({
                      full
                      placeholder={'Пароль'}
                      key={'password_repeat'} />
+              {errors.reg.password_repeat[1].length > 0 && <Text error={errors.reg.password_repeat[0]}>{errors.reg.password_repeat[1]}</Text>}
             </div>
             <div className={s.registration__inputs}>
               <Checkbox onChange={()=>onChangeConfirmation()}
                         isChecked={body.reg.confirmation}
                         error={errors.reg.confirmation[0]}
                         label={'Согласен с политикой конфиденциальности'} />
+              {errors.reg.confirmation[1].length > 0 && <Text error={errors.reg.confirmation[0]}>{errors.reg.confirmation[1]}</Text>}
             </div>
             <Button size={'bigger'} onClick={() => onSubmit('registration')} full>
               Создать аккаунт
