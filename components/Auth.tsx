@@ -262,7 +262,7 @@ const Auth: React.FC<IAuthProps> = ({
           errors.reg.password = [true, 'Введите корректный пароль']
         }
         if(body.reg.password_repeat !== body.reg.password){
-          errors.reg.password = [true, 'Пароли не совпадают']
+          errors.reg.password_repeat = [true, 'Пароли не совпадают']
         }
         setErrors(JSON.parse(JSON.stringify(errors)))
         break;
