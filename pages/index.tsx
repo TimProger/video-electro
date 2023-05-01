@@ -212,11 +212,10 @@ const Main: React.FC<IMainProps> = () => {
             <div className={s.main__questions__dropdowns}>
               {dropdownArray.map((el, index: number)=>{
                 return <Dropdown title={el.title}
-                                 text={el.text}
                                  open={dropdowns[index]}
                                  onClick={()=>onDropdownClick(index)}
                                  setDropdowns={setDropdowns}
-                />
+                >{el.text}</Dropdown>
               })}
               <Button type={'link'} href={'/faq'} size={'bigger'}>Смотреть все</Button>
             </div>

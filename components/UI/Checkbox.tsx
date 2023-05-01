@@ -15,6 +15,7 @@ export interface ICheckboxProps {
 }
 
 const Checkbox: React.FC<ICheckboxProps> = ({
+                                              className = '',
                                               label,
                                               colored = false,
                                               onChange,
@@ -50,7 +51,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({
     );
 
     return (
-      <label className={s.label}>
+      <label className={classNames(s.label, className)}>
         <input
           className={s.input}
           type="checkbox"

@@ -113,11 +113,10 @@ const Faq: React.FC = () => {
             <div className={s.faq__questions__dropdowns}>
               {dropdownArray.map((el, index: number)=>{
                 return <Dropdown title={el.title}
-                                 text={el.text}
                                  open={dropdowns[index]}
                                  onClick={()=>onDropdownClick(index)}
                                  setDropdowns={setDropdowns}
-                />
+                >{el.text}</Dropdown>
               })}
             </div>
           </div>

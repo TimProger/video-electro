@@ -16,6 +16,7 @@ import {animated, useTrail} from "react-spring";
 import classNames from "classnames";
 import {setProducts} from "@/store/Slices/Product.slice";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
+import Dropdown from "@/components/UI/Dropdown";
 
 interface ICatalogProps {
 }
@@ -154,6 +155,8 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
   ]
 
+  const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
+
   return (
     <Layout>
       <Head>
@@ -179,27 +182,39 @@ const Catalog: React.FC<ICatalogProps> = () => {
             <div className={s.filters__content}>
               {filtersArray.map((el, index)=>{
                 return <div key={index} className={s.filters__content__filter}>
-                  <Text className={s.filters__content__filter__name} bold>{el.title} {usedFilters[el.name].length > 0 && <Text type={'span'} colored>({usedFilters[el.name].map(el => el.name).join(', ')})</Text>}</Text>
-                  <Checkbox isChecked={(() => {
-                              const used = usedFilters[el.name].map(el => el)
-                              return used.length === el.filters.length;
-                            })()}
-                            onChange={()=>{
-                              const used = usedFilters[el.name].map(el => el)
-                              if(used.length === el.filters.length){
-                                usedFilters[el.name] = []
-                                setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-                              }else{
-                                usedFilters[el.name] = el.filters.map(el => el)
-                                setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-                              }
-                            }} colored label={'Выбрать все'} />
-                  {el.filters.map((elem, index) => {
-                    return <Checkbox key={index}
-                                     isChecked={!!usedFilters[el.name].find((el) => el.id === elem.id)}
-                                     onChange={()=>toggleFilter(elem, el.name)}
-                                     label={elem.name} />
-                  })}
+                  <Dropdown type={'inside'}
+                            open={dropdownsOpen[index]}
+                            onClick={() => {
+                              dropdownsOpen[index] = !dropdownsOpen[index]
+                              setDropdownsOpen(prev => [...prev])
+                            }}
+                            setDropdowns={setDropdownsOpen}
+                            title_inside={
+                              <Text className={s.filters__content__filter__name} bold>{el.title} {usedFilters[el.name].length > 0 && <Text type={'span'} colored>({usedFilters[el.name].map(el => el.name).join(', ')})</Text>}</Text>
+                            }
+                  >
+                    <Checkbox isChecked={(() => {
+                      const used = usedFilters[el.name].map(el => el)
+                      return used.length === el.filters.length;
+                    })()}
+                              className={s.filters__content__filter__options__option}
+                              onChange={()=>{
+                                const used = usedFilters[el.name].map(el => el)
+                                if(used.length === el.filters.length){
+                                  usedFilters[el.name] = []
+                                  setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+                                }else{
+                                  usedFilters[el.name] = el.filters.map(el => el)
+                                  setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+                                }
+                              }} colored label={'Выбрать все'} />
+                    {el.filters.map((elem, index) => {
+                      return <Checkbox key={index}
+                                       className={s.filters__content__filter__options__option}
+                                       isChecked={!!usedFilters[el.name].find((el) => el.id === elem.id)}
+                                       onChange={()=>toggleFilter(elem, el.name)}
+                                       label={elem.name} />
+                    })}</Dropdown>
                 </div>
               })}
             </div>

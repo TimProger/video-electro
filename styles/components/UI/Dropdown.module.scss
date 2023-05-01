@@ -15,7 +15,7 @@
   &_active{
     border: 1px solid $border-color-main;
     box-shadow: 0 0 5px 4px $border-color-third,
-                0 0 5px 2px $border-color-sec;
+    0 0 5px 2px $border-color-sec;
   }
 
   &__header{
@@ -43,5 +43,48 @@
       color: $text-forth !important;
       overflow: hidden;
     }
+  }
+}
+
+.dropdown_inside{
+  width: 100%;
+  transition: all .3s linear;
+
+  &__header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &__text {
+      display: flex;
+    }
+
+    &__svg{
+
+      & path{
+        stroke: $text-forth;
+      }
+    }
+  }
+
+  &_active{
+
+
+    &__svg{
+
+      & path{
+        stroke: $text-sec
+      }
+    }
+  }
+
+  &__text{
+    width: 100%;
+    transition: all .3s linear;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 }
