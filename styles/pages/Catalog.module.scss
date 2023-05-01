@@ -93,7 +93,6 @@
 
     & button{
       color: $text-error !important;
-      margin-bottom: 5px;
 
       & svg{
 
@@ -108,6 +107,17 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
+    gap: 30px;
+
+    &__filter{
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      &__name{
+        margin-bottom: 5px;
+      }
+    }
   }
 }

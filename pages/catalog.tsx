@@ -20,6 +20,21 @@ import {useAppDispatch} from "@/hooks/useAppDispatch";
 interface ICatalogProps {
 }
 
+interface IUsedFilters {
+  category: number[];
+  producer: number[];
+}
+
+interface IFilters {
+  id: number;
+  name: string;
+  title: string;
+  filters: {
+    id: number;
+    name: string;
+  }[]
+}
+
 const Catalog: React.FC<ICatalogProps> = () => {
 
   const dispatch = useAppDispatch()
@@ -66,6 +81,55 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
+  const [usedFilters, setUsedFilters] = useState<IUsedFilters>({
+    category: [],
+    producer: [],
+  })
+
+  const toggleFilter = (id: number, type: string) => {
+    switch (type){
+      case 'category':
+        if(!usedFilters.category.includes(id)){
+          usedFilters.category.push(id)
+        }else{
+          const index = usedFilters.category.indexOf(id)
+          usedFilters.category.splice(index, 1)
+        }
+        break;
+      case 'producer':
+        if(!usedFilters.producer.includes(id)){
+          usedFilters.producer.push(id)
+        }else{
+          const index = usedFilters.producer.indexOf(id)
+          usedFilters.producer.splice(index, 1)
+        }
+        break;
+    }
+    setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+  }
+
+  const filtersArray: IFilters[] = [
+    {
+      id: 0,
+      name: 'category',
+      title: 'Подкатегории',
+      filters: [
+        {
+          id: 0,
+          name: 'Провода'
+        },
+        {
+          id: 1,
+          name: 'Розетки'
+        },
+        {
+          id: 2,
+          name: 'Подкатегория 3'
+        }
+      ]
+    }
+  ]
+
   return (
     <Layout>
       <Head>
@@ -76,7 +140,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
         <Modal showModal={isFilters} closeHandler={()=>setIsFilters(false)}>
           <div className={s.filters}>
             <div className={s.filters__header}>
-              <Text size={'bigger'} bold>Фильтры</Text>
+              <Text size={'big+'} bold>Фильтры</Text>
               <Button
                 size={'medium'}
                 style={'borderless'}>
@@ -89,14 +153,37 @@ const Catalog: React.FC<ICatalogProps> = () => {
               </Button>
             </div>
             <div className={s.filters__content}>
-              <Text>Подкатегории</Text>
-              <Checkbox isChecked={false} onChange={()=>{}} colored label={'Выбрать все'} />
-              <Checkbox isChecked={false} onChange={()=>{}} label={'Провода'} />
-              <Checkbox isChecked={false} onChange={()=>{}} label={'Розетки'} />
-              <Checkbox isChecked={false} onChange={()=>{}} label={'Подкатегория 3'} />
-              <Checkbox isChecked={false} onChange={()=>{}} label={'Провода'} />
-              <Checkbox isChecked={false} onChange={()=>{}} label={'Розетки'} />
-              <Checkbox isChecked={false} onChange={()=>{}} label={'Подкатегория 3'} />
+              {filtersArray.map((el, index)=>{
+                return <div key={index} className={s.filters__content__filter}>
+                  <Text className={s.filters__content__filter__name} bold>{el.title} <Text type={'span'} colored>(Провода)</Text></Text>
+                  <Checkbox isChecked={(() => {
+                              // @ts-ignore
+                              const used = usedFilters[el.name].map(el => el)
+                              return used.length === el.filters.length;
+                            })()}
+                            onChange={()=>{
+                              // @ts-ignore
+                              const used = usedFilters[el.name].map(el => el)
+
+                              if(used.length === el.filters.length){
+                                // @ts-ignore
+                                usedFilters[el.name] = []
+                                setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+                              }else{
+                                // @ts-ignore
+                                usedFilters[el.name] = el.filters.map(el => el.id)
+                                setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+                              }
+                            }} colored label={'Выбрать все'} />
+                  {el.filters.map((elem, index) => {
+                    return <Checkbox key={index}
+                                     // @ts-ignore
+                                     isChecked={usedFilters[el.name].includes(elem.id)}
+                                     onChange={()=>toggleFilter(elem.id, el.name)}
+                                     label={elem.name} />
+                  })}
+                </div>
+              })}
             </div>
           </div>
         </Modal>
