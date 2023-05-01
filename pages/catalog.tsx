@@ -20,19 +20,21 @@ import {useAppDispatch} from "@/hooks/useAppDispatch";
 interface ICatalogProps {
 }
 
-interface IUsedFilters {
-  category: number[];
-  producer: number[];
+interface IFilter {
+  id: number;
+  name: string;
 }
 
 interface IFilters {
   id: number;
-  name: string;
+  name: 'category' | 'producer';
   title: string;
-  filters: {
-    id: number;
-    name: string;
-  }[]
+  filters: IFilter[];
+}
+
+interface IUsedFilters {
+  category: IFilter[];
+  producer: IFilter[];
 }
 
 const Catalog: React.FC<ICatalogProps> = () => {
@@ -86,21 +88,24 @@ const Catalog: React.FC<ICatalogProps> = () => {
     producer: [],
   })
 
-  const toggleFilter = (id: number, type: string) => {
+  const toggleFilter = (elem: IFilter, type: string) => {
+    let includes: IFilter | undefined;
     switch (type){
       case 'category':
-        if(!usedFilters.category.includes(id)){
-          usedFilters.category.push(id)
+        includes = usedFilters.category.find((el) => el.id === elem.id)
+        if(!includes){
+          usedFilters.category.push(elem)
         }else{
-          const index = usedFilters.category.indexOf(id)
+          const index = usedFilters.category.indexOf(includes)
           usedFilters.category.splice(index, 1)
         }
         break;
       case 'producer':
-        if(!usedFilters.producer.includes(id)){
-          usedFilters.producer.push(id)
+        includes = usedFilters.producer.find((el) => el.id === elem.id);
+        if(!includes){
+          usedFilters.producer.push(elem)
         }else{
-          const index = usedFilters.producer.indexOf(id)
+          const index = usedFilters.producer.indexOf(includes)
           usedFilters.producer.splice(index, 1)
         }
         break;
@@ -113,6 +118,25 @@ const Catalog: React.FC<ICatalogProps> = () => {
       id: 0,
       name: 'category',
       title: 'Подкатегории',
+      filters: [
+        {
+          id: 0,
+          name: 'Провода'
+        },
+        {
+          id: 1,
+          name: 'Розетки'
+        },
+        {
+          id: 2,
+          name: 'Подкатегория 3'
+        }
+      ]
+    },
+    {
+      id: 1,
+      name: 'producer',
+      title: 'Коллекции',
       filters: [
         {
           id: 0,
@@ -155,31 +179,25 @@ const Catalog: React.FC<ICatalogProps> = () => {
             <div className={s.filters__content}>
               {filtersArray.map((el, index)=>{
                 return <div key={index} className={s.filters__content__filter}>
-                  <Text className={s.filters__content__filter__name} bold>{el.title} <Text type={'span'} colored>(Провода)</Text></Text>
+                  <Text className={s.filters__content__filter__name} bold>{el.title} {usedFilters[el.name].length > 0 && <Text type={'span'} colored>({usedFilters[el.name].map(el => el.name).join(', ')})</Text>}</Text>
                   <Checkbox isChecked={(() => {
-                              // @ts-ignore
                               const used = usedFilters[el.name].map(el => el)
                               return used.length === el.filters.length;
                             })()}
                             onChange={()=>{
-                              // @ts-ignore
                               const used = usedFilters[el.name].map(el => el)
-
                               if(used.length === el.filters.length){
-                                // @ts-ignore
                                 usedFilters[el.name] = []
                                 setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
                               }else{
-                                // @ts-ignore
-                                usedFilters[el.name] = el.filters.map(el => el.id)
+                                usedFilters[el.name] = el.filters.map(el => el)
                                 setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
                               }
                             }} colored label={'Выбрать все'} />
                   {el.filters.map((elem, index) => {
                     return <Checkbox key={index}
-                                     // @ts-ignore
-                                     isChecked={usedFilters[el.name].includes(elem.id)}
-                                     onChange={()=>toggleFilter(elem.id, el.name)}
+                                     isChecked={!!usedFilters[el.name].find((el) => el.id === elem.id)}
+                                     onChange={()=>toggleFilter(elem, el.name)}
                                      label={elem.name} />
                   })}
                 </div>
