@@ -49,6 +49,9 @@
 .dropdown_inside{
   width: 100%;
   transition: all .3s linear;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 
   &__header{
     width: 100%;
@@ -76,7 +79,7 @@
     &__svg{
 
       & path{
-        stroke: $text-sec
+        stroke: $text-sec !important
       }
     }
   }

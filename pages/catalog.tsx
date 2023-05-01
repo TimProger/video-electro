@@ -157,6 +157,13 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
 
+  const clearFilters = () => {
+    setUsedFilters({
+      category: [],
+      producer: []
+    })
+  }
+
   return (
     <Layout>
       <Head>
@@ -169,6 +176,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
             <div className={s.filters__header}>
               <Text size={'big+'} bold>Фильтры</Text>
               <Button
+                onClick={clearFilters}
                 size={'medium'}
                 style={'borderless'}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

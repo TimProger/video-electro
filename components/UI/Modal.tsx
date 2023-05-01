@@ -25,7 +25,7 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
   const [refBlock, { height }] = useMeasure<HTMLDivElement>();
 
   const expand = useSpring({
-    config: { friction: 18 },
+    config: { friction: 20 },
     top: showModal ? `${(window.innerHeight-contentHeight-100) / 2}px` : `-${contentHeight}px`,
   });
 

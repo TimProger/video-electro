@@ -28,13 +28,13 @@ const Dropdown: React.FC<IDropdownProps> = ({
   const ref = useOnclickOutside((e: any) => {
     switch (type){
       case 'block':
-        if(e.target.classList && e.target.classList.length > 0 && e.target.classList[0] === s.dropdown_inside__header || e.target.classList[1] === s.dropdown_inside__header__text) return
+        if(e.target.classList && e.target.classList.length > 0 && e.target.classList[0] === s.dropdown__header || e.target.classList[1] === s.dropdown__header__text) return
         setDropdowns(prev => prev.map(_ => false))
         break;
-      case 'inside':
-        if(e.target.classList && e.target.classList.length > 0 && e.target.classList[0] === s.dropdown_inside__header || e.target.classList[1] === s.dropdown_inside__header__text) return
-        setDropdowns(prev => prev.map(_ => false))
-        break;
+      // case 'inside':
+      //   if(e.target.classList && e.target.classList.length > 0 && e.target.classList[0] === s.dropdown_inside__header || e.target.classList[1] === s.dropdown_inside__header__text) return
+      //   setDropdowns(prev => prev.map(_ => false))
+      //   break;
     }
   });
 
@@ -42,7 +42,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
   const [refText, { height }] = useMeasure<HTMLDivElement>();
 
   const expand = useSpring({
-    config: { friction: type === 'block' ? open ? 16 : 25 : 25},
+    config: type === 'block' ? { friction:  open ? 16 : 25} : {},
     height: open ? `${contentHeight}px` : '0px',
     overflow: 'hidden'
   });
@@ -80,7 +80,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
         <div className={classNames(s.dropdown_inside, {[s.dropdown_inside_active]: open})}>
           <div onClick={onClick} className={s.dropdown_inside__header}>
             {title_inside}
-            <svg className={s.dropdown_inside__header__svg} style={{transition: 'all .3s linear', transform: open ? 'rotate(180deg)' : 'rotate(0deg)'}} width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className={classNames(s.dropdown_inside__header__svg, {[s.dropdown_inside_active__svg]: open})} style={{transition: 'all .3s linear', transform: open ? 'rotate(180deg)' : 'rotate(0deg)'}} width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 1L7 7L13 0.999999" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
