@@ -18,7 +18,7 @@ interface IFavsProps {
 const Basket: React.FC<IFavsProps> = () => {
 
   const dispatch = useAppDispatch()
-  const { products } = useTypedSelector(state => state.basket)
+  const { products, totalPrice, discountedPrice } = useTypedSelector(state => state.basket)
 
   const trailProducts = useTrail(products.length, {
     from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
@@ -45,6 +45,7 @@ const Basket: React.FC<IFavsProps> = () => {
               <Text size={'bigger'} type={'h1'}>Корзина</Text>
               {products.length > 0 && <Button onClick={onClear}
                                               style={'borderless'}
+                                              filled
                                               size={'medium'}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -68,7 +69,27 @@ const Basket: React.FC<IFavsProps> = () => {
             </div>
           </div>
           <div className={s.basket__info}>
-            <Text type={'h2'} size={'big+'}>Ваша корзина</Text>
+            <div className={s.basket__info__placeholder}></div>
+            <div className={s.basket__info__container}>
+              <Text type={'h2'} size={'big+'}>Ваша корзина</Text>
+              <div className={s.basket__info__container__content}>
+                <div className={s.basket__info__container__content__price}>
+                  <Text bold>Товары ({products.length})</Text>
+                  <Text size={'medium'} bold>{`${totalPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</Text>
+                </div>
+                <div className={s.basket__info__container__content__price}>
+                  <Text bold>Скидка</Text>
+                  <Text error size={'medium'} bold>-{`${discountedPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</Text>
+                </div>
+              </div>
+              <div className={s.basket__info__container__total}>
+                <div className={s.basket__info__container__total__price}>
+                  <Text bold>Итоговая стоимость</Text>
+                  <Text colored size={'medium'} bold>{`${totalPrice-discountedPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</Text>
+                </div>
+              </div>
+              <Button size={'bigger'} full>Оформить заказ</Button>
+            </div>
           </div>
         </div>
       </Container>

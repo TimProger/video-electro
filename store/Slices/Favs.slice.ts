@@ -19,7 +19,7 @@ const initialState: IFavsState = {
         {
           id: 0,
           availability: 2,
-          price: 1000000
+          price: 50000
         }
       ]
     },
@@ -35,7 +35,7 @@ const initialState: IFavsState = {
         {
           id: 0,
           availability: 2,
-          price: 1000000
+          price: 30000
         }
       ]
     }

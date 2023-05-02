@@ -19,7 +19,7 @@ const initialState: IProductState = {
         {
           id: 0,
           availability: 2,
-          price: 1000000
+          price: 50000
         }
       ]
     },
@@ -34,7 +34,7 @@ const initialState: IProductState = {
         {
           id: 0,
           availability: 0,
-          price: 1000000
+          price: 70000
         }
       ]
     },
@@ -50,7 +50,7 @@ const initialState: IProductState = {
         {
           id: 0,
           availability: 2,
-          price: 1000000
+          price: 30000
         }
       ]
     },
@@ -66,7 +66,7 @@ const initialState: IProductState = {
         {
           id: 0,
           availability: 0,
-          price: 1000000
+          price: 10000
         }
       ]
     }

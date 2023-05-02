@@ -135,6 +135,10 @@
     }
   }
 
+  &_newFilled{
+    background: $block-sec;
+  }
+
   &_outlined{
     background: $block-sec;
     color: $text-sec;

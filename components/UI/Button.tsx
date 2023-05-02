@@ -20,6 +20,7 @@ export interface IButtonProps {
   size?: 'bigger' | 'big' | 'medium' | 'small' | 'icon_bigger';
   ripple?: boolean;
   external?: boolean;
+  filled?: boolean;
   icon?: boolean;
 }
 
@@ -39,6 +40,7 @@ const Button: React.FC<IButtonProps> = ({
                                           external,
                                           key = null,
                                           id = '',
+                                          filled,
                                           icon,
                                         }) => {
   const cn = classNames(
@@ -53,6 +55,7 @@ const Button: React.FC<IButtonProps> = ({
     {[s.btn_outlined]: style === 'outlined'},
     {[s.btn_borderless]: style === 'borderless'},
     {[s.btn_filled]: style === 'filled'},
+    {[s.btn_newFilled]: filled},
     {[s.btn_disabled]: disabled},
     {[s.btn_error]: error},
     {[s.btn_success]: success},

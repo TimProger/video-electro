@@ -2,8 +2,9 @@ import {IProduct} from "@/types/Product.types";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface IBasketState {
-  products: IProduct[]
-  totalPrice: number
+  products: IProduct[];
+  totalPrice: number;
+  discountedPrice: number;
 }
 
 const initialState: IBasketState = {
@@ -20,7 +21,7 @@ const initialState: IBasketState = {
         {
           id: 0,
           availability: 2,
-          price: 1000000
+          price: 50000
         }
       ]
     },
@@ -36,12 +37,13 @@ const initialState: IBasketState = {
         {
           id: 0,
           availability: 2,
-          price: 1000000
+          price: 30000
         }
       ]
     }
   ],
-  totalPrice: 0
+  totalPrice: 0,
+  discountedPrice: 0
 }
 
 export const BasketSlice = createSlice({
@@ -51,7 +53,10 @@ export const BasketSlice = createSlice({
     setBasketProducts: (state: IBasketState, action: PayloadAction<IProduct[]>) => {
       state.products = action.payload
       state.totalPrice = action.payload.reduce((sum, el) => {
-        return sum += (el.discount ? el.product_more[0].price - (el.product_more[0].price / 100 * el.discount) : el.product_more[0].price)
+        return sum += el.product_more[0].price
+      }, 0)
+      state.discountedPrice = action.payload.reduce((sum, el) => {
+        return sum += (el.discount ? el.product_more[0].price / 100 * el.discount : 0)
       }, 0)
     },
     toggleBasketProduct: (state: IBasketState, action: PayloadAction<IProduct>) => {
