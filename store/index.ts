@@ -4,10 +4,12 @@ import {combineReducers} from "@reduxjs/toolkit";
 import ProductSlice from "@/store/Slices/Product.slice";
 import {catalogApi} from "@/store/RTKQuery/Catalog.query";
 import FavsSlice from "@/store/Slices/Favs.slice";
+import BasketSlice from "@/store/Slices/Basket.slice";
 
 const combinedReducer = combineReducers({
   product: ProductSlice,
   favs: FavsSlice,
+  basket: BasketSlice,
   [catalogApi.reducerPath]: catalogApi.reducer,
 });
 

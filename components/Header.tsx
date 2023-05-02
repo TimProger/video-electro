@@ -11,13 +11,17 @@ import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import {setBasketProducts} from "@/store/Slices/Basket.slice";
 
 interface IHeaderProps {
 }
 
 
 const Header: React.FC<IHeaderProps> = () => {
+
   const { pathname } = useRouter();
+  const dispatch = useAppDispatch()
 
   const [width, setWidth] = useState<string>('desktop')
 
@@ -55,6 +59,11 @@ const Header: React.FC<IHeaderProps> = () => {
   }, [])
 
   const favs = useTypedSelector(state => state.favs)
+  const basket = useTypedSelector(state => state.basket)
+
+  useEffect(()=>{
+    dispatch(setBasketProducts(basket.products))
+  }, [basket])
 
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
@@ -131,9 +140,13 @@ const Header: React.FC<IHeaderProps> = () => {
             </div>
             <div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/basket'})}>
               <Link href={'/basket'}>
+                {basket.products.length > 0 && <div
+                  className={s.header__top__right__link__count}>{basket.products.length > 9 ? '9+' : basket.products.length}</div>}
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
+                {basket.products.length > 0 && <div
+                  className={s.header__top__right__link__price}>{`${basket.totalPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</div>}
               </Link>
             </div>
             <div className={s.header__top__right__link}>

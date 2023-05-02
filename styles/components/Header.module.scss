@@ -103,6 +103,17 @@
           margin-left: 14px;
           user-select: none;
         }
+
+        &__price{
+          position: absolute;
+          color: $text-sec;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 14px;
+          margin-left: -20px;
+          font-size: 12px;
+        }
       }
     }
   }
