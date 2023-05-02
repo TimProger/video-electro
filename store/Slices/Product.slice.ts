@@ -33,7 +33,7 @@ const initialState: IProductState = {
       product_more: [
         {
           id: 0,
-          availability: 0,
+          availability: 3,
           price: 70000
         }
       ]
