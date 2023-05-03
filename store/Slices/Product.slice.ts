@@ -15,13 +15,8 @@ const initialState: IProductState = {
       is_hit: false,
       is_new: true,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 2,
-          price: 50000
-        }
-      ]
+      availability: 2,
+      price: 50000
     },
     {
       id: 1,
@@ -30,13 +25,8 @@ const initialState: IProductState = {
       is_hit: true,
       is_new: true,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 3,
-          price: 70000
-        }
-      ]
+      availability: 3,
+      price: 70000
     },
     {
       id: 2,
@@ -46,13 +36,8 @@ const initialState: IProductState = {
       is_hit: true,
       is_new: false,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 2,
-          price: 30000
-        }
-      ]
+      availability: 2,
+      price: 30000
     },
     {
       id: 3,
@@ -62,13 +47,8 @@ const initialState: IProductState = {
       is_hit: false,
       is_new: false,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 0,
-          price: 10000
-        }
-      ]
+      availability: 0,
+      price: 10000
     }
   ],
 }

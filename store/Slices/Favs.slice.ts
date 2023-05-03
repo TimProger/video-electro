@@ -15,13 +15,8 @@ const initialState: IFavsState = {
       is_hit: false,
       is_new: true,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 2,
-          price: 50000
-        }
-      ]
+      availability: 2,
+      price: 50000
     },
     {
       id: 2,
@@ -31,13 +26,8 @@ const initialState: IFavsState = {
       is_hit: true,
       is_new: false,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 2,
-          price: 30000
-        }
-      ]
+      availability: 2,
+      price: 30000
     }
   ],
 }

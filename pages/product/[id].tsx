@@ -7,7 +7,6 @@ import s from '@/styles/pages/Product.module.scss'
 import Layout from "@/components/Layout";
 import Text from "@/components/UI/Text";
 import {Storage} from "@/utils/storage";
-import {IProductMore} from "@/types/Product.types";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {toggleFavsProduct} from "@/store/Slices/Favs.slice";
@@ -28,7 +27,6 @@ const Product: React.FC<IProductProps> = ({id}) => {
   }
 
   const dispatch = useAppDispatch()
-  const [more] = useState<IProductMore>(product.product_more[0])
   const favsState = useTypedSelector(state => state.favs)
   const [isFav, setIsFav] = useState<boolean>(false)
 
@@ -115,7 +113,7 @@ const Product: React.FC<IProductProps> = ({id}) => {
             <div className={s.product__content__info}>
               <div className={s.product__content__info__header}>
                 <div className={s.product__content__info__header__statuses}>
-                  {product.product_more[0].availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}
+                  {product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}
                   {product.is_hit && <div>Хит продаж</div>}
                   {product.is_new && <div>Новинка</div>}
                   {product.discount && <div>-${product.discount}%</div>}
@@ -130,16 +128,16 @@ const Product: React.FC<IProductProps> = ({id}) => {
                 {product.discount && <Text type={'span'}
                                            className={s.product__content__info__price__old}
                                            size={'medium'}>
-                  {`${more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 <Text bold
                       colored={true}
                       size={'big+'}>
-                  {`${product.discount ? more.price-(more.price / 100 * product.discount) : more.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.discount ? product.price-(product.price / 100 * product.discount) : product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.product__content__info__btns}>
-                <Button disabled={product.product_more[0].availability <= 0}
+                <Button disabled={product.availability <= 0}
                         size={width === 'desktop' ? 'bigger' : 'medium'}
                         style={'filled'}>
                   <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">

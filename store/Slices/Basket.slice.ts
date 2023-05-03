@@ -17,13 +17,8 @@ const initialState: IBasketState = {
       is_hit: false,
       is_new: true,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 2,
-          price: 50000
-        }
-      ]
+      availability: 2,
+      price: 50000
     },
     {
       id: 1,
@@ -32,13 +27,8 @@ const initialState: IBasketState = {
       is_hit: true,
       is_new: true,
       article: '00025',
-      product_more: [
-        {
-          id: 0,
-          availability: 3,
-          price: 70000
-        }
-      ]
+      availability: 3,
+      price: 70000
     },
   ],
   totalPrice: 0,
@@ -52,10 +42,10 @@ export const BasketSlice = createSlice({
     setBasketProducts: (state: IBasketState, action: PayloadAction<IProduct[]>) => {
       state.products = action.payload
       state.totalPrice = action.payload.reduce((sum, el) => {
-        return sum += el.product_more[0].price
+        return sum += el.price
       }, 0)
       state.discountedPrice = action.payload.reduce((sum, el) => {
-        return sum += (el.discount ? el.product_more[0].price / 100 * el.discount : 0)
+        return sum += (el.discount ? el.price / 100 * el.discount : 0)
       }, 0)
     },
     toggleBasketProduct: (state: IBasketState, action: PayloadAction<IProduct>) => {
@@ -63,13 +53,13 @@ export const BasketSlice = createSlice({
       if(!includes){
         state.products.push(action.payload)
         state.totalPrice = state.products.reduce((sum, el) => {
-          return sum += (el.discount ? el.product_more[0].price - (el.product_more[0].price / 100 * el.discount) : el.product_more[0].price)
+          return sum += (el.discount ? el.price - (el.price / 100 * el.discount) : el.price)
         }, 0)
       }else{
         const index = state.products.indexOf(includes)
         state.products.splice(index, 1)
         state.totalPrice = state.products.reduce((sum, el) => {
-          return sum += (el.discount ? el.product_more[0].price - (el.product_more[0].price / 100 * el.discount) : el.product_more[0].price)
+          return sum += (el.discount ? el.price - (el.price / 100 * el.discount) : el.price)
         }, 0)
       }
     },
@@ -79,7 +69,7 @@ export const BasketSlice = createSlice({
         let index = state.products.indexOf(product)
         state.products.splice(index, 1)
         state.totalPrice = state.products.reduce((sum, el) => {
-          return sum += (el.discount ? el.product_more[0].price - (el.product_more[0].price / 100 * el.discount) : el.product_more[0].price)
+          return sum += (el.discount ? el.price - (el.price / 100 * el.discount) : el.price)
         }, 0)
       }
     }

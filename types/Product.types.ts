@@ -6,11 +6,6 @@ export interface IProduct {
   article: string,
   is_new?: boolean;
   is_hit?: boolean;
-  product_more: IProductMore[]
-}
-
-export interface IProductMore {
-  id: number;
   availability: number;
   price: number;
 }
