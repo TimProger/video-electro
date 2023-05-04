@@ -47,6 +47,11 @@ const Text: React.FC<ITextProps> = ({
     case 'p':
       return (
         <p
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           className={cn}
         >
           {children}
@@ -55,6 +60,11 @@ const Text: React.FC<ITextProps> = ({
     case 'span':
       return (
         <span
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           className={cn}
         >
           {children}
@@ -78,6 +88,11 @@ const Text: React.FC<ITextProps> = ({
     case 'h1':
       return (
         <h1
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           className={cn}
         >
           {children}
@@ -86,6 +101,11 @@ const Text: React.FC<ITextProps> = ({
     case 'h2':
       return (
         <h2
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           className={cn}
         >
           {children}
@@ -94,6 +114,11 @@ const Text: React.FC<ITextProps> = ({
     case 'h3':
       return (
         <h3
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           className={cn}
         >
           {children}
@@ -102,6 +127,11 @@ const Text: React.FC<ITextProps> = ({
     default:
       return (
         <p
+          onClick={() => {
+            if(onClick){
+              onClick()
+            }
+          }}
           className={cn}
         >
           {children}
