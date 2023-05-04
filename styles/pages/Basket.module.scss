@@ -3,96 +3,214 @@
 .basket{
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin-top: 40px;
-  gap: 30px;
 
-  &__container{
-    width: 65%;
+  &__products{
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    min-height: 600px;
+    justify-content: space-between;
     gap: 30px;
 
-    &__header{
-      width: 100%;
+    &__container{
+      width: 65%;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+      flex-direction: column;
+      min-height: 600px;
+      gap: 30px;
 
-    &__cards{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 20px;
-
-      &__animated{
+      &__header{
         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      &__cards{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+
+        &__animated{
+          width: 100%;
+        }
+      }
+
+      &__noCards{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
       }
     }
 
-    &__noCards{
+    &__info{
+      width: 35%;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
+      gap: 30px;
+
+      &__placeholder{
+        height: 57.70px;
+
+        @media screen and (max-width: 1150px) {
+          & {
+            height: 39px;
+          }
+        }
+      }
+
+      &__container{
+        width: 100%;
+        background-color: $block-sec;
+        border-radius: $border-radius-card;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+        &__content{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          &__price{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+
+        &__total{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          padding-top: 10px;
+          border-top: 2px solid $border-color-sec;
+
+          &__price{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+      }
     }
   }
 
-  &__info{
-    width: 35%;
+  &__order{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 
-    &__placeholder{
-      height: 57.70px;
+    &__back{
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-      @media screen and (max-width: 1150px) {
-        & {
-          height: 39px;
+    &__main{
+      display: flex;
+      justify-content: space-between;
+      padding: 40px;
+      border-radius: $border-radius-block;
+      background-color: $block-sec;
+
+      &__left{
+        width: 33%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &__text{
+          color: $text-forth;
+        }
+
+        &__icons{
+          display: flex;
+          gap: 20px;
+        }
+
+        &__price{
+          display: flex;
+          justify-content: space-between;
+          padding-top: 20px;
+          margin-top: 20px;
+          border-top: 2px solid $border-color-sec;
+        }
+      }
+
+      &__right{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        & img{
+          width: auto;
+          height: auto;
+        }
+
+        &__numbers{
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          margin-top: 10px;
+          gap: 20px;
+
+          &__container:nth-child(2n){
+            margin-left: 50px;
+          }
+
+          &__container{
+            width: 80%;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            & span{
+              font-size: 80px;
+            }
+
+            & p{
+              font-size: 14px;
+              letter-spacing: .5px;
+              color: $text-forth;
+            }
+          }
         }
       }
     }
 
-    &__container{
-      width: 100%;
-      background-color: $block-sec;
-      border-radius: $border-radius-card;
-      padding: 20px;
+    &__info{
       display: flex;
-      flex-direction: column;
-      gap: 40px;
+      justify-content: space-between;
+      padding: 40px;
+      border-radius: $border-radius-block;
+      background-color: $block-sec;
+      gap: 30px;
+      width: 100%;
 
-      &__content{
-        width: 100%;
+      &__left{
+        width: 50%;
         display: flex;
         flex-direction: column;
-        gap: 10px;
-
-        &__price{
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
+        gap: 30px;
       }
 
-      &__total{
-        width: 100%;
+      &__right{
+        width: 50%;
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding-top: 10px;
-        border-top: 2px solid $border-color-sec;
+      }
 
-        &__price{
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
+      & p{
+        color: $text-forth;
       }
     }
   }
