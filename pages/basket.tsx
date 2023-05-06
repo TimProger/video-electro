@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
@@ -9,13 +9,15 @@ import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setBasketProducts} from "@/store/Slices/Basket.slice";
+import {selectBasketProduct, setBasketProducts} from "@/store/Slices/Basket.slice";
 import {animated, useTrail} from "react-spring";
 import Image from "next/image";
 import recovery_one from "@/public/images/pages/recovery/1.png";
 import classNames from "classnames";
 import recovery_two from "@/public/images/pages/recovery/2.png";
 import recovery_three from "@/public/images/pages/recovery/3.png";
+import {IBasketProduct} from "@/types/Product.types";
+import Checkbox from "@/components/UI/Checkbox";
 
 interface IBasketProps {
 }
@@ -24,6 +26,11 @@ const Basket: React.FC<IBasketProps> = () => {
 
   const dispatch = useAppDispatch()
   const { products, totalPrice, discountedPrice } = useTypedSelector(state => state.basket)
+  const [selected, setSelected] = useState<IBasketProduct[]>(products.filter((el) => el.buy_now))
+
+  useEffect(()=>{
+    setSelected(products.filter((el) => el.buy_now))
+  },[products])
 
   const trailProducts = useTrail(products.length, {
     from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
@@ -35,6 +42,19 @@ const Basket: React.FC<IBasketProps> = () => {
   }
 
   const [page, setPage] = useState<number>(0)
+
+  const changeBuyNow = (product: IBasketProduct) => {
+    const includes = selected.find((el) => el.id === product.id)
+    if(includes){
+      const index = selected.indexOf(includes)
+      selected.splice(index, 1)
+      dispatch(selectBasketProduct({id: product.id, buy_now: false}))
+    }else{
+      selected.push(product)
+      dispatch(selectBasketProduct({id: product.id, buy_now: true}))
+    }
+    setSelected(prev => [...prev])
+  }
 
   const displayPages = () => {
     switch (page){
@@ -58,6 +78,7 @@ const Basket: React.FC<IBasketProps> = () => {
               <div className={s.basket__products__container__cards}>
                 {trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
                   return <animated.div className={s.basket__products__container__cards__animated} key={products[index].id} style={styles}>
+                    <Checkbox label={''} onChange={()=>changeBuyNow(products[index])} isChecked={selected.includes(products[index])} />
                     <Card basket type={'long'} product={products[index]} />
                   </animated.div>
                 }) : <div className={s.basket__products__container__noCards}>
