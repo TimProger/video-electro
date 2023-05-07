@@ -56,6 +56,22 @@ const Basket: React.FC<IBasketProps> = () => {
     setSelected(prev => [...prev])
   }
 
+  const selectAll = () => {
+    if(selected.length !== products.length){
+      products.map((el) => {
+        if(!el.buy_now){
+          dispatch(selectBasketProduct({id: el.id, buy_now: true}))
+        }
+      })
+    }else{
+      products.map((el) => {
+        if(el.buy_now){
+          dispatch(selectBasketProduct({id: el.id, buy_now: false}))
+        }
+      })
+    }
+  }
+
   const displayPages = () => {
     switch (page){
       case 0:
@@ -75,6 +91,8 @@ const Basket: React.FC<IBasketProps> = () => {
                   </svg>
                   Удалить все</Button>}
               </div>
+              {products.length > 0 && <Checkbox colored label={'Выбрать все'} onChange={() => selectAll()}
+                         isChecked={selected.length === products.length}/>}
               <div className={s.basket__products__container__cards}>
                 {trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
                   return <animated.div className={s.basket__products__container__cards__animated} key={products[index].id} style={styles}>
@@ -96,7 +114,7 @@ const Basket: React.FC<IBasketProps> = () => {
                 <Text type={'h2'} size={'big+'}>Ваша корзина</Text>
                 <div className={s.basket__products__info__container__content}>
                   <div className={s.basket__products__info__container__content__price}>
-                    <Text bold>Товары ({products.length})</Text>
+                    <Text bold>Товары ({selected.length})</Text>
                     <Text size={'medium'} bold>{`${totalPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</Text>
                   </div>
                   <div className={s.basket__products__info__container__content__price}>

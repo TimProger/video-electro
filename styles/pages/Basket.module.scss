@@ -55,11 +55,11 @@
       gap: 30px;
 
       &__placeholder{
-        height: 57.70px;
+        height: 105.7px;
 
         @media screen and (max-width: 1150px) {
           & {
-            height: 39px;
+            height: 90px;
           }
         }
       }
@@ -100,6 +100,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            & p{
+              white-space: nowrap;
+            }
           }
         }
       }

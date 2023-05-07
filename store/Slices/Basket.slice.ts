@@ -8,9 +8,33 @@ interface IBasketState {
 }
 
 const initialState: IBasketState = {
-  products: [],
-  totalPrice: 0,
-  discountedPrice: 0
+  products: [
+    {
+      id: 0,
+      name: "Винт M5х8 ДКС (для соединения крышек лотка)",
+      discount: 30,
+      image: 'https://sun9-66.userapi.com/impg/z60XzcTSDTO48u4U6k4Nf0fizg5WUhs0-4GyQw/FWhdFXk8P_Y.jpg?size=686x653&quality=96&sign=2367b18bc0afbd885c07b962898d9438&type=album',
+      is_hit: false,
+      is_new: true,
+      article: '00025',
+      availability: 2,
+      price: 50000,
+      buy_now: true
+    },
+    {
+      id: 1,
+      name: "Пресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭКПресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭКПресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭК",
+      image: 'https://sun9-66.userapi.com/impg/z60XzcTSDTO48u4U6k4Nf0fizg5WUhs0-4GyQw/FWhdFXk8P_Y.jpg?size=686x653&quality=96&sign=2367b18bc0afbd885c07b962898d9438&type=album',
+      is_hit: true,
+      is_new: true,
+      article: '00025',
+      availability: 3,
+      price: 70000,
+      buy_now: true
+    },
+  ],
+  totalPrice: 120000,
+  discountedPrice: 15000
 }
 
 export const BasketSlice = createSlice({
@@ -19,6 +43,9 @@ export const BasketSlice = createSlice({
   reducers: {
     setBasketProducts: (state: IBasketState, action: PayloadAction<IProduct[]>) => {
       state.products = action.payload.map((el) => {
+        if(el.availability <= 0){
+          return Object.assign(el, {buy_now: false})
+        }
         return Object.assign(el, {buy_now: true})
       })
       state.totalPrice = action.payload.reduce((sum, el) => {

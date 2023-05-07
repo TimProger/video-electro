@@ -11,8 +11,6 @@ import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
-import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setBasketProducts} from "@/store/Slices/Basket.slice";
 
 interface IHeaderProps {
 }
@@ -21,7 +19,6 @@ interface IHeaderProps {
 const Header: React.FC<IHeaderProps> = () => {
 
   const { pathname } = useRouter();
-  const dispatch = useAppDispatch()
 
   const [width, setWidth] = useState<string>('desktop')
 
@@ -60,32 +57,6 @@ const Header: React.FC<IHeaderProps> = () => {
 
   const favs = useTypedSelector(state => state.favs)
   const basket = useTypedSelector(state => state.basket)
-
-  useEffect(()=>{
-    dispatch(setBasketProducts([
-      {
-        id: 0,
-        name: "Винт M5х8 ДКС (для соединения крышек лотка)",
-        discount: 30,
-        image: 'https://sun9-66.userapi.com/impg/z60XzcTSDTO48u4U6k4Nf0fizg5WUhs0-4GyQw/FWhdFXk8P_Y.jpg?size=686x653&quality=96&sign=2367b18bc0afbd885c07b962898d9438&type=album',
-        is_hit: false,
-        is_new: true,
-        article: '00025',
-        availability: 2,
-        price: 50000,
-      },
-      {
-        id: 1,
-        name: "Пресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭКПресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭКПресс-клещи КО-6Е для наконечников НШвИ Е-типа 6...16мм.кв. ИЭК",
-        image: 'https://sun9-66.userapi.com/impg/z60XzcTSDTO48u4U6k4Nf0fizg5WUhs0-4GyQw/FWhdFXk8P_Y.jpg?size=686x653&quality=96&sign=2367b18bc0afbd885c07b962898d9438&type=album',
-        is_hit: true,
-        is_new: true,
-        article: '00025',
-        availability: 3,
-        price: 70000,
-      },
-    ]))
-  }, [])
 
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
