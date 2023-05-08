@@ -9,7 +9,7 @@ import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {selectBasketProduct, setBasketProducts} from "@/store/Slices/Basket.slice";
+import {selectAllBasketProducts, selectBasketProduct, setBasketProducts} from "@/store/Slices/Basket.slice";
 import {animated, useTrail} from "react-spring";
 import Image from "next/image";
 import recovery_one from "@/public/images/pages/recovery/1.png";
@@ -58,17 +58,9 @@ const Basket: React.FC<IBasketProps> = () => {
 
   const selectAll = () => {
     if(selected.length !== products.length){
-      products.map((el) => {
-        if(!el.buy_now){
-          dispatch(selectBasketProduct({id: el.id, buy_now: true}))
-        }
-      })
+      dispatch(selectAllBasketProducts({products, buy_now: true}))
     }else{
-      products.map((el) => {
-        if(el.buy_now){
-          dispatch(selectBasketProduct({id: el.id, buy_now: false}))
-        }
-      })
+      dispatch(selectAllBasketProducts({products, buy_now: false}))
     }
   }
 

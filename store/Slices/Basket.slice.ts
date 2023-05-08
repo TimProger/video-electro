@@ -84,6 +84,23 @@ export const BasketSlice = createSlice({
           state.discountedPrice -= (elem.discount ? elem.price / 100 * elem.discount : 0)
         }
       }
+    },
+    selectAllBasketProducts: (state: IBasketState, action: PayloadAction<{ products: IBasketProduct[], buy_now: boolean }>) => {
+      action.payload.products.map((product) => {
+        const elem = state.products.find((el) => el.id === product.id)
+        if(elem){
+          if(elem.buy_now === action.payload.buy_now) return
+          const index = state.products.indexOf(elem)
+          state.products[index].buy_now = action.payload.buy_now
+          if(action.payload.buy_now){
+            state.totalPrice += elem.price
+            state.discountedPrice += (elem.discount ? elem.price / 100 * elem.discount : 0)
+          }else{
+            state.totalPrice -= elem.price
+            state.discountedPrice -= (elem.discount ? elem.price / 100 * elem.discount : 0)
+          }
+        }
+      })
     }
   }
 })
@@ -92,7 +109,8 @@ export const {
   setBasketProducts,
   addProductToBasket,
   removeBasketProducts,
-  selectBasketProduct
+  selectBasketProduct,
+  selectAllBasketProducts
 } = BasketSlice.actions
 
 export default BasketSlice.reducer
