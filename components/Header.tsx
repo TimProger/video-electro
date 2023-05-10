@@ -11,6 +11,7 @@ import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
+import data from '@/data/catalog.json'
 
 interface IHeaderProps {
 }
@@ -61,11 +62,11 @@ const Header: React.FC<IHeaderProps> = () => {
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
   const [showMenu, setShowMenu] = useState<boolean>(false)
-  const [menuContent, setMenuContent] = useState<string[]>([])
-  const [menuContentShow, setMenuContentShow] = useState<boolean>(false)
+  const [menuContent, setMenuContent] = useState<any[]>([])
+  const [menuContentShow, setMenuContentShow] = useState<number>(0)
 
   const ref = useOnclickOutside((e: any) => {
-    setMenuContentShow(false)
+    setMenuContentShow(0)
     setTimeout(()=>{
       setMenuContent([])
     },300)
@@ -74,14 +75,16 @@ const Header: React.FC<IHeaderProps> = () => {
   });
 
   const [contentHeight, setContentHeight] = useState<number>(0);
-  const [refMenuLeft, { height }] = useMeasure<HTMLDivElement>();
+  const [contentRightHeight, setContentRightHeight] = useState<number>(0);
+  const [refMenuLeft, menuLeftParams] = useMeasure<HTMLDivElement>();
+  const [refMenuRight, menuRightParams] = useMeasure<HTMLDivElement>();
 
   const expand__left = useSpring({
     config: {
       friction: showMenu ? 25 : 30,
       tension: showMenu ? 200 : 300
     },
-    height: showMenu ? `${contentHeight+10}px` : '0px',
+    height: showMenu ? `${contentHeight < contentRightHeight ? contentRightHeight + 30 : contentHeight + 10}px` : '0px',
     overflow: 'hidden'
   });
 
@@ -91,19 +94,26 @@ const Header: React.FC<IHeaderProps> = () => {
       tension: menuContentShow ? 200 : 500
     },
     width: menuContentShow ? (width === 'desktop' ? `688px` : `470px`) : '0px',
-    height: `${contentHeight+3}px`,
+    height: `${contentRightHeight + 30}px`,
     overflow: 'hidden'
   });
 
   useEffect(() => {
-    setContentHeight(height);
+    setContentHeight(menuLeftParams.height);
+    setContentRightHeight(menuRightParams.height);
 
-    window.addEventListener("resize", () => setContentHeight(height));
+    window.addEventListener("resize", () => {
+      setContentHeight(menuLeftParams.height)
+      setContentRightHeight(menuRightParams.height);
+    });
 
-    return window.removeEventListener("resize", ()=>setContentHeight(height));
-  }, [height, showMenu]);
+    return window.removeEventListener("resize", ()=>{
+      setContentHeight(menuLeftParams.height)
+      setContentRightHeight(menuRightParams.height);
+    });
+  }, [menuLeftParams.height, menuRightParams.height, showMenu]);
 
-  const onMenuClick = (content: string[]) => {
+  const onMenuClick = (content: any) => {
     setMenuContent(content)
   }
 
@@ -189,110 +199,47 @@ const Header: React.FC<IHeaderProps> = () => {
         <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
           <div ref={refMenuLeft} className={s.headerMenu__left}>
             <div className={s.headerMenu__left__space}></div>
-            <div onClick={()=>{
-              if(menuContentShow){
-                setMenuContentShow(false)
-                setTimeout(()=>{
-                  setMenuContent([])
-                }, 300)
-              }else{
-                setMenuContentShow(true)
-                onMenuClick(['Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование','Кабельно-проводниковая продукция','Высоковольтное оборудование'])
-              }
-            }} className={s.headerMenu__left__item}>
-              <div>
-                <Text>Кабельно-проводниковая продукция</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContentShow ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Высоковольтное оборудование</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Кабельно-проводниковая продукция</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Высоковольтное оборудование</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Кабельно-проводниковая продукция</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Высоковольтное оборудование</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Кабельно-проводниковая продукция</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Высоковольтное оборудование</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Кабельно-проводниковая продукция</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Высоковольтное оборудование</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Кабельно-проводниковая продукция</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
-            <div className={s.headerMenu__left__item}>
-              <div>
-                <Text>Высоковольтное оборудование</Text>
-              </div>
-              <svg style={{transition: 'all .3s linear', transform: menuContent.length < 0 ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg></div>
+            {data.map((el) => {
+              return (<div key={el.Level4ID} onClick={()=>{
+                if(menuContentShow === el.Level4ID){
+                  setMenuContentShow(0)
+                  setTimeout(()=>{
+                    setMenuContent([])
+                  }, 300)
+                }else{
+                  // @ts-ignore
+                  setMenuContentShow(el.Level4ID)
+                  onMenuClick(el.Level3)
+                }
+              }} className={s.headerMenu__left__item}>
+                <div>
+                  <Text>{el.Level4Name}</Text>
+                </div>
+                <svg style={{transition: 'all .3s linear', transform: menuContentShow === el.Level4ID ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>)
+            })}
             <div className={s.headerMenu__left__space}></div>
           </div>
           <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
-            <div className={s.headerMenu__right}>
-              <div className={s.headerMenu__right__space}></div>
-              {menuContent.map((el, index)=>{
-                return <div key={index} className={s.headerMenu__right__item}>{el}</div>
+            <div ref={refMenuRight} className={s.headerMenu__right}>
+              {menuContent.map((el)=>{
+                return <div className={s.headerMenu__right__lvl1_container}>
+                  <div key={el.Level3ID} className={s.headerMenu__right__lvl1}>
+                    <Text colored>
+                      {el.Level3Name}
+                    </Text>
+                  </div>
+                  <div className={s.headerMenu__right__lvl2_container}>
+                    {el.Level2.map((elem: any) => {
+                      return <div key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
+                        {elem.Level2Name}
+                      </div>
+                    })}
+                  </div>
+                </div>
               })}
-              <div className={s.headerMenu__right__space}></div>
             </div>
           </animated.div>
         </div>
