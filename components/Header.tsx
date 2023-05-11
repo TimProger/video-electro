@@ -11,13 +11,25 @@ import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
-import data from '@/data/catalog.json'
+import {$api} from "@/http/axios";
+// import data from '@/data/catalog.json'
 
 interface IHeaderProps {
 }
 
 
 const Header: React.FC<IHeaderProps> = () => {
+
+  const [data, setData] = useState<any>([])
+
+  useEffect(() => {
+    $api.get('/product/catalog')
+        .then((res) => {
+          const newData = [...res.data]
+          newData.pop()
+          setData(newData)
+        })
+  }, [])
 
   const { pathname } = useRouter();
 
@@ -199,7 +211,7 @@ const Header: React.FC<IHeaderProps> = () => {
         <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
           <div ref={refMenuLeft} className={s.headerMenu__left}>
             <div className={s.headerMenu__left__space}></div>
-            {data.map((el) => {
+            {data.map((el: any) => {
               return (<div key={el.Level4ID} onClick={()=>{
                 if(menuContentShow === el.Level4ID){
                   setMenuContentShow(0)
