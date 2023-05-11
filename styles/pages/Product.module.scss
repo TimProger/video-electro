@@ -24,6 +24,9 @@
 
     &__images{
       width: 402px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
 
       &__image{
         width: 100%;
@@ -39,7 +42,7 @@
       &__list{
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        gap: 5%;
 
         & img{
           width: 120px;
@@ -141,6 +144,10 @@
         display: flex;
         justify-content: space-between;
         border-bottom: 2px solid #DDDDDD;
+
+        & p:first-child{
+          max-width: 80%;
+        }
 
         & p:last-child{
           text-align: right;

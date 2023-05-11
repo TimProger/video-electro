@@ -1,5 +1,5 @@
 import axios, {InternalAxiosRequestConfig} from "axios";
-import {Storage} from "../utils/storage";
+import {Storage} from "@/utils/storage";
 // import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 const PORT = 3000

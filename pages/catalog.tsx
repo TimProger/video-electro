@@ -5,7 +5,6 @@ import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/Catalog.module.scss'
 import Text from "@/components/UI/Text";
-import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import Select from "@/components/UI/Select";
@@ -14,9 +13,9 @@ import Modal from "@/components/UI/Modal";
 import Checkbox from "@/components/UI/Checkbox";
 import {animated, useTrail} from "react-spring";
 import classNames from "classnames";
-import {setProducts} from "@/store/Slices/Product.slice";
-import {useAppDispatch} from "@/hooks/useAppDispatch";
 import Dropdown from "@/components/UI/Dropdown";
+import {IProductShort} from "@/types/Product.types";
+import {$api} from "@/http/axios";
 
 interface ICatalogProps {
 }
@@ -40,8 +39,7 @@ interface IUsedFilters {
 
 const Catalog: React.FC<ICatalogProps> = () => {
 
-  const dispatch = useAppDispatch()
-  const { products } = useTypedSelector(state => state.product)
+  const [products, setProducts] = useState<IProductShort[]>([])
 
   const trailProducts = useTrail(products.length, {
     from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
@@ -68,9 +66,9 @@ const Catalog: React.FC<ICatalogProps> = () => {
     if(viewStyle === val) return
     setViewStyle(val)
     const newProducts = [...products]
-    dispatch(setProducts([]))
+    setProducts([])
     setTimeout(()=>{
-      dispatch(setProducts([...newProducts]))
+      setProducts([...newProducts])
     },0)
     Storage.set('catalog_view', val)
   }
@@ -80,6 +78,13 @@ const Catalog: React.FC<ICatalogProps> = () => {
     if(storageView){
       setViewStyle(storageView)
     }
+  }, [])
+
+  useEffect(()=>{
+    $api.post('/product/catalog/values/10/1/')
+        .then((res) => {
+          setProducts(res.data.data)
+        })
   }, [])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)

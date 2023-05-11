@@ -5,7 +5,6 @@ import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/Main.module.scss'
 import Text from "@/components/UI/Text";
-import {useTypedSelector} from "@/hooks/useTypedSelector";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import team__ivan from "@/public/images/pages/main/team/ivan_vlad.png"
@@ -18,8 +17,11 @@ import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Dropdown from "@/components/UI/Dropdown";
 import {animated, useTrail} from "react-spring";
+import {IProductShort} from "@/types/Product.types";
+import {API_BASE_URL} from "@/http/axios";
 
 interface IMainProps {
+  products: IProductShort[]
 }
 
 interface IFormErrors {
@@ -27,9 +29,7 @@ interface IFormErrors {
   phone: [boolean, string];
 }
 
-const Main: React.FC<IMainProps> = () => {
-
-  const { products } = useTypedSelector(state => state.product)
+const Main: React.FC<IMainProps> = ({products}) => {
 
   const trailProducts = useTrail(products.length, {
     from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
@@ -261,8 +261,14 @@ const Main: React.FC<IMainProps> = () => {
 
 export const getStaticProps: GetStaticProps = async () => {
 
+  const products = await fetch(`${API_BASE_URL}/product`)
+
+  const productsData: IProductShort[] = await products.json()
+
   return {
-    props: {},
+    props: {
+      products: productsData.splice(0, 4)
+    },
     revalidate: 10,
   }
 }

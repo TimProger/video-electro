@@ -3,16 +3,16 @@ import s from '@/styles/components/Card.module.scss'
 import classNames from "classnames";
 import Text from "@/components/UI/Text";
 import Button from "@/components/UI/Button";
-import {IBasketProduct, IProduct} from "@/types/Product.types";
+import {IProductShort} from "@/types/Product.types";
 import Link from "next/link";
 import {Storage} from "@/utils/storage";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {removeFavsProduct, toggleFavsProduct} from "@/store/Slices/Favs.slice";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
-import {addProductToBasket, removeBasketProducts} from "@/store/Slices/Basket.slice";
+import {removeBasketProducts} from "@/store/Slices/Basket.slice";
 
 export interface ICardProps {
-  product: IProduct;
+  product: IProductShort;
   className?: string;
   type?: 'short' | 'long';
   key?: number | string | null;
@@ -31,9 +31,9 @@ const Card: React.FC<ICardProps> = ({
 
   const dispatch = useAppDispatch()
   const favsState = useTypedSelector(state => state.favs)
-  const basketState = useTypedSelector(state => state.basket)
+  // const basketState = useTypedSelector(state => state.basket)
   const [isFav, setIsFav] = useState<boolean>(false)
-  const [inBasket, setInBasket] = useState<IBasketProduct | null>(null)
+  // const [inBasket, setInBasket] = useState<IBasketProduct | null>(null)
 
   useEffect(()=>{
     const includes = favsState.products.find(el => el.id === product.id)
@@ -44,14 +44,14 @@ const Card: React.FC<ICardProps> = ({
     }
   },[favsState.products])
 
-  useEffect(()=>{
-    const includes = basketState.products.find(el => el.id === product.id)
-    if(includes){
-      setInBasket(includes)
-    }else{
-      setInBasket(null)
-    }
-  },[basketState.products])
+  // useEffect(()=>{
+  //   const includes = basketState.products.find(el => el.id === product.id)
+  //   if(includes){
+  //     setInBasket(includes)
+  //   }else{
+  //     setInBasket(null)
+  //   }
+  // },[basketState.products])
 
   // const onClick = (e: React.MouseEvent) => {
   //   e.stopPropagation()
@@ -74,7 +74,7 @@ const Card: React.FC<ICardProps> = ({
                   Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
                 }}
                 className={s.cardLong__image}>
-            <img src={product.image} alt={product.name}/>
+            <img src={product.image} alt={product.ProductName}/>
           </Link>
           <div className={s.cardLong__info}>
             <Text type={'link'}
@@ -83,13 +83,13 @@ const Card: React.FC<ICardProps> = ({
                   }}
                   href={`/product/${product.id}`}
                   no_td bold className={s.cardLong__info__name}>
-              {product.name}
+              {product.ProductName}
             </Text>
             <div className={s.cardLong__info__statuses}>
-              {product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}
+              {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
               {product.is_hit && <div>Хит продаж</div>}
               {product.is_new && <div>Новинка</div>}
-              {product.discount && <div>-${product.discount}%</div>}
+              {product.discount > 0 && <div>-${product.discount}%</div>}
             </div>
           </div>
           <div className={s.cardLong__content}>
@@ -104,11 +104,11 @@ const Card: React.FC<ICardProps> = ({
             </Button> : <span></span>}
             <div className={s.cardLong__content__bottom}>
               <div className={s.cardLong__content__bottom__price}>
-                {product.discount && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
-                  {`${product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                {product.discount > 0 && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
+                  {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 <Text bold colored={true} size={'medium'}>
-                  {`${product.discount ? product.price-(product.price / 100 * product.discount) : product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.discount > 0 ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.cardLong__content__bottom__btns}>
@@ -132,9 +132,10 @@ const Card: React.FC<ICardProps> = ({
                   </svg>
                   Удалить
                 </Button> : ''}
-                {!basket ? !inBasket ? <Button disabled={product.availability <= 0}
+                {!basket ? <Button
+                      // disabled={product.availability <= 0}
                                      onClick={() => {
-                                       dispatch(addProductToBasket(product))
+                                       // dispatch(addProductToBasket(product))
                                      }}
                                      size={'medium'}
                                      style={'filled'}>
@@ -145,8 +146,8 @@ const Card: React.FC<ICardProps> = ({
                   </svg>
                   В корзину
                 </Button> : <Button onClick={() => {
-                  dispatch(removeBasketProducts(product.id))
-                }}
+                                      // dispatch(removeBasketProducts(product.id))
+                                    }}
                                     size={'medium'}
                                     style={'outlined'}>
                   <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +156,7 @@ const Card: React.FC<ICardProps> = ({
                       stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                   Удалить
-                </Button> : ''}
+                </Button>}
               </div>
             </div>
           </div>
@@ -171,12 +172,12 @@ const Card: React.FC<ICardProps> = ({
           >
             <div className={s.card__image}>
               <div className={s.card__image__statuses}>
-                {product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}
+                {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
                 {product.is_hit && <div>Хит продаж</div>}
                 {product.is_new && <div>Новинка</div>}
-                {product.discount && <div>-${product.discount}%</div>}
+                {product.discount > 0 && <div>-${product.discount}%</div>}
               </div>
-              <img src={product.image} alt={product.name}/>
+              <img src={product.image} alt={product.ProductName}/>
             </div>
           </Link>
           <div className={s.card__name}>
@@ -185,15 +186,15 @@ const Card: React.FC<ICardProps> = ({
                     Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
                   }}
                   href={`/product/${product.id}`} no_td bold>
-              {product.name}
+              {product.ProductName}
             </Text>
           </div>
           <div className={s.card__price}>
-            {product.discount && <Text type={'span'} className={s.card__price__old} size={'small'}>
-              {`${product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+            {product.discount > 0 && <Text type={'span'} className={s.card__price__old} size={'small'}>
+              {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>}
             <Text bold colored={true} size={'medium'}>
-              {`${product.discount ? product.price-(product.price / 100 * product.discount) : product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+              {`${product.discount > 0 ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>
           </div>
           <div className={s.card__btns}>
@@ -204,9 +205,10 @@ const Card: React.FC<ICardProps> = ({
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10 3.00019C8.20058 0.903175 5.19377 0.255098 2.93923 2.17534C0.68468 4.09558 0.367271 7.30612 2.13778 9.5772C3.60984 11.4654 8.06479 15.4479 9.52489 16.7369C9.68824 16.8811 9.76992 16.9532 9.86519 16.9815C9.94834 17.0062 10.0393 17.0062 10.1225 16.9815C10.2178 16.9532 10.2994 16.8811 10.4628 16.7369C11.9229 15.4479 16.3778 11.4654 17.8499 9.5772C19.6204 7.30612 19.3417 4.07538 17.0484 2.17534C14.7551 0.275296 11.7994 0.903175 10 3.00019Z" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </Button>
-            {!inBasket ? <Button disabled={product.availability <= 0}
+            {true ? <Button
+              // disabled={product.availability <= 0}
                      onClick={() => {
-                       dispatch(addProductToBasket(product))
+                       // dispatch(addProductToBasket(product))
                      }}
                      size={'medium'}
                      style={'filled'}>
@@ -217,7 +219,7 @@ const Card: React.FC<ICardProps> = ({
               </svg>
               В корзину
             </Button> : <Button onClick={() => {
-                                  dispatch(removeBasketProducts(product.id))
+                                  // dispatch(removeBasketProducts(product.id))
                                 }}
                                 size={'medium'}
                                 style={'outlined'}>

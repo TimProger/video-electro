@@ -10,15 +10,16 @@ import {Storage} from "@/utils/storage";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {toggleFavsProduct} from "@/store/Slices/Favs.slice";
+import {IProduct} from "@/types/Product.types";
+import {API_BASE_URL} from "@/http/axios";
 
 interface IProductProps {
-  id: string
+  info: IProduct
 }
 
-const Product: React.FC<IProductProps> = ({id}) => {
-  const {products} = useTypedSelector(state => state.product)
+const Product: React.FC<IProductProps> = ({info}) => {
 
-  const product = products.find((el) => el.id === +id)
+  const {product, images, feature} = info
 
   if(!product){
     return <div>
@@ -81,8 +82,8 @@ const Product: React.FC<IProductProps> = ({id}) => {
   return (
     <Layout>
       <Head>
-        <title>{product.name}</title>
-        <meta name={"og:title"} content={product.name} />
+        <title>{product.ProductName}</title>
+        <meta name={"og:title"} content={product.ProductName} />
       </Head>
       <Container>
         <div className={s.product}>
@@ -102,42 +103,45 @@ const Product: React.FC<IProductProps> = ({id}) => {
           <div className={s.product__content}>
             <div className={s.product__content__images}>
               <div className={s.product__content__images__image}>
-                <img src={product.image} alt={product.name} />
+                <img src={product.image} alt={product.ProductName} />
               </div>
               <div className={s.product__content__images__list}>
-                <img src={product.image} alt={product.name} />
-                <img src={product.image} alt={product.name} />
-                <img src={product.image} alt={product.name} />
+                {images.map((el) => {
+                  return <img src={el.imageURL} alt={product.ProductName} />
+                })}
+                <img src={product.image} alt={product.ProductName} />
+                <img src={product.image} alt={product.ProductName} />
               </div>
             </div>
             <div className={s.product__content__info}>
               <div className={s.product__content__info__header}>
                 <div className={s.product__content__info__header__statuses}>
-                  {product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}
+                  {/*{product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}*/}
                   {product.is_hit && <div>Хит продаж</div>}
                   {product.is_new && <div>Новинка</div>}
-                  {product.discount && <div>-${product.discount}%</div>}
+                  {product.discount > 0 && <div>-${product.discount}%</div>}
                 </div>
                 <div className={s.product__content__info__header__article}>
-                  <div>Артикул: {product.article}</div>
+                  <div>Артикул: {product.ProductCode}</div>
                 </div>
               </div>
               <Text type={'h1'}
-                    size={'big+'}>{product.name}</Text>
+                    size={'big+'}>{product.ProductName}</Text>
               <div className={s.product__content__info__price}>
-                {product.discount && <Text type={'span'}
+                {product.discount > 0 && <Text type={'span'}
                                            className={s.product__content__info__price__old}
                                            size={'medium'}>
-                  {`${product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 <Text bold
                       colored={true}
                       size={'big+'}>
-                  {`${product.discount ? product.price-(product.price / 100 * product.discount) : product.price}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.discount > 0 ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.product__content__info__btns}>
-                <Button disabled={product.availability <= 0}
+                <Button
+                        // disabled={product.availability <= 0}
                         size={width === 'desktop' ? 'bigger' : 'medium'}
                         style={'filled'}>
                   <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,46 +167,12 @@ const Product: React.FC<IProductProps> = ({id}) => {
           <div className={s.product__info}>
             <div className={s.product__info__details}>
               <Text size={'big+'} type={'h2'}>Характеристики</Text>
-              <div>
-                <Text bold>Брэнд</Text>
-                <Text>CHINT</Text>
-              </div>
-              <div>
-                <Text bold>Серия</Text>
-                <Text>NXC</Text>
-              </div>
-              <div>
-                <Text bold>Наименование товара производителя</Text>
-                <Text>Пылезащитный кожух AXC-2 для NXC-25-38 (CHINT)</Text>
-              </div>
-              <div>
-                <Text bold>Артикул производителя</Text>
-                <Text>Промэлектроснаб</Text>
-              </div>
-              <div>
-                <Text bold>Штрих код</Text>
-                <Text>6901800822493</Text>
-              </div>
-              <div>
-                <Text bold>Гарантийный срок</Text>
-                <Text>18 месяцев</Text>
-              </div>
-              <div>
-                <Text bold>Произведено</Text>
-                <Text>Китай</Text>
-              </div>
-              <div>
-                <Text bold>Исполнение</Text>
-                <Text>Поверхностный</Text>
-              </div>
-              <div>
-                <Text bold>Материал корпуса</Text>
-                <Text>Пластик</Text>
-              </div>
-              <div>
-                <Text bold>С прозрачной крышкой</Text>
-                <Text>Да</Text>
-              </div>
+              {feature.map((el) => {
+                return <div>
+                  <Text bold>{el.featureName}</Text>
+                  <Text>{el.featureValue}</Text>
+                </div>
+              })}
             </div>
             <div className={s.product__info__desc}>
               <Text size={'big+'} type={'h2'}>Описание</Text>
@@ -216,23 +186,27 @@ const Product: React.FC<IProductProps> = ({id}) => {
 }
 
 export const getStaticPaths = async () => {
-  const request  = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  const movies = await request.json()
+  // const request  = await fetch('https://api.tvmaze.com/search/shows?q=batman')
+  // const movies = await request.json()
 
-  const paths = movies.map((_: any, index: number) =>({
-    params: {id: `${index}`},
-  }))
+  // const paths = movies.map((_: any, index: number) =>({
+  //   params: {id: `${index}`},
+  // }))
   return {
-    paths,
+    paths: [{params:{id:`1235`}}, {params:{id:`2`}}],
     fallback: false
   }
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
 
+  const product = await fetch(`${API_BASE_URL}/product/${params?.id}`)
+
+  const productData: IProduct = await product.json()
+
   return {
     props: {
-      id: params?.id
+      info: productData
     },
     revalidate: 10
   }
