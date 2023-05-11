@@ -12,6 +12,7 @@ import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {toggleFavsProduct} from "@/store/Slices/Favs.slice";
 import {IProduct} from "@/types/Product.types";
 import {API_BASE_URL} from "@/http/axios";
+import classNames from "classnames";
 
 interface IProductProps {
   info: IProduct
@@ -79,6 +80,8 @@ const Product: React.FC<IProductProps> = ({info}) => {
     }
   }, [])
 
+  const [image, setImage] = useState<string>(product.image)
+
   return (
     <Layout>
       <Head>
@@ -103,14 +106,16 @@ const Product: React.FC<IProductProps> = ({info}) => {
           <div className={s.product__content}>
             <div className={s.product__content__images}>
               <div className={s.product__content__images__image}>
-                <img src={product.image} alt={product.ProductName} />
+                <img src={image} alt={product.ProductName} />
               </div>
               <div className={s.product__content__images__list}>
+                <img className={classNames({[s.product__content__images__list_active]: image === product.image})} onClick={() => setImage(product.image)} src={product.image} alt={product.ProductName} />
                 {images.map((el) => {
-                  return <img src={el.imageURL} alt={product.ProductName} />
+                  return <img onClick={() => setImage(el.imageURL)}
+                              className={classNames({[s.product__content__images__list_active]: image === el.imageURL})}
+                              src={el.imageURL}
+                              alt={product.ProductName} />
                 })}
-                <img src={product.image} alt={product.ProductName} />
-                <img src={product.image} alt={product.ProductName} />
               </div>
             </div>
             <div className={s.product__content__info}>
@@ -193,8 +198,8 @@ export const getStaticPaths = async () => {
   //   params: {id: `${index}`},
   // }))
   return {
-    paths: [{params:{id:`1235`}}, {params:{id:`2`}}],
-    fallback: false
+    paths: [],
+    fallback: true
   }
 }
 
