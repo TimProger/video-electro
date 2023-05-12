@@ -262,7 +262,8 @@
     }
 
     &__lvl2{
-      padding: 10px 25px 10px 50px;
+      padding: 10px 25px 10px 0px;
+      margin-left: 50px;
 
       &:after {
         display:block;

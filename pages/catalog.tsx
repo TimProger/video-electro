@@ -15,7 +15,7 @@ import {animated, useTrail} from "react-spring";
 import classNames from "classnames";
 import Dropdown from "@/components/UI/Dropdown";
 import {IProductShort} from "@/types/Product.types";
-import {$api} from "@/http/axios";
+import {useGetCatalogMutation} from "@/store/RTKQuery/Catalog.query";
 
 interface ICatalogProps {
 }
@@ -80,12 +80,17 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
   }, [])
 
+  const [updateCatalog, {isLoading, data, error}] = useGetCatalogMutation()
+
   useEffect(()=>{
-    $api.post('/product/catalog/values/10/1/')
-        .then((res) => {
-          setProducts(res.data.data)
-        })
-  }, [])
+    updateCatalog(+count)
+  },[count])
+
+  useEffect(()=>{
+    if(data){
+      setProducts(data.data)
+    }
+  }, [data])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
@@ -119,7 +124,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
     setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
   }
 
-  const filtersArray: IFilters[] = [
+  const [filtersArray, _setFiltersArray] = useState<IFilters[]>([
     {
       id: 0,
       name: 'category',
@@ -158,7 +163,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
         }
       ]
     }
-  ]
+  ])
 
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
 

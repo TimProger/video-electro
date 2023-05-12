@@ -1,15 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {API_BASE_URL} from "@/http/axios";
 
 export const catalogApi = createApi({
   reducerPath: 'catalog',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3001/catalog/'
+    baseUrl: `${API_BASE_URL}/product/catalog/values`
   }),
   endpoints: (build) => ({
-    getCatalog: build.query({
-      query: (limit = '') => `?${limit ? `_limit=${limit}` : ''}`
+    getCatalog: build.mutation({
+      query: (limit: number) => (
+        {
+            method: 'POST',
+            url: `/${limit}/1/`
+        }
+      )
     })
   })
 });
 
-export const { useGetCatalogQuery } = catalogApi;
+export const { useGetCatalogMutation } = catalogApi;
