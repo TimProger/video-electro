@@ -16,6 +16,7 @@ import classNames from "classnames";
 import Dropdown from "@/components/UI/Dropdown";
 import {IProductShort} from "@/types/Product.types";
 import {useGetCatalogMutation} from "@/store/RTKQuery/Catalog.query";
+import {useRouter} from "next/router";
 
 interface ICatalogProps {
 }
@@ -82,9 +83,16 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const [updateCatalog, {isLoading, data, error}] = useGetCatalogMutation()
 
+  const { query } = useRouter()
+
   useEffect(()=>{
-    updateCatalog(+count)
-  },[count])
+    console.log(query)
+    updateCatalog({
+      limit: +count,
+      Level2: query.Level2 ? `${query.Level2}` : '',
+      Level3: query.Level3 ? `${query.Level3}` : '',
+    })
+  },[count, query.Level2, query.Level3])
 
   useEffect(()=>{
     if(data){

@@ -239,15 +239,27 @@ const Header: React.FC<IHeaderProps> = () => {
               {menuContent.map((el)=>{
                 return <div className={s.headerMenu__right__lvl1_container}>
                   <div key={el.Level3ID} className={s.headerMenu__right__lvl1}>
-                    <Text colored>
+                    <Text no_td type={'link'} onClick={() => {
+                      setMenuContentShow(0)
+                      setTimeout(()=>{
+                        setMenuContent([])
+                      },300)
+                      setShowMenu(false)
+                    }} href={`/catalog?Level3=${el.Level3ID}`} colored>
                       {el.Level3Name}
                     </Text>
                   </div>
                   <div className={s.headerMenu__right__lvl2_container}>
                     {el.Level2.map((elem: any) => {
-                      return <div key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
+                      return <Text no_td onClick={() => {
+                        setMenuContentShow(0)
+                        setTimeout(()=>{
+                          setMenuContent([])
+                        },300)
+                        setShowMenu(false)
+                      }} type={'link'} href={`/catalog?Level2=${elem.Level2ID}`} key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
                         {elem.Level2Name}
-                      </div>
+                      </Text>
                     })}
                   </div>
                 </div>
