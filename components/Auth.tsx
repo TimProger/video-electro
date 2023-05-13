@@ -132,6 +132,8 @@ const Auth: React.FC<IAuthProps> = ({
       formattedPhone += ' ' + phoneVal.substring(9, 11);
     }
 
+    if(formattedPhone === body.reg.phone) return
+
     setBody((prevBody) => {
       return {
         ...prevBody,
@@ -386,9 +388,13 @@ const Auth: React.FC<IAuthProps> = ({
                         isChecked={body.reg.confirmation}
                         error={errors.reg.confirmation[0]}
                         label={'Согласен с политикой конфиденциальности'} />
-              {errors.reg.confirmation[1].length > 0 && <Text error={errors.reg.confirmation[0]}>{errors.reg.confirmation[1]}</Text>}
             </div>
-            <Button size={'bigger'} onClick={() => onSubmit('registration')} full>
+            <Button error={errors.reg.name[1].length > 0
+                           || errors.reg.email[1].length > 0
+                           || errors.reg.phone[1].length > 0
+                           || errors.reg.password[1].length > 0
+                           || errors.reg.password_repeat[1].length > 0
+                           || errors.reg.confirmation[0]} size={'bigger'} onClick={() => onSubmit('registration')} full>
               Создать аккаунт
             </Button>
           </div>
