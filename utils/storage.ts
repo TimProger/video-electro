@@ -29,5 +29,5 @@ export const Storage: IStorage = {
    */
   delete: (name) => {
     localStorage.removeItem("electro_" + name);
-  },
+  }
 };
