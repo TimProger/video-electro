@@ -269,6 +269,7 @@ const Auth: React.FC<IAuthProps> = ({
 
   const onChangeCode = (e: React.ChangeEvent<HTMLInputElement>,
                             type: 'authorization' | 'registration') => {
+    let codeVal = e.target.value.replace(/\D/g, "")
     switch (type){
       case "authorization":
         setBody((prevBody) => {
@@ -276,7 +277,7 @@ const Auth: React.FC<IAuthProps> = ({
             ...prevBody,
             auth: {
               ...prevBody.auth,
-              code: e.target.value,
+              code: codeVal.length > 4 ? prevBody.auth.code : e.target.value.split('').join(' '),
             },
           };
         });
@@ -289,7 +290,7 @@ const Auth: React.FC<IAuthProps> = ({
             ...prevBody,
             reg: {
               ...prevBody.reg,
-              code: e.target.value,
+              code: codeVal.length > 4 ? prevBody.reg.code : e.target.value.split('').join(' '),
             },
           };
         });
@@ -425,13 +426,24 @@ const Auth: React.FC<IAuthProps> = ({
             </div>
           )
         }else if(page === 2){
-          return <div>
-            <Input value={body.auth.code}
-                   error={errors.auth.code[0]}
-                   onChange={(e) => onChangeCode(e, 'authorization')}
-                   full
-                   placeholder={'Code'}
-                   key={'code'} />
+          return <div className={s.authorizationConfirm}>
+            <Text onClick={() => setPage(1)} className={s.registrationConfirm__back}>
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 1L1 7L7 13" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Назад</Text>
+            <Text size={'big+'} type={'h2'}>Подтвердите телефон</Text>
+            <Text className={s.authorizationConfirm__text} size={'small'}>На ваш телефон <Text type={'span'} colored>({body.auth.phone})</Text> поступит звонок. Введите последние 4 цифры номера.</Text>
+            <div className={s.authorizationConfirm__input}>
+              <Text size={'small'} type={'p'}>Введите код, отправленный на указанный номер</Text>
+              <Input value={body.auth.code}
+                     error={errors.auth.code[0]}
+                     onChange={(e) => onChangeCode(e, 'authorization')}
+                     full
+                     placeholder={'Код'}
+                     key={'code'} />
+              {errors.auth.code[1].length > 0 && <Text error={errors.auth.code[0]}>{errors.auth.code[1]}</Text>}
+            </div>
             <Button error={errors.auth.code[1].length > 0}
                     size={'bigger'} onClick={() => onSumbitConfirm('authorization')} full>
               Подтвердить код
@@ -522,13 +534,23 @@ const Auth: React.FC<IAuthProps> = ({
             </div>
           )
         }else if(page === 2){
-          return <div>
-            <Input value={body.reg.code}
-                   error={errors.reg.code[0]}
-                   onChange={(e) => onChangeCode(e, 'registration')}
-                   full
-                   placeholder={'Code'}
-                   key={'code'} />
+          return <div className={s.registrationConfirm}>
+            <Text onClick={() => setPage(1)} className={s.registrationConfirm__back}>
+              <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 1L1 7L7 13" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Назад</Text>
+            <Text size={'big+'} type={'h2'}>Подтвердите телефон</Text>
+            <div className={s.registrationConfirm__input}>
+              <Text className={s.registrationConfirm__text} size={'small'}>На ваш телефон <Text type={'span'} colored>({body.reg.phone})</Text> поступит звонок. Введите последние 4 цифры номера.</Text>
+              <Input value={body.reg.code}
+                     error={errors.reg.code[0]}
+                     onChange={(e) => onChangeCode(e, 'registration')}
+                     full
+                     placeholder={'Код'}
+                     key={'code'} />
+              {errors.reg.code[1].length > 0 && <Text error={errors.reg.code[0]}>{errors.reg.code[1]}</Text>}
+            </div>
             <Button error={errors.reg.code[1].length > 0}
                     size={'bigger'} onClick={() => onSumbitConfirm('registration')} full>
               Подтвердить код

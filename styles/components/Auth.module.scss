@@ -28,6 +28,54 @@
   }
 }
 
+.authorizationConfirm{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__text{
+    color: $text-forth;
+  }
+
+  &__back{
+    cursor: pointer;
+    color: $text-forth;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.registrationConfirm{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__text{
+    color: $text-forth;
+  }
+
+  &__back{
+    cursor: pointer;
+    color: $text-forth;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 .registration{
   display: flex;
   flex-direction: column;
