@@ -12,7 +12,8 @@ import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
 import {$api} from "@/http/axios";
-// import data from '@/data/catalog.json'
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import {setHeader} from "@/store/Slices/Profile.slice";
 
 interface IHeaderProps {
 }
@@ -69,13 +70,15 @@ const Header: React.FC<IHeaderProps> = () => {
   }, [])
 
   const favs = useTypedSelector(state => state.favs)
+  const profile = useTypedSelector(state => state.profile)
   // const basket = useTypedSelector(state => state.basket)
 
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
-  const [showMenu, setShowMenu] = useState<boolean>(false)
   const [menuContent, setMenuContent] = useState<any[]>([])
   const [menuContentShow, setMenuContentShow] = useState<number>(0)
+
+  const dispatch = useAppDispatch()
 
   const ref = useOnclickOutside((e: any) => {
     setMenuContentShow(0)
@@ -83,7 +86,8 @@ const Header: React.FC<IHeaderProps> = () => {
       setMenuContent([])
     },300)
     if(e.target.classList && e.target.classList.length > 0 && (e.target.classList[1] === s.header__bottom__btn || e.target.parentElement.classList[1] === s.header__bottom__btn)) return
-    setShowMenu(false)
+    if(e.target.classList[1] === 'btn_' || e.target.parentElement.classList[1] === 'btn_') return;
+    dispatch(setHeader(false))
   });
 
   const [contentHeight, setContentHeight] = useState<number>(0);
@@ -93,10 +97,11 @@ const Header: React.FC<IHeaderProps> = () => {
 
   const expand__left = useSpring({
     config: {
-      friction: showMenu ? 25 : 30,
-      tension: showMenu ? 200 : 300
+      friction: profile.headerShow ? 25 : 30,
+      tension: profile.headerShow ? 200 : 300
     },
-    height: showMenu ? `${contentHeight < contentRightHeight ? contentRightHeight + 30 : contentHeight + 10}px` : '0px',
+    height: profile.headerShow ? `${contentHeight < contentRightHeight ? contentRightHeight + 30 : contentHeight + 10}px` : '0px',
+    width: menuContentShow ? (width === 'desktop' ? `1110` : `800px`) : `444px`,
     overflow: 'hidden'
   });
 
@@ -123,7 +128,7 @@ const Header: React.FC<IHeaderProps> = () => {
       setContentHeight(menuLeftParams.height)
       setContentRightHeight(menuRightParams.height);
     });
-  }, [menuLeftParams.height, menuRightParams.height, showMenu]);
+  }, [menuLeftParams.height, menuRightParams.height, profile.headerShow]);
 
   const onMenuClick = (content: any) => {
     setMenuContent(content)
@@ -195,7 +200,7 @@ const Header: React.FC<IHeaderProps> = () => {
         <div className={s.header__bottom}>
           <Button size={'big'}
                   className={s.header__bottom__btn}
-                  onClick={()=>setShowMenu(prev => !prev)}
+                  onClick={()=>dispatch(setHeader(!profile.headerShow))}
           >
             <svg width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.5 1H17.5M1.5 7H17.5M1.5 13H17.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -207,67 +212,69 @@ const Header: React.FC<IHeaderProps> = () => {
           </svg>} />
         </div>
       </div>
-      <animated.div className={classNames(s.headerMenu__animated)} style={expand__left}>
-        <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: showMenu})}>
-          <div ref={refMenuLeft} className={s.headerMenu__left}>
-            <div className={s.headerMenu__left__space}></div>
-            {data.map((el: any) => {
-              return (<div key={el.Level4ID} onClick={()=>{
-                if(menuContentShow === el.Level4ID){
-                  setMenuContentShow(0)
-                  setTimeout(()=>{
-                    setMenuContent([])
-                  }, 300)
-                }else{
-                  // @ts-ignore
-                  setMenuContentShow(el.Level4ID)
-                  onMenuClick(el.Level3)
-                }
-              }} className={s.headerMenu__left__item}>
-                <div>
-                  <Text>{el.Level4Name}</Text>
-                </div>
-                <svg style={{transition: 'all .3s linear', transform: menuContentShow === el.Level4ID ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>)
-            })}
-            <div className={s.headerMenu__left__space}></div>
-          </div>
-          <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
-            <div ref={refMenuRight} className={s.headerMenu__right}>
-              {menuContent.map((el)=>{
-                return <div className={s.headerMenu__right__lvl1_container}>
-                  <div key={el.Level3ID} className={s.headerMenu__right__lvl1}>
-                    <Text no_td type={'link'} onClick={() => {
-                      setMenuContentShow(0)
-                      setTimeout(()=>{
-                        setMenuContent([])
-                      },300)
-                      setShowMenu(false)
-                    }} href={`/catalog?Level3=${el.Level3ID}`} colored>
-                      {el.Level3Name}
-                    </Text>
+      <div className={s.headerMenu__container}>
+        <animated.div className={classNames(s.headerMenu__animated)} style={expand__left}>
+          <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: profile.headerShow})}>
+            <div ref={refMenuLeft} className={s.headerMenu__left}>
+              <div className={s.headerMenu__left__space}></div>
+              {data.map((el: any) => {
+                return (<div key={el.Level4ID} onClick={()=>{
+                  if(menuContentShow === el.Level4ID){
+                    setMenuContentShow(0)
+                    setTimeout(()=>{
+                      setMenuContent([])
+                    }, 300)
+                  }else{
+                    // @ts-ignore
+                    setMenuContentShow(el.Level4ID)
+                    onMenuClick(el.Level3)
+                  }
+                }} className={s.headerMenu__left__item}>
+                  <div>
+                    <Text>{el.Level4Name}</Text>
                   </div>
-                  <div className={s.headerMenu__right__lvl2_container}>
-                    {el.Level2.map((elem: any) => {
-                      return <Text no_td onClick={() => {
+                  <svg style={{transition: 'all .3s linear', transform: menuContentShow === el.Level4ID ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>)
+              })}
+              <div className={s.headerMenu__left__space}></div>
+            </div>
+            <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
+              <div ref={refMenuRight} className={s.headerMenu__right}>
+                {menuContent.map((el)=>{
+                  return <div className={s.headerMenu__right__lvl1_container}>
+                    <div key={el.Level3ID} className={s.headerMenu__right__lvl1}>
+                      <Text no_td type={'link'} onClick={() => {
                         setMenuContentShow(0)
                         setTimeout(()=>{
                           setMenuContent([])
                         },300)
-                        setShowMenu(false)
-                      }} type={'link'} href={`/catalog?Level2=${elem.Level2ID}`} key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
-                        {elem.Level2Name}
+                        dispatch(setHeader(false))
+                      }} href={`/catalog?Level3=${el.Level3ID}`} colored>
+                        {el.Level3Name}
                       </Text>
-                    })}
+                    </div>
+                    <div className={s.headerMenu__right__lvl2_container}>
+                      {el.Level2.map((elem: any) => {
+                        return <Text no_td onClick={() => {
+                          setMenuContentShow(0)
+                          setTimeout(()=>{
+                            setMenuContent([])
+                          },300)
+                          dispatch(setHeader(false))
+                        }} type={'link'} href={`/catalog?Level2=${elem.Level2ID}`} key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
+                          {elem.Level2Name}
+                        </Text>
+                      })}
+                    </div>
                   </div>
-                </div>
-              })}
-            </div>
-          </animated.div>
-        </div>
-      </animated.div>
+                })}
+              </div>
+            </animated.div>
+          </div>
+        </animated.div>
+      </div>
     </>
   )
 };

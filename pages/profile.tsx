@@ -44,7 +44,9 @@ const Profile: React.FC<IProfileProps> = () => {
 export const getStaticProps: GetStaticProps = async () => {
 
   return {
-    props: {},
+    props: {
+      
+    },
     revalidate: 10,
   }
 }

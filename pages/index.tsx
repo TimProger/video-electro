@@ -19,6 +19,9 @@ import Dropdown from "@/components/UI/Dropdown";
 import {animated, useTrail} from "react-spring";
 import {IProductShort} from "@/types/Product.types";
 import {API_BASE_URL} from "@/http/axios";
+import {setHeader} from "@/store/Slices/Profile.slice";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
 
 interface IMainProps {
   products: IProductShort[]
@@ -141,6 +144,9 @@ const Main: React.FC<IMainProps> = ({products}) => {
   //   setValue(value)
   // }
 
+  const profile = useTypedSelector(state => state.profile)
+  const dispatch = useAppDispatch()
+
   return (
     <Layout>
       <Head>
@@ -152,12 +158,13 @@ const Main: React.FC<IMainProps> = ({products}) => {
         <div className={s.main}>
           <div className={s.main__welcome} style={{backgroundImage: `url(${welcome.src})`}}>
             <Text bold={false} size={'bigger'} type={'h1'}>Время приобрести электрику <span>в <Text colored size={'bigger'} type={'span'}>Video-Electro</Text></span></Text>
-            <Button type={'link'} href={'/catalog'} size={'bigger'}>В каталог</Button>
+            <Button className={'btn_'} onClick={() => {
+              dispatch(setHeader(!profile.headerShow))
+            }} size={'bigger'}>В каталог</Button>
           </div>
           <div className={s.main__catalog}>
             <div className={s.main__catalog__header}>
               <Text size={'bigger'} type={'h2'}>Каталог</Text>
-              <Button type={'link'} href={'/catalog'} size={'bigger'}>Смотреть все</Button>
             </div>
             <div className={s.main__catalog__cards}>
               {trailProducts.map((styles, index)=>{
@@ -267,7 +274,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      products: productsData.splice(0, 4)
+      products: productsData.splice(0, 8)
     },
     revalidate: 10,
   }

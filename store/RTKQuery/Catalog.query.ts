@@ -16,6 +16,7 @@ export const catalogApi = createApi({
               sort: obj.sort,
               Level2: obj.Level2,
               Level3: obj.Level3,
+              updateFilters: '1',
             }
         }
       )

@@ -6,6 +6,7 @@ interface IProfileState {
   error: string | null;
   user: IUser | null;
   isAuth: boolean;
+  headerShow: boolean;
 }
 
 const initialState: IProfileState = {
@@ -13,6 +14,7 @@ const initialState: IProfileState = {
   error: null,
   user: null,
   isAuth: false,
+  headerShow: false
 }
 
 export const profileSlice = createSlice({
@@ -32,9 +34,12 @@ export const profileSlice = createSlice({
     setUser: (state: IProfileState, action: PayloadAction<IUser>) => {
       state.user = action.payload
     },
+    setHeader: (state: IProfileState, action: PayloadAction<boolean>) => {
+      state.headerShow = action.payload
+    },
   }
 })
 
-export const { exit, setImage, setUser } = profileSlice.actions
+export const { exit, setImage, setUser, setHeader } = profileSlice.actions
 
 export default profileSlice.reducer

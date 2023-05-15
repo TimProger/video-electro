@@ -138,6 +138,10 @@
   visibility: hidden;
   transition: all 0.3s;
 
+  &__container{
+    width: 1110px;
+  }
+
   &__animated{
     position: absolute;
     top: 245px;

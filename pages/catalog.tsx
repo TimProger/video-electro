@@ -26,22 +26,36 @@ interface ISelectElement {
 interface ICatalogProps {
 }
 
-interface IFilter {
-  id: number;
-  name: string;
+// interface IFilter {
+//   id: number;
+//   name: string;
+// }
+
+// interface IFiltersData {
+//   id: number;
+//   name: 'category' | 'producer';
+//   title: string;
+//   filters: IFilter[];
+// }
+
+interface IFilterFeatureValue {
+  featureValue: string;
+  count: number;
 }
 
-interface IFilters {
-  id: number;
-  name: 'category' | 'producer';
-  title: string;
-  filters: IFilter[];
+interface IFiltersFeature {
+  featureETIMDetails_id: number,
+  featureCode: string,
+  featureName: string,
+  featureUom: string,
+  Count: number,
+  featureValue: IFilterFeatureValue[]
 }
-
-interface IUsedFilters {
-  category: IFilter[];
-  producer: IFilter[];
-}
+//
+// interface IUsedFilters {
+//   category: IFilter[];
+//   producer: IFilter[];
+// }
 
 const Catalog: React.FC<ICatalogProps> = () => {
 
@@ -121,7 +135,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
   }, [])
 
-  const [updateCatalog, {isLoading, data, error}] = useGetCatalogMutation()
+  const [updateCatalog, {data}] = useGetCatalogMutation()
 
   const { query } = useRouter()
 
@@ -134,93 +148,136 @@ const Catalog: React.FC<ICatalogProps> = () => {
     })
   },[count, sortType, query.Level2, query.Level3])
 
+  const [filtersArray, setFiltersArray] = useState<IFiltersFeature[]>([
+    {
+      "featureETIMDetails_id": 87,
+      "featureCode": "EF000551",
+      "featureName": "Диаметр",
+      "featureUom": "мм",
+      "Count": 50,
+      "featureValue": [
+        {
+          "featureValue": "19",
+          "count": 1
+        },
+        {
+          "featureValue": "23",
+          "count": 1
+        },
+        {
+          "featureValue": "38",
+          "count": 3
+        },
+        {
+          "featureValue": "39",
+          "count": 1
+        },
+        {
+          "featureValue": "46",
+          "count": 5
+        },
+        {
+          "featureValue": "47",
+          "count": 4
+        },
+        {
+          "featureValue": "48",
+          "count": 10
+        },
+        {
+          "featureValue": "66",
+          "count": 1
+        },
+        {
+          "featureValue": "75",
+          "count": 1
+        },
+        {
+          "featureValue": "76",
+          "count": 7
+        },
+        {
+          "featureValue": "90",
+          "count": 3
+        },
+        {
+          "featureValue": "91",
+          "count": 3
+        },
+        {
+          "featureValue": "92",
+          "count": 1
+        },
+        {
+          "featureValue": "100",
+          "count": 1
+        },
+        {
+          "featureValue": "119",
+          "count": 1
+        },
+        {
+          "featureValue": "120",
+          "count": 4
+        },
+        {
+          "featureValue": "122",
+          "count": 1
+        },
+        {
+          "featureValue": "125",
+          "count": 1
+        },
+        {
+          "featureValue": "160",
+          "count": 1
+        }
+      ]
+    },
+  ])
+
   useEffect(()=>{
-    if(data){
+    setProducts([])
+    if(!data) return
+    if(data.data) {
       setProducts(data.data)
+    }
+    if(data.filters) {
+      const slice = data.filters
+      setFiltersArray(slice)
+      setDropdownsOpen(data.filters.map(() => false))
     }
   }, [data])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
-  const [usedFilters, setUsedFilters] = useState<IUsedFilters>({
-    category: [],
-    producer: [],
-  })
+  // const toggleFilter = (elem: IFilter, type: string) => {
+  //   let includes: IFilter | undefined;
+  //   switch (type){
+  //     case 'category':
+  //       includes = usedFilters.category.find((el) => el.id === elem.id)
+  //       if(!includes){
+  //         usedFilters.category.push(elem)
+  //       }else{
+  //         const index = usedFilters.category.indexOf(includes)
+  //         usedFilters.category.splice(index, 1)
+  //       }
+  //       break;
+  //     case 'producer':
+  //       includes = usedFilters.producer.find((el) => el.id === elem.id);
+  //       if(!includes){
+  //         usedFilters.producer.push(elem)
+  //       }else{
+  //         const index = usedFilters.producer.indexOf(includes)
+  //         usedFilters.producer.splice(index, 1)
+  //       }
+  //       break;
+  //   }
+  //   setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+  // }
 
-  const toggleFilter = (elem: IFilter, type: string) => {
-    let includes: IFilter | undefined;
-    switch (type){
-      case 'category':
-        includes = usedFilters.category.find((el) => el.id === elem.id)
-        if(!includes){
-          usedFilters.category.push(elem)
-        }else{
-          const index = usedFilters.category.indexOf(includes)
-          usedFilters.category.splice(index, 1)
-        }
-        break;
-      case 'producer':
-        includes = usedFilters.producer.find((el) => el.id === elem.id);
-        if(!includes){
-          usedFilters.producer.push(elem)
-        }else{
-          const index = usedFilters.producer.indexOf(includes)
-          usedFilters.producer.splice(index, 1)
-        }
-        break;
-    }
-    setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-  }
-
-  const [filtersArray, _setFiltersArray] = useState<IFilters[]>([
-    {
-      id: 0,
-      name: 'category',
-      title: 'Подкатегории',
-      filters: [
-        {
-          id: 0,
-          name: 'Провода'
-        },
-        {
-          id: 1,
-          name: 'Розетки'
-        },
-        {
-          id: 2,
-          name: 'Подкатегория 3'
-        }
-      ]
-    },
-    {
-      id: 1,
-      name: 'producer',
-      title: 'Коллекции',
-      filters: [
-        {
-          id: 0,
-          name: 'Провода'
-        },
-        {
-          id: 1,
-          name: 'Розетки'
-        },
-        {
-          id: 2,
-          name: 'Подкатегория 3'
-        }
-      ]
-    }
-  ])
 
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
-
-  const clearFilters = () => {
-    setUsedFilters({
-      category: [],
-      producer: []
-    })
-  }
 
   return (
     <Layout>
@@ -234,7 +291,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
             <div className={s.filters__header}>
               <Text size={'big+'} bold>Фильтры</Text>
               <Button
-                onClick={clearFilters}
+                // onClick={clearFilters}
                 size={'medium'}
                 style={'borderless'}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -256,30 +313,34 @@ const Catalog: React.FC<ICatalogProps> = () => {
                             }}
                             setDropdowns={setDropdownsOpen}
                             title_inside={
-                              <Text className={s.filters__content__filter__name} bold>{el.title} {usedFilters[el.name].length > 0 && <Text type={'span'} colored>({usedFilters[el.name].map(el => el.name).join(', ')})</Text>}</Text>
+                              <Text className={s.filters__content__filter__name} bold>{el.featureName}
+                                {/*{usedFilters[el.name].length > 0 && <Text type={'span'} colored>({usedFilters[el.name].map(el => el.name).join(', ')})</Text>}*/}
+                              </Text>
                             }
                   >
                     <Checkbox isChecked={(() => {
-                      const used = usedFilters[el.name].map(el => el)
-                      return used.length === el.filters.length;
+                      // const used = usedFilters[el.name].map(el => el)
+                      // return used.length === el.filters.length;
+                      return true
                     })()}
                               className={s.filters__content__filter__options__option}
                               onChange={()=>{
-                                const used = usedFilters[el.name].map(el => el)
-                                if(used.length === el.filters.length){
-                                  usedFilters[el.name] = []
-                                  setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-                                }else{
-                                  usedFilters[el.name] = el.filters.map(el => el)
-                                  setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-                                }
+                                // const used = usedFilters[el.name].map(el => el)
+                                // if(used.length === el.filters.length){
+                                //   usedFilters[el.name] = []
+                                //   setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+                                // }else{
+                                //   usedFilters[el.name] = el.filters.map(el => el)
+                                //   setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
+                                // }
+                                return true
                               }} colored label={'Выбрать все'} />
-                    {el.filters.map((elem, index) => {
+                    {el.featureValue.map((elem, index) => {
                       return <Checkbox key={index}
                                        className={s.filters__content__filter__options__option}
-                                       isChecked={!!usedFilters[el.name].find((el) => el.id === elem.id)}
-                                       onChange={()=>toggleFilter(elem, el.name)}
-                                       label={elem.name} />
+                                       isChecked={true}
+                                       onChange={()=>true}
+                                       label={elem.featureValue} />
                     })}</Dropdown>
                 </div>
               })}
