@@ -6,10 +6,15 @@ import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
 
+interface ISelectElement {
+  name: string;
+  key: string
+}
+
 export interface ISelectProps {
-  value: string;
-  values: string[];
-  onClick: (value: string) => void;
+  value: ISelectElement;
+  values: ISelectElement[];
+  onClick: (value: ISelectElement) => void;
   sort?: boolean;
 }
 
@@ -46,7 +51,7 @@ const Select: React.FC<ISelectProps> = ({sort, value, values, onClick}) => {
   return (
     <div ref={ref} className={classNames(s.select, {[s.select_active]: open})}>
       <div onClick={()=>setOpen(prev => !prev)} className={s.select__value}>
-        <Text size={'small'}>{sort ? `${value.charAt(0).toUpperCase() + value.slice(1)}` : value}</Text>
+        <Text size={'small'}>{sort ? `${value.name.charAt(0).toUpperCase() + value.name.slice(1)}` : value.name}</Text>
         <svg style={{transition: 'all .3s linear', transform: open ? 'rotate(180deg)' : 'rotate(0deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -59,8 +64,8 @@ const Select: React.FC<ISelectProps> = ({sort, value, values, onClick}) => {
                 return <div onClick={()=>{
                   onClick(el)
                   setOpen(false)
-                }} className={classNames(s.select__values__block, {[s.select__values__block_active]: el === value})}>
-                  <Text>{sort ? `По ${el}` : el}</Text>
+                }} className={classNames(s.select__values__block, {[s.select__values__block_active]: el.name === value.name})}>
+                  <Text>{sort ? `По ${el.name}` : el.name}</Text>
                 </div>
               })}
               <div className={s.select__values__space}></div>

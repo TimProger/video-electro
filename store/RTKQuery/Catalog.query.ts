@@ -8,11 +8,12 @@ export const catalogApi = createApi({
   }),
   endpoints: (build) => ({
     getCatalog: build.mutation({
-      query: (obj: {limit: number, Level2: string, Level3: string}) => (
+      query: (obj: {limit: number, sort: string, Level2: string, Level3: string}) => (
         {
             method: 'POST',
             url: `/${obj.limit}/1/`,
             body: {
+              sort: obj.sort,
               Level2: obj.Level2,
               Level3: obj.Level3,
             }

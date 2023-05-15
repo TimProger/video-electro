@@ -18,6 +18,11 @@ import {IProductShort} from "@/types/Product.types";
 import {useGetCatalogMutation} from "@/store/RTKQuery/Catalog.query";
 import {useRouter} from "next/router";
 
+interface ISelectElement {
+  name: string;
+  key: string
+}
+
 interface ICatalogProps {
 }
 
@@ -47,17 +52,52 @@ const Catalog: React.FC<ICatalogProps> = () => {
     to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' }
   });
 
-  const [sortTypes, _setSortTypes] = useState<string[]>(['убыванию цены','возрастанию цены','популярности'])
-  const [sortType, setSortType] = useState<string>(sortTypes[0])
+  const [sortTypes, _setSortTypes] = useState<ISelectElement[]>([
+    {
+      name: 'убыванию цены',
+      key: 'descending'
+    },
+    {
+      name: 'возрастанию цены',
+      key: 'ascending'
+    },
+    {
+      name: 'популярности',
+      key: 'popularity'
+    }
+  ])
 
-  const onSortChange = (value: string) => {
+  const [sortType, setSortType] = useState<ISelectElement>(sortTypes[0])
+
+  const onSortChange = (value: ISelectElement) => {
     setSortType(value)
   }
 
-  const [counts, _setCounts] = useState<string[]>(['20','32','48','60','Не ограничено'])
-  const [count, setCount] = useState<string>(counts[0])
+  const [counts, _setCounts] = useState<ISelectElement[]>([
+    {
+      name: '20',
+      key: '20'
+    },
+    {
+      name: '32',
+      key: '32'
+    },
+    {
+      name: '48',
+      key: '48'
+    },
+    {
+      name: '60',
+      key: '60'
+    },
+    {
+      name: 'Не ограничено',
+      key: 'null'
+    }
+  ])
+  const [count, setCount] = useState<ISelectElement>(counts[0])
 
-  const onCountChange = (value: string) => {
+  const onCountChange = (value: ISelectElement) => {
     setCount(value)
   }
 
@@ -86,13 +126,13 @@ const Catalog: React.FC<ICatalogProps> = () => {
   const { query } = useRouter()
 
   useEffect(()=>{
-    console.log(query)
     updateCatalog({
-      limit: +count,
+      limit: +count.key,
+      sort: sortType.key,
       Level2: query.Level2 ? `${query.Level2}` : '',
       Level3: query.Level3 ? `${query.Level3}` : '',
     })
-  },[count, query.Level2, query.Level3])
+  },[count, sortType, query.Level2, query.Level3])
 
   useEffect(()=>{
     if(data){
