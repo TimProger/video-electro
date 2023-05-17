@@ -138,8 +138,14 @@ export interface IBasketProduct {
   buy_now: boolean;
 }
 
-export interface IFavProduct {
-  id: number;
-  more: number
-  product_id: number;
+export interface IFilter {
+  feature_id: number;
+  data: string[];
+}
+
+export interface ICatalogQuery {
+  sort: string;
+  Level2?: string;
+  Level3?: string;
+  feature?: string
 }

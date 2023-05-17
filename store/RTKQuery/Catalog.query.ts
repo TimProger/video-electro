@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {API_BASE_URL} from "@/http/axios";
+import {ICatalogQuery} from "@/types/Product.types";
 
 export const catalogApi = createApi({
   reducerPath: 'catalog',
@@ -8,15 +9,13 @@ export const catalogApi = createApi({
   }),
   endpoints: (build) => ({
     getCatalog: build.mutation({
-      query: (obj: {limit: number, sort: string, Level2: string, Level3: string}) => (
+      query: (obj: {limit: number, body: ICatalogQuery}) => (
         {
             method: 'POST',
             url: `/${obj.limit}/1/`,
             body: {
-              sort: obj.sort,
-              Level2: obj.Level2,
-              Level3: obj.Level3,
-              updateFilters: '1',
+              ...obj.body,
+              updateFilters: '1'
             }
         }
       )

@@ -14,7 +14,7 @@ import Checkbox from "@/components/UI/Checkbox";
 import {animated, useTrail} from "react-spring";
 import classNames from "classnames";
 import Dropdown from "@/components/UI/Dropdown";
-import {IProductShort} from "@/types/Product.types";
+import {ICatalogQuery, IFilter, IProductShort} from "@/types/Product.types";
 import {useGetCatalogMutation} from "@/store/RTKQuery/Catalog.query";
 import {useRouter} from "next/router";
 
@@ -25,18 +25,6 @@ interface ISelectElement {
 
 interface ICatalogProps {
 }
-
-// interface IFilter {
-//   id: number;
-//   name: string;
-// }
-
-// interface IFiltersData {
-//   id: number;
-//   name: 'category' | 'producer';
-//   title: string;
-//   filters: IFilter[];
-// }
 
 interface IFilterFeatureValue {
   featureValue: string;
@@ -106,7 +94,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
     },
     {
       name: 'Не ограничено',
-      key: 'null'
+      key: '20'
     }
   ])
   const [count, setCount] = useState<ISelectElement>(counts[0])
@@ -139,102 +127,52 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const { query } = useRouter()
 
-  useEffect(()=>{
-    updateCatalog({
-      limit: +count.key,
-      sort: sortType.key,
-      Level2: query.Level2 ? `${query.Level2}` : '',
-      Level3: query.Level3 ? `${query.Level3}` : '',
-    })
+  useEffect(() => {
+    const obj: ICatalogQuery = {
+      sort: sortType.key
+    }
+
+    if(query.Level2){
+      obj.Level2 = `${query.Level2}`
+    }else if(query.Level3){
+      obj.Level3 = `${query.Level3}`
+    }
+
+    updateCatalog({ limit: +count.key, body: obj})
   },[count, sortType, query.Level2, query.Level3])
 
-  const [filtersArray, setFiltersArray] = useState<IFiltersFeature[]>([
-    {
-      "featureETIMDetails_id": 87,
-      "featureCode": "EF000551",
-      "featureName": "Диаметр",
-      "featureUom": "мм",
-      "Count": 50,
-      "featureValue": [
-        {
-          "featureValue": "19",
-          "count": 1
-        },
-        {
-          "featureValue": "23",
-          "count": 1
-        },
-        {
-          "featureValue": "38",
-          "count": 3
-        },
-        {
-          "featureValue": "39",
-          "count": 1
-        },
-        {
-          "featureValue": "46",
-          "count": 5
-        },
-        {
-          "featureValue": "47",
-          "count": 4
-        },
-        {
-          "featureValue": "48",
-          "count": 10
-        },
-        {
-          "featureValue": "66",
-          "count": 1
-        },
-        {
-          "featureValue": "75",
-          "count": 1
-        },
-        {
-          "featureValue": "76",
-          "count": 7
-        },
-        {
-          "featureValue": "90",
-          "count": 3
-        },
-        {
-          "featureValue": "91",
-          "count": 3
-        },
-        {
-          "featureValue": "92",
-          "count": 1
-        },
-        {
-          "featureValue": "100",
-          "count": 1
-        },
-        {
-          "featureValue": "119",
-          "count": 1
-        },
-        {
-          "featureValue": "120",
-          "count": 4
-        },
-        {
-          "featureValue": "122",
-          "count": 1
-        },
-        {
-          "featureValue": "125",
-          "count": 1
-        },
-        {
-          "featureValue": "160",
-          "count": 1
-        }
-      ]
-    },
-  ])
+  const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
+
+  useEffect(() => {
+    if(usedFilters.length > 0){
+      const obj: ICatalogQuery = {
+        sort: sortType.key,
+        feature: JSON.stringify(usedFilters)
+      }
+
+      if(query.Level2){
+        obj.Level2 = `${query.Level2}`
+      }else if(query.Level3){
+        obj.Level3 = `${query.Level3}`
+      }
+
+      updateCatalog({ limit: +count.key, body: obj})
+    }else{
+      const obj: ICatalogQuery = {
+        sort: sortType.key
+      }
+
+      if(query.Level2){
+        obj.Level2 = `${query.Level2}`
+      }else if(query.Level3){
+        obj.Level3 = `${query.Level3}`
+      }
+
+      updateCatalog({ limit: +count.key, body: obj})
+    }
+  }, [usedFilters])
+
+  const [filtersArray, setFiltersArray] = useState<IFiltersFeature[]>([])
 
   useEffect(()=>{
     setProducts([])
@@ -251,31 +189,39 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
-  // const toggleFilter = (elem: IFilter, type: string) => {
-  //   let includes: IFilter | undefined;
-  //   switch (type){
-  //     case 'category':
-  //       includes = usedFilters.category.find((el) => el.id === elem.id)
-  //       if(!includes){
-  //         usedFilters.category.push(elem)
-  //       }else{
-  //         const index = usedFilters.category.indexOf(includes)
-  //         usedFilters.category.splice(index, 1)
-  //       }
-  //       break;
-  //     case 'producer':
-  //       includes = usedFilters.producer.find((el) => el.id === elem.id);
-  //       if(!includes){
-  //         usedFilters.producer.push(elem)
-  //       }else{
-  //         const index = usedFilters.producer.indexOf(includes)
-  //         usedFilters.producer.splice(index, 1)
-  //       }
-  //       break;
-  //   }
-  //   setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-  // }
+  const [tempFilters, setTempFilters] = useState<IFilter[]>([])
 
+  const toggleFilter = (feature_id: number, value: string) => {
+    const includes = tempFilters.find((el) => el.feature_id === feature_id)
+    if(!includes){
+      tempFilters.push({feature_id: feature_id, data: [value]})
+    }else{
+      const index = tempFilters.indexOf(includes)
+      const usedValue = tempFilters[index].data.find((el) => el === value)
+      if(!usedValue){
+        tempFilters[index].data.push(value)
+      }else{
+        const indexOfValue = tempFilters[index].data.indexOf(usedValue)
+        tempFilters[index].data.splice(indexOfValue, 1)
+        if(tempFilters[index].data.length === 0){
+          tempFilters.splice(index, 1)
+        }
+      }
+    }
+    setTempFilters([...tempFilters])
+  }
+
+  const declineFilters = () => {
+    setTempFilters([...usedFilters])
+  }
+
+  const acceptFilters = () => {
+    setUsedFilters([...tempFilters])
+  }
+
+  const clearFilters = () => {
+    setTempFilters([])
+  }
 
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
 
@@ -286,12 +232,15 @@ const Catalog: React.FC<ICatalogProps> = () => {
         <meta name={"og:title"} content={"Каталог"} />
       </Head>
       <Container>
-        <Modal showModal={isFilters} closeHandler={()=>setIsFilters(false)}>
+        <Modal showModal={isFilters} closeHandler={()=>{
+          setIsFilters(false)
+          acceptFilters()
+        }}>
           <div className={s.filters}>
             <div className={s.filters__header}>
               <Text size={'big+'} bold>Фильтры</Text>
               <Button
-                // onClick={clearFilters}
+                onClick={clearFilters}
                 size={'medium'}
                 style={'borderless'}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -313,37 +262,74 @@ const Catalog: React.FC<ICatalogProps> = () => {
                             }}
                             setDropdowns={setDropdownsOpen}
                             title_inside={
-                              <Text className={s.filters__content__filter__name} bold>{el.featureName}
-                                {/*{usedFilters[el.name].length > 0 && <Text type={'span'} colored>({usedFilters[el.name].map(el => el.name).join(', ')})</Text>}*/}
-                              </Text>
+                                <Text className={s.filters__content__filter__name} bold>{el.featureName}
+                                  {(()=>{
+                                    const used = tempFilters.find((elem) => elem.feature_id === el.featureETIMDetails_id)
+                                    if(used && used.data.length > 0){
+                                      return <Text type={'span'} colored>({used.data.map(el => el).join(', ')})</Text>
+                                    }
+                                    return <></>
+                                  })()}
+                                </Text>
                             }
                   >
                     <Checkbox isChecked={(() => {
-                      // const used = usedFilters[el.name].map(el => el)
-                      // return used.length === el.filters.length;
-                      return true
+                      const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
+                      if(used){
+                        return used.data.length === el.featureValue.length
+                      }
+                      return false
                     })()}
                               className={s.filters__content__filter__options__option}
-                              onChange={()=>{
-                                // const used = usedFilters[el.name].map(el => el)
-                                // if(used.length === el.filters.length){
-                                //   usedFilters[el.name] = []
-                                //   setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-                                // }else{
-                                //   usedFilters[el.name] = el.filters.map(el => el)
-                                //   setUsedFilters(JSON.parse(JSON.stringify(usedFilters)))
-                                // }
-                                return true
+                              onChange={() => {
+                                const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
+                                if(used){
+                                  const index = tempFilters.indexOf(used)
+                                  if(used.data.length === el.featureValue.length){
+                                    tempFilters[index].data = []
+                                    tempFilters.splice(index, 1)
+                                  }else{
+                                    tempFilters[index].data = el.featureValue.map((value) => {
+                                      return value.featureValue
+                                    })
+                                  }
+                                }else{
+                                  tempFilters.push({
+                                      feature_id: el.featureETIMDetails_id,
+                                      data: el.featureValue.map((value) => {
+                                        return value.featureValue
+                                      })
+                                    })
+                                }
+                                setTempFilters([...tempFilters])
                               }} colored label={'Выбрать все'} />
                     {el.featureValue.map((elem, index) => {
                       return <Checkbox key={index}
                                        className={s.filters__content__filter__options__option}
-                                       isChecked={true}
-                                       onChange={()=>true}
+                                       isChecked={(() => {
+                                         const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
+                                         if(used){
+                                           const index = tempFilters.indexOf(used)
+                                           const usedValue = tempFilters[index].data.find((usedString) => usedString === elem.featureValue)
+                                           return !!usedValue
+                                         }else{
+                                           return false
+                                         }
+                                       })()}
+                                       onChange={()=>toggleFilter(el.featureETIMDetails_id, elem.featureValue)}
                                        label={elem.featureValue} />
                     })}</Dropdown>
                 </div>
               })}
+            </div>
+            <div className={s.filters__btns}>
+              <Button
+                style={'outlined'}
+                onClick={declineFilters}
+                size={'bigger'}>Отмена</Button>
+              <Button
+                onClick={acceptFilters}
+                size={'bigger'}>Применить</Button>
             </div>
           </div>
         </Modal>
