@@ -53,6 +53,11 @@
   flex-direction: column;
   gap: 5px;
 
+  &__animated{
+    max-height: 300px;
+    overflow: auto;
+  }
+
   &__header{
     width: 100%;
     display: flex;

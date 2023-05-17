@@ -41,10 +41,15 @@ const Dropdown: React.FC<IDropdownProps> = ({
   const [contentHeight, setContentHeight] = useState<number>(0);
   const [refText, { height }] = useMeasure<HTMLDivElement>();
 
-  const expand = useSpring({
-    config: type === 'block' ? { friction:  open ? 16 : 25} : {},
+  const expand1 = useSpring({
+    config: type === 'block' ? { friction:  open ? 18 : 25} : {},
     height: open ? `${contentHeight}px` : '0px',
     overflow: 'hidden'
+  });
+
+  const expand2 = useSpring({
+    config: type === 'block' ? { friction:  open ? 16 : 25} : {},
+    height: open ? `${contentHeight}px` : '0px',
   });
 
   useEffect(() => {
@@ -67,7 +72,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
               <path d="M1 1L9 9L17 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <animated.div style={expand}>
+          <animated.div style={expand1}>
             <div ref={refText} className={s.dropdown__text}>
               <Text>{children}</Text>
             </div>
@@ -84,7 +89,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
               <path d="M1 1L7 7L13 0.999999" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <animated.div style={expand}>
+          <animated.div className={s.dropdown_inside__animated} style={expand2}>
             <div ref={refText} className={s.dropdown_inside__text}>
               {children}
             </div>

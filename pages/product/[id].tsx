@@ -124,7 +124,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
                   {/*{product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}*/}
                   {product.is_hit && <div>Хит продаж</div>}
                   {product.is_new && <div>Новинка</div>}
-                  {product.discount > 0 && <div>-${product.discount}%</div>}
+                  {product.discount && <div>-${product.discount}%</div>}
                 </div>
                 <div className={s.product__content__info__header__article}>
                   <div>Артикул: {product.ProductCode}</div>
@@ -133,7 +133,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
               <Text type={'h1'}
                     size={'big+'}>{product.ProductName}</Text>
               <div className={s.product__content__info__price}>
-                {product.discount > 0 && <Text type={'span'}
+                {product.discount && <Text type={'span'}
                                            className={s.product__content__info__price__old}
                                            size={'medium'}>
                   {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
@@ -141,7 +141,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
                 <Text bold
                       colored={true}
                       size={'big+'}>
-                  {`${product.discount > 0 ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.product__content__info__btns}>
@@ -173,15 +173,18 @@ const Product: React.FC<IProductProps> = ({info}) => {
             <div className={s.product__info__details}>
               <Text size={'big+'} type={'h2'}>Характеристики</Text>
               {feature.map((el) => {
+                if(!el.featureValue || !el.featureName) return
                 return <div>
                   <Text bold>{el.featureName}</Text>
-                  <Text>{el.featureValue}</Text>
+                  <Text>{el.featureValue}{el.featureUom ? el.featureUom : ''}</Text>
                 </div>
               })}
             </div>
             <div className={s.product__info__desc}>
               <Text size={'big+'} type={'h2'}>Описание</Text>
-              <Text className={s.product__info__desc__text}>В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!... В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!...В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!...</Text>
+              <Text className={s.product__info__desc__text}>
+                {product.ProductDescription}
+              </Text>
             </div>
           </div>
         </div>
@@ -198,16 +201,33 @@ export const getStaticPaths = async () => {
   //   params: {id: `${index}`},
   // }))
   return {
-    paths: [],
-    fallback: true
+    paths: [
+      { params: { id: '2' } }
+    ],
+    fallback: 'blocking'
   }
 }
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
 
   const product = await fetch(`${API_BASE_URL}/product/${params?.id}`)
+    .catch(() => {
+      return undefined
+    })
+
+  if (!product) {
+    return {
+      notFound: true,
+    }
+  }
 
   const productData: IProduct = await product.json()
+
+  if (!productData) {
+    return {
+      notFound: true,
+    }
+  }
 
   return {
     props: {

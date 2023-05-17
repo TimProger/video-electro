@@ -9,7 +9,7 @@ import {Storage} from "@/utils/storage";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {removeFavsProduct, toggleFavsProduct} from "@/store/Slices/Favs.slice";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
-import {removeBasketProducts} from "@/store/Slices/Basket.slice";
+// import {removeBasketProducts} from "@/store/Slices/Basket.slice";
 
 export interface ICardProps {
   product: IProductShort;
@@ -89,7 +89,7 @@ const Card: React.FC<ICardProps> = ({
               {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
               {product.is_hit && <div>Хит продаж</div>}
               {product.is_new && <div>Новинка</div>}
-              {product.discount > 0 && <div>-${product.discount}%</div>}
+              {product.discount && <div>-${product.discount}%</div>}
             </div>
           </div>
           <div className={s.cardLong__content}>
@@ -104,11 +104,11 @@ const Card: React.FC<ICardProps> = ({
             </Button> : <span></span>}
             <div className={s.cardLong__content__bottom}>
               <div className={s.cardLong__content__bottom__price}>
-                {product.discount > 0 && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
-                  {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                {product.discount && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
+                  {`${product.discount/product.RetailPrice*100}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 <Text bold colored={true} size={'medium'}>
-                  {`${product.discount > 0 ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.discount ? product.RetailPrice-product.discount : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.cardLong__content__bottom__btns}>
@@ -122,7 +122,9 @@ const Card: React.FC<ICardProps> = ({
                   </svg>
                   Удалить
                 </Button> : ''}
-                {basket ? <Button onClick={()=>dispatch(removeBasketProducts(product.id))}
+                {basket ? <Button onClick={()=>{
+                  // dispatch(removeBasketProducts(product.id))
+                }}
                                 size={'medium'}
                                 style={'borderless'}>
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -175,7 +177,7 @@ const Card: React.FC<ICardProps> = ({
                 {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
                 {product.is_hit && <div>Хит продаж</div>}
                 {product.is_new && <div>Новинка</div>}
-                {product.discount > 0 && <div>-${product.discount}%</div>}
+                {product.discount && <div>-${product.discount/product.RetailPrice*100}%</div>}
               </div>
               <img src={product.image} alt={product.ProductName}/>
             </div>
@@ -190,11 +192,11 @@ const Card: React.FC<ICardProps> = ({
             </Text>
           </div>
           <div className={s.card__price}>
-            {product.discount > 0 && <Text type={'span'} className={s.card__price__old} size={'small'}>
-              {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+            {product.discount && <Text type={'span'} className={s.card__price__old} size={'small'}>
+              {`${product.discount}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>}
             <Text bold colored={true} size={'medium'}>
-              {`${product.discount > 0 ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+              {`${product.discount ? product.RetailPrice-product.discount : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>
           </div>
           <div className={s.card__btns}>

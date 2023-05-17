@@ -3,7 +3,7 @@ export interface IProductShort {
   is_new: boolean;
   is_hit: boolean;
   show: boolean;
-  discount: number;
+  discount: number | null;
   delete: boolean;
   Dimension: {
     Depth: string;

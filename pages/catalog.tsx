@@ -135,7 +135,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
   }, [])
 
-  const [updateCatalog, {data}] = useGetCatalogMutation()
+  const [updateCatalog, {isLoading, data}] = useGetCatalogMutation()
 
   const { query } = useRouter()
 
@@ -390,7 +390,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
               </div>
             </div>
             <div className={s.catalog__catalog__cards}>
-              {trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
+              {isLoading ? <div className={s.catalog__catalog__cards__notFound}>Идёт загрузка...</div> : trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
                 return <animated.div className={classNames(s.catalog__catalog__cards__animated, {[s.catalog__catalog__cards__animated_float]: viewStyle === 1})} key={products[index].id} style={styles}>
                   <Card type={viewStyle === 0 ? 'short' : 'long'} product={products[index]} />
                 </animated.div>
