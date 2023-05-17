@@ -234,7 +234,9 @@ const Catalog: React.FC<ICatalogProps> = () => {
       <Container>
         <Modal showModal={isFilters} closeHandler={()=>{
           setIsFilters(false)
-          acceptFilters()
+          if(JSON.stringify(tempFilters) !== JSON.stringify(usedFilters)){
+            acceptFilters()
+          }
         }}>
           <div className={s.filters}>
             <div className={s.filters__header}>

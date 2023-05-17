@@ -9,20 +9,18 @@
   background: #00000050;
   z-index: $z-index-modal;
   opacity: 0;
-  display: flex;
-  visibility: hidden;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
+  visibility: hidden;
+  display: flex;
 
   &_active{
     visibility: visible;
-    opacity: 1 !important;
   }
 
   &__animated{
-    position: absolute;
     min-height: auto;
     height: auto;
   }
@@ -40,6 +38,10 @@
     cursor: auto;
     border-radius: 40px;
     overflow: hidden;
+    position: absolute;
+
+    &_active{
+    }
 
     &__content{
       overflow-y: auto;

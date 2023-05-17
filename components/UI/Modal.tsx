@@ -1,6 +1,6 @@
-import React, {MouseEvent, useEffect, useState} from 'react';
+import React, {MouseEvent, useState, useEffect} from 'react';
 import s from '@/styles/components/UI/Modal.module.scss'
-import {animated, useSpring} from "react-spring";
+// import {animated, useSpring} from "react-spring";
 import {useMeasure} from "react-use";
 import classNames from "classnames";
 
@@ -23,10 +23,10 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
   const [contentHeight, setContentHeight] = useState<number>(0);
   const [refBlock, { height }] = useMeasure<HTMLDivElement>();
 
-  const expand = useSpring({
-    config: { friction: 20 },
-    top: showModal ? `${(window.innerHeight-contentHeight-100) / 2 + 30}px` : `-${contentHeight}px`,
-  });
+  // const expand = useSpring({
+  //   config: { friction: 20 },
+  //   top: showModal ? `${(window.innerHeight-contentHeight-100) / 2 + 30}px` : `-${contentHeight}px`,
+  // });
 
   useEffect(() => {
     setContentHeight(height);
@@ -37,10 +37,13 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
   }, [height, showModal]);
 
   return (
-    <div onClick={outsideClickHandler} className={s.modal + ' ' + (showModal ? s.modal_active : '')}>
-      <animated.div className={classNames(s.modal__animated)}
-                    style={expand}>
-        <div ref={refBlock} onClick={insideClickHandler} className={s.modal__block}>
+    <div onClick={outsideClickHandler}
+         style={{opacity: showModal ? 1 : 0}}
+         className={s.modal + ' ' + (showModal ? s.modal_active : '')}>
+        <div style={{top: showModal ? `${(window.innerHeight-contentHeight-100) / 2 + 20}px` : - `-${contentHeight}px`}}
+             className={classNames(s.modal__block, {[s.modal__block_active]: showModal})}
+             ref={refBlock}
+             onClick={insideClickHandler}>
           <div className={s.modal__block__container}>
             <div className={s.modal__block__close + ' ' + (showModal ? s.modal__block__close_active : '')}>
               <svg onClick={closeHandler}
@@ -54,7 +57,6 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
             </div>
           </div>
         </div>
-      </animated.div>
     </div>
   );
 };

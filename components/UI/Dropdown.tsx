@@ -47,10 +47,10 @@ const Dropdown: React.FC<IDropdownProps> = ({
     overflow: 'hidden'
   });
 
-  const expand2 = useSpring({
-    config: type === 'block' ? { friction:  open ? 16 : 25} : {},
-    height: open ? `${contentHeight}px` : '0px',
-  });
+  // const expand2 = useSpring({
+  //   config: type === 'block' ? { friction:  open ? 16 : 25} : {},
+  //   height: open ? `${contentHeight}px` : '0px',
+  // });
 
   useEffect(() => {
     setContentHeight(height);
@@ -89,11 +89,11 @@ const Dropdown: React.FC<IDropdownProps> = ({
               <path d="M1 1L7 7L13 0.999999" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <animated.div className={s.dropdown_inside__animated} style={expand2}>
-            <div ref={refText} className={s.dropdown_inside__text}>
+          <div className={classNames(s.dropdown_inside__animated, {[s.dropdown_inside__animated_open]: open})}>
+            <div className={s.dropdown_inside__text}>
               {children}
             </div>
-          </animated.div>
+          </div>
         </div>
       );
   }
