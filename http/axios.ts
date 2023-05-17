@@ -2,10 +2,8 @@ import axios, {InternalAxiosRequestConfig} from "axios";
 import {Storage} from "@/utils/storage";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 
-const PORT = 3000
-
-export const API_BASE_URL = "http://89.111.136.45:8000";
-export const APP_BASE_URL = `http://localhost:${PORT}`
+export const API_BASE_URL = `https://api.video-electro.ru`;
+export const APP_BASE_URL = `https://video-electro.ru`
 
 const $api = axios.create({
   baseURL: API_BASE_URL,
