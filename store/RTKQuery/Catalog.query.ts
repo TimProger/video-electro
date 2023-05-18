@@ -12,7 +12,7 @@ export const catalogApi = createApi({
       query: (obj: {limit: number, body: ICatalogQuery}) => (
         {
             method: 'POST',
-            url: `/${obj.limit}/1/`,
+            url: `/${obj.limit}/${obj.body.page}/`,
             body: {
               ...obj.body,
               updateFilters: '1'

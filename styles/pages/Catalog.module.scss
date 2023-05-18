@@ -74,6 +74,26 @@
         }
       }
     }
+
+    &__pages{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $block-sec;
+      border-radius: $border-radius-block;
+
+      &__container{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 129px;
+
+        &__page{
+          padding: 30px !important;
+        }
+      }
+    }
   }
 }
 

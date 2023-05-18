@@ -86,7 +86,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
           <div onClick={onClick} className={s.dropdown_inside__header}>
             {title_inside}
             <svg className={classNames(s.dropdown_inside__header__svg, {[s.dropdown_inside_active__svg]: open})} style={{transition: 'all .3s linear', transform: open ? 'rotate(180deg)' : 'rotate(0deg)'}} width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1L7 7L13 0.999999" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 1L7 7L13 0.999999" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <div className={classNames(s.dropdown_inside__animated, {[s.dropdown_inside__animated_open]: open})}>

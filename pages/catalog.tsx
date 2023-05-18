@@ -127,9 +127,13 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const { query } = useRouter()
 
+  const [pages, setPages] = useState<number>(1)
+  const [page, setPage] = useState<number>(1)
+
   useEffect(() => {
     const obj: ICatalogQuery = {
-      sort: sortType.key
+      sort: sortType.key,
+      page
     }
 
     if(query.Level2){
@@ -139,7 +143,7 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
 
     updateCatalog({ limit: +count.key, body: obj})
-  },[count, sortType, query.Level2, query.Level3])
+  },[count, page, sortType, query.Level2, query.Level3])
 
   const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
 
@@ -147,7 +151,8 @@ const Catalog: React.FC<ICatalogProps> = () => {
     if(usedFilters.length > 0){
       const obj: ICatalogQuery = {
         sort: sortType.key,
-        feature: JSON.stringify(usedFilters)
+        feature: JSON.stringify(usedFilters),
+        page: 1
       }
 
       if(query.Level2){
@@ -159,7 +164,8 @@ const Catalog: React.FC<ICatalogProps> = () => {
       updateCatalog({ limit: +count.key, body: obj})
     }else{
       const obj: ICatalogQuery = {
-        sort: sortType.key
+        sort: sortType.key,
+        page: 1
       }
 
       if(query.Level2){
@@ -177,6 +183,9 @@ const Catalog: React.FC<ICatalogProps> = () => {
   useEffect(()=>{
     setProducts([])
     if(!data) return
+    if(data.count_pages){
+      setPages(data.count_pages)
+    }
     if(data.data) {
       setProducts(data.data)
     }
@@ -224,6 +233,50 @@ const Catalog: React.FC<ICatalogProps> = () => {
   }
 
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
+
+  const togglePageHandler = (el: number) =>{
+    setPage(el)
+    // push(`/catalog?min=${usedFilters.price[0]}&max=${usedFilters.price[1]}&page=${el}${usedFilters.category.length > 0 ? `&category=${usedFilters.category}` : ''}${usedFilters.color.length > 0 ? `&color=${usedFilters.color}` : ''}${usedFilters.collection.length > 0 ? `&collection=${usedFilters.collection}` : ''}${usedFilters.type.length > 0 ? `&type=${usedFilters.type}` : ''}`)
+  }
+
+  const displayPages = () => {
+    const arr = []
+    if(pages > 5){
+      arr[0] = 1
+      for(let i=0;i<4;i++){
+        if(page === 1){
+          arr.push(page+i+1)
+        }else{
+          if(page+i >= pages){
+            arr[3] = pages-1
+            arr[2] = pages-2
+            arr[1] = pages-3
+            break
+          }else{
+            arr.push(page+i)
+          }
+        }
+      }
+      arr[4] = pages
+
+    }else{
+      for(let i=0;i<pages;i++){
+        arr.push(i+1)
+      }
+    }
+    return arr.map((el)=>{
+      // return <div
+      //   onClick={()=>togglePageHandler(el)}
+      //   className={classNames(s.catalog__catalog__pages__container__page, {[s.catalog__catalog__pages__container__page__active]: page === el})}>
+      //   {el}
+      // </div>
+      return <Button
+        onClick={()=>togglePageHandler(el)}
+        style={page === el ? 'filled' : 'outlined'}
+        className={s.catalog__catalog__pages__container__page}
+        icon>{el}</Button>
+    })
+  }
 
   return (
     <Layout>
@@ -383,6 +436,13 @@ const Catalog: React.FC<ICatalogProps> = () => {
                   <Card type={viewStyle === 0 ? 'short' : 'long'} product={products[index]} />
                 </animated.div>
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
+            </div>
+            <div>
+              {pages !== 0 && <div className={s.catalog__catalog__pages}>
+                <div className={s.catalog__catalog__pages__container}>
+                  {displayPages()}
+                </div>
+              </div>}
             </div>
           </div>
         </div>
