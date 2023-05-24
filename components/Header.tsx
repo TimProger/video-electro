@@ -251,7 +251,7 @@ const Header: React.FC<IHeaderProps> = () => {
                           setMenuContent([])
                         },300)
                         dispatch(setHeader(false))
-                      }} href={`/catalog?Level3=${el.Level3ID}`} colored>
+                      }} href={`/catalog/${menuContentShow}/${el.Level3ID}`} colored>
                         {el.Level3Name}
                       </Text>
                     </div>
@@ -263,7 +263,7 @@ const Header: React.FC<IHeaderProps> = () => {
                             setMenuContent([])
                           },300)
                           dispatch(setHeader(false))
-                        }} type={'link'} href={`/catalog?Level2=${elem.Level2ID}`} key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
+                        }} type={'link'} href={`/catalog/${menuContentShow}/${el.Level3ID}/${elem.Level2ID}`} key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
                           {elem.Level2Name}
                         </Text>
                       })}

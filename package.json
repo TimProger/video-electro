@@ -29,6 +29,7 @@
     "react-redux": "^8.0.5",
     "react-spring": "^9.7.1",
     "react-use": "^17.4.0",
+    "react-window": "^1.8.9",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.2",
     "style-loader": "^3.3.2",
@@ -44,6 +45,7 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "@types/react-window": "^1.8.5",
     "babel-loader": "^8.3.0",
     "chromatic": "^6.17.2"
   },

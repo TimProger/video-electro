@@ -21,9 +21,10 @@ const Dropdown: React.FC<IDropdownProps> = ({
                                               title = '',
                                               title_inside,
                                               children,
-                                              open,
-                                              type = 'block',
-                                              onClick}) => {
+                                              open = false,
+                                              type = 'inside',
+                                              onClick
+}) => {
 
   const ref = useOnclickOutside((e: any) => {
     switch (type){
@@ -60,7 +61,6 @@ const Dropdown: React.FC<IDropdownProps> = ({
     return window.removeEventListener("resize", ()=>setContentHeight(height));
   }, [height, open]);
 
-
   switch (type){
 
     case 'block':
@@ -96,6 +96,9 @@ const Dropdown: React.FC<IDropdownProps> = ({
           </div>
         </div>
       );
+
+    default:
+      return (<div>{title_inside}</div>)
   }
 };
 

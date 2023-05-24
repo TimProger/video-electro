@@ -3,7 +3,6 @@ import { createWrapper } from 'next-redux-wrapper'
 import {combineReducers} from "@reduxjs/toolkit";
 import ProductSlice from "@/store/Slices/Product.slice";
 import ProfileSlice from "@/store/Slices/Profile.slice";
-import {catalogApi} from "@/store/RTKQuery/Catalog.query";
 import FavsSlice from "@/store/Slices/Favs.slice";
 import BasketSlice from "@/store/Slices/Basket.slice";
 
@@ -12,15 +11,11 @@ const combinedReducer = combineReducers({
   profile: ProfileSlice,
   favs: FavsSlice,
   basket: BasketSlice,
-  [catalogApi.reducerPath]: catalogApi.reducer,
 });
 
 export const Store = () =>
   configureStore({
     reducer: combinedReducer,
-    middleware: (getDefaultMiddlware) => {
-      return getDefaultMiddlware().concat(catalogApi.middleware)
-    }
   });
 
 export type RootState = ReturnType<typeof combinedReducer>

@@ -11,19 +11,13 @@ import Select from "@/components/UI/Select";
 import {Storage} from "@/utils/storage";
 import Modal from "@/components/UI/Modal";
 import Checkbox from "@/components/UI/Checkbox";
-import {animated, useTrail} from "react-spring";
-import classNames from "classnames";
 import Dropdown from "@/components/UI/Dropdown";
-import {ICatalogQuery, IFilter, IProductShort} from "@/types/Product.types";
-import {useGetCatalogMutation} from "@/store/RTKQuery/Catalog.query";
-import {useRouter} from "next/router";
+import {IFilter, IProductShort} from "@/types/Product.types";
+import {API_BASE_URL} from "@/http/axios";
 
 interface ISelectElement {
   name: string;
   key: string
-}
-
-interface ICatalogProps {
 }
 
 interface IFilterFeatureValue {
@@ -39,20 +33,16 @@ interface IFiltersFeature {
   Count: number,
   featureValue: IFilterFeatureValue[]
 }
-//
-// interface IUsedFilters {
-//   category: IFilter[];
-//   producer: IFilter[];
-// }
 
-const Catalog: React.FC<ICatalogProps> = () => {
+interface ICatalogProps {
+  filtersArray: IFiltersFeature[],
+  products: IProductShort[];
+  count_pages: number;
+}
 
-  const [products, setProducts] = useState<IProductShort[]>([])
+const Catalog: React.FC<ICatalogProps> = ({filtersArray, products, count_pages}) => {
 
-  const trailProducts = useTrail(products.length, {
-    from: { opacity: 0, transform: 'translate3d(0, 40px, 0)' },
-    to: { opacity: 1, transform: 'translate3d(0, 0px, 0)' }
-  });
+  // const { push } = useRouter()
 
   const [sortTypes, _setSortTypes] = useState<ISelectElement[]>([
     {
@@ -108,11 +98,6 @@ const Catalog: React.FC<ICatalogProps> = () => {
   const onViewStyleChange = (val: number) => {
     if(viewStyle === val) return
     setViewStyle(val)
-    const newProducts = [...products]
-    setProducts([])
-    setTimeout(()=>{
-      setProducts([...newProducts])
-    },0)
     Storage.set('catalog_view', val)
   }
 
@@ -123,78 +108,78 @@ const Catalog: React.FC<ICatalogProps> = () => {
     }
   }, [])
 
-  const [updateCatalog, {isLoading, data}] = useGetCatalogMutation()
-
-  const { query } = useRouter()
-
-  const [pages, setPages] = useState<number>(1)
   const [page, setPage] = useState<number>(1)
 
-  useEffect(() => {
-    const obj: ICatalogQuery = {
-      sort: sortType.key,
-      page
-    }
+  // const { query } = useRouter()
 
-    if(query.Level2){
-      obj.Level2 = `${query.Level2}`
-    }else if(query.Level3){
-      obj.Level3 = `${query.Level3}`
-    }
+  // const updateCatalog = (params: ICatalogQuery, p = page) => {
+  //
+  //   $api.post(`/product/catalog/values/${+count.key}/${p}/`, params)
+  //     .then((res) => {
+  //       setProducts([])
+  //       setData(res.data)
+  //       setIsLoading(false)
+  //     })
+  //     .catch(()=>{
+  //       setProducts([])
+  //       setIsLoading(false)
+  //     })
+  // }
 
-    updateCatalog({ limit: +count.key, body: obj})
-  },[count, page, sortType, query.Level2, query.Level3])
+  // useEffect(()=>{
+  //   if(!data) return
+  //   if(data.count_pages){
+  //     setPages(data.count_pages)
+  //   }
+  //   if(data.data) {
+  //     setProducts(data.data)
+  //   }
+  // }, [data])
+
+  // useEffect(() => {
+  //   const obj: ICatalogQuery = {
+  //     sort: sortType.key,
+  //   }
+  //
+  //   if(query.Level2){
+  //     obj.Level2 = `${query.Level2}`
+  //   }else if(query.Level3){
+  //     obj.Level3 = `${query.Level3}`
+  //   }
+  //
+  //   updateCatalog(obj)
+  // },[count, page, sortType, query.Level2, query.Level3])
 
   const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
 
-  useEffect(() => {
-    if(usedFilters.length > 0){
-      const obj: ICatalogQuery = {
-        sort: sortType.key,
-        feature: JSON.stringify(usedFilters),
-        page: 1
-      }
-
-      if(query.Level2){
-        obj.Level2 = `${query.Level2}`
-      }else if(query.Level3){
-        obj.Level3 = `${query.Level3}`
-      }
-
-      updateCatalog({ limit: +count.key, body: obj})
-    }else{
-      const obj: ICatalogQuery = {
-        sort: sortType.key,
-        page: 1
-      }
-
-      if(query.Level2){
-        obj.Level2 = `${query.Level2}`
-      }else if(query.Level3){
-        obj.Level3 = `${query.Level3}`
-      }
-
-      updateCatalog({ limit: +count.key, body: obj})
-    }
-  }, [usedFilters])
-
-  const [filtersArray, setFiltersArray] = useState<IFiltersFeature[]>([])
-
-  useEffect(()=>{
-    setProducts([])
-    if(!data) return
-    if(data.count_pages){
-      setPages(data.count_pages)
-    }
-    if(data.data) {
-      setProducts(data.data)
-    }
-    if(data.filters) {
-      const slice = data.filters
-      setFiltersArray(slice)
-      setDropdownsOpen(data.filters.map(() => false))
-    }
-  }, [data])
+  // useEffect(() => {
+  //   if(usedFilters.length > 0){
+  //     const obj: ICatalogQuery = {
+  //       sort: sortType.key,
+  //       feature: JSON.stringify(usedFilters)
+  //     }
+  //
+  //     if(query.Level2){
+  //       obj.Level2 = `${query.Level2}`
+  //     }else if(query.Level3){
+  //       obj.Level3 = `${query.Level3}`
+  //     }
+  //
+  //     updateCatalog(obj)
+  //   }else{
+  //     const obj: ICatalogQuery = {
+  //       sort: sortType.key
+  //     }
+  //
+  //     if(query.Level2){
+  //       obj.Level2 = `${query.Level2}`
+  //     }else if(query.Level3){
+  //       obj.Level3 = `${query.Level3}`
+  //     }
+  //
+  //     updateCatalog(obj, page)
+  //   }
+  // }, [usedFilters])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
@@ -236,40 +221,36 @@ const Catalog: React.FC<ICatalogProps> = () => {
 
   const togglePageHandler = (el: number) =>{
     setPage(el)
-    // push(`/catalog?min=${usedFilters.price[0]}&max=${usedFilters.price[1]}&page=${el}${usedFilters.category.length > 0 ? `&category=${usedFilters.category}` : ''}${usedFilters.color.length > 0 ? `&color=${usedFilters.color}` : ''}${usedFilters.collection.length > 0 ? `&collection=${usedFilters.collection}` : ''}${usedFilters.type.length > 0 ? `&type=${usedFilters.type}` : ''}`)
+    window.scrollTo({ top: 240, behavior: 'smooth' });
+    // push(`/catalog?min=${usedFilters.price[0]}&max=${usedFilters.price[1]}&page=${el}${usedFilters.[Level4].length > 0 ? `&[Level4]=${usedFilters.[Level4]}` : ''}${usedFilters.color.length > 0 ? `&color=${usedFilters.color}` : ''}${usedFilters.collection.length > 0 ? `&collection=${usedFilters.collection}` : ''}${usedFilters.type.length > 0 ? `&type=${usedFilters.type}` : ''}`)
   }
 
   const displayPages = () => {
     const arr = []
-    if(pages > 5){
+    if(count_pages > 5){
       arr[0] = 1
       for(let i=0;i<4;i++){
         if(page === 1){
           arr.push(page+i+1)
         }else{
-          if(page+i >= pages){
-            arr[3] = pages-1
-            arr[2] = pages-2
-            arr[1] = pages-3
+          if(page+i >= count_pages){
+            arr[3] = count_pages-1
+            arr[2] = count_pages-2
+            arr[1] = count_pages-3
             break
           }else{
             arr.push(page+i)
           }
         }
       }
-      arr[4] = pages
+      arr[4] = count_pages
 
     }else{
-      for(let i=0;i<pages;i++){
+      for(let i=0;i<count_pages;i++){
         arr.push(i+1)
       }
     }
     return arr.map((el)=>{
-      // return <div
-      //   onClick={()=>togglePageHandler(el)}
-      //   className={classNames(s.catalog__catalog__pages__container__page, {[s.catalog__catalog__pages__container__page__active]: page === el})}>
-      //   {el}
-      // </div>
       return <Button
         onClick={()=>togglePageHandler(el)}
         style={page === el ? 'filled' : 'outlined'}
@@ -317,24 +298,26 @@ const Catalog: React.FC<ICatalogProps> = () => {
                             }}
                             setDropdowns={setDropdownsOpen}
                             title_inside={
-                                <Text className={s.filters__content__filter__name} bold>{el.featureName}
-                                  {(()=>{
-                                    const used = tempFilters.find((elem) => elem.feature_id === el.featureETIMDetails_id)
-                                    if(used && used.data.length > 0){
-                                      return <Text type={'span'} colored>({used.data.map(el => el).join(', ')})</Text>
-                                    }
-                                    return <></>
-                                  })()}
-                                </Text>
+                              <Text className={s.filters__content__filter__name} bold>{el.featureName}
+                                {(()=>{
+                                  const used = tempFilters.find((elem) => elem.feature_id === el.featureETIMDetails_id)
+                                  if(used && used.data.length > 0){
+                                    return <Text type={'span'} colored>({used.data.map(el => el).join(', ')})</Text>
+                                  }
+                                  return <></>
+                                })()}
+                              </Text>
                             }
                   >
-                    <Checkbox isChecked={(() => {
-                      const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
-                      if(used){
-                        return used.data.length === el.featureValue.length
+                    <Checkbox isChecked={(
+                      () => {
+                        const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
+                        if(used){
+                          return used.data.length === el.featureValue.length
+                        }
+                        return false
                       }
-                      return false
-                    })()}
+                    )()}
                               className={s.filters__content__filter__options__option}
                               onChange={() => {
                                 const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
@@ -350,11 +333,11 @@ const Catalog: React.FC<ICatalogProps> = () => {
                                   }
                                 }else{
                                   tempFilters.push({
-                                      feature_id: el.featureETIMDetails_id,
-                                      data: el.featureValue.map((value) => {
-                                        return value.featureValue
-                                      })
+                                    feature_id: el.featureETIMDetails_id,
+                                    data: el.featureValue.map((value) => {
+                                      return value.featureValue
                                     })
+                                  })
                                 }
                                 setTempFilters([...tempFilters])
                               }} colored label={'Выбрать все'} />
@@ -373,7 +356,8 @@ const Catalog: React.FC<ICatalogProps> = () => {
                                        })()}
                                        onChange={()=>toggleFilter(el.featureETIMDetails_id, elem.featureValue)}
                                        label={elem.featureValue} />
-                    })}</Dropdown>
+                    })}
+                  </Dropdown>
                 </div>
               })}
             </div>
@@ -431,14 +415,12 @@ const Catalog: React.FC<ICatalogProps> = () => {
               </div>
             </div>
             <div className={s.catalog__catalog__cards}>
-              {isLoading ? <div className={s.catalog__catalog__cards__notFound}>Идёт загрузка...</div> : trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
-                return <animated.div className={classNames(s.catalog__catalog__cards__animated, {[s.catalog__catalog__cards__animated_float]: viewStyle === 1})} key={products[index].id} style={styles}>
-                  <Card type={viewStyle === 0 ? 'short' : 'long'} product={products[index]} />
-                </animated.div>
+              {products.length > 0 ? products.map((el, _index)=>{
+                return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
             <div>
-              {pages !== 0 && <div className={s.catalog__catalog__pages}>
+              {count_pages !== 0 && <div className={s.catalog__catalog__pages}>
                 <div className={s.catalog__catalog__pages__container}>
                   {displayPages()}
                 </div>
@@ -451,12 +433,136 @@ const Catalog: React.FC<ICatalogProps> = () => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticPaths = async () => {
+
+  const res = await fetch(`${API_BASE_URL}/product/catalog/`)
+  const catalog = await res.json()
+
+  const level4 = catalog.map((el: any) => {
+    let arr = []
+    arr.push(`${el.Level4ID}`)
+
+    if(arr[0] === 'null'){
+      return
+    }
+    return { params: { levels: arr } }
+  })
+
+  const level3 = catalog.map((el: any) => {
+    let arr = []
+
+    arr.push(`${el.Level4ID}`)
+
+    if(arr[0] === 'null'){
+      return
+    }
+    el.Level3.map((elem: any) => {
+      arr.push(`${elem.Level3ID}`)
+    })
+
+    if(arr.length !== 2){
+      return
+    }
+    return { params: { levels: arr } }
+  })
+
+  const level2 = catalog.map((el: any) => {
+    let arr = []
+
+    arr.push(`${el.Level4ID}`)
+
+    if(arr[0] === 'null'){
+      return
+    }
+    el.Level3.map((elem: any) => {
+      arr.push(`${elem.Level3ID}`)
+      elem.Level2.map((element: any) => {
+        arr.push(`${element.Level2ID}`)
+      })
+    })
+
+    if(arr.length !== 3){
+      return
+    }
+    return { params: { levels: arr } }
+  })
 
   return {
-    props: {},
-    revalidate: 10,
+    paths: [
+      ...level4.filter((el: any) => !!el),
+      ...level3.filter((el: any) => !!el),
+      ...level2.filter((el: any) => !!el),
+    ],
+    fallback: 'blocking'
   }
 }
 
-export default Catalog
+export const getStaticProps: GetStaticProps = async ({params}) => {
+
+  let obj: any = {}
+
+  if(params?.levels){
+    switch (params?.levels.length){
+      case 3:
+
+        obj.Level2 = params?.levels[2]
+        break;
+      case 2:
+
+        obj.Level3 = params?.levels[1]
+        break;
+      case 1:
+
+        obj.Level4 = params?.levels[0]
+        break;
+
+      default:
+        return {
+          notFound: true,
+        }
+    }
+  }
+
+
+  const res1 = await fetch(`${API_BASE_URL}/product/catalog/getFilters/`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(obj)
+  })
+    .catch(()=>{
+      return undefined
+    })
+
+  const res2 = await fetch(`${API_BASE_URL}/product/catalog/values/20/1/`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(obj)
+  })
+    .catch(()=>{
+      return undefined
+    })
+
+  if(!res1 || !res2){
+    return {
+      notFound: true,
+    }
+  }
+
+  const array = await res1.json()
+  const products = await res2.json()
+
+  return {
+    props: {
+      filtersArray: array,
+      products: products.data,
+      count_pages: products.count_pages
+    },
+    revalidate: 10
+  }
+}
+
+export default Catalog;
