@@ -38,9 +38,14 @@ interface ICatalogProps {
   filtersArray: IFiltersFeature[],
   products: IProductShort[];
   count_pages: number;
+  info: string[];
 }
 
-const Catalog: React.FC<ICatalogProps> = ({filtersArray, products, count_pages}) => {
+const Catalog: React.FC<ICatalogProps> = ({
+                                            filtersArray,
+                                            products,
+                                            info = [],
+                                            count_pages}) => {
 
   // const { push } = useRouter()
 
@@ -375,8 +380,7 @@ const Catalog: React.FC<ICatalogProps> = ({filtersArray, products, count_pages})
         <div className={s.catalog}>
           <div className={s.catalog__catalog}>
             <div className={s.catalog__catalog__header}>
-              <Text size={'bigger'} type={'h2'}>Кабели и провода силовые на 2
-                строчки максимум а дальше...</Text>
+              <Text size={'bigger'} type={'h1'}>{info.join(' / ')}</Text>
               <Button onClick={()=>setIsFilters(true)}
                       size={'bigger'}>Фильтры</Button>
             </div>
@@ -504,15 +508,12 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   if(params?.levels){
     switch (params?.levels.length){
       case 3:
-
         obj.Level2 = params?.levels[2]
         break;
       case 2:
-
         obj.Level3 = params?.levels[1]
         break;
       case 1:
-
         obj.Level4 = params?.levels[0]
         break;
 
@@ -522,7 +523,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
         }
     }
   }
-
 
   const res1 = await fetch(`${API_BASE_URL}/product/catalog/getFilters/`, {
     method: 'POST',
@@ -555,11 +555,37 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const array = await res1.json()
   const products = await res2.json()
 
+  const res = await fetch(`${API_BASE_URL}/product/catalog/`)
+  const catalog = await res.json()
+
+  let info: string[] = []
+
+  catalog.map((l4: any) => {
+    // @ts-ignore
+    if (l4.Level4ID !== +params?.levels[0]) return;
+    info.push(l4.Level4Name)
+    // @ts-ignore
+    if (params?.levels.length === 1) return;
+    l4.Level3.map((l3: any) => {
+      // @ts-ignore
+      if (l3.Level3ID !== +params?.levels[1]) return;
+      info.push(l3.Level3Name)
+      // @ts-ignore
+      if (params?.levels.length === 2) return;
+      l3.Level2.map((l2: any) => {
+        // @ts-ignore
+        if (l2.Level2ID !== +params?.levels[2]) return;
+        info.push(l2.Level2Name)
+      })
+    })
+  })
+
   return {
     props: {
       filtersArray: array,
       products: products.data,
-      count_pages: products.count_pages
+      count_pages: products.count_pages,
+      info: info
     },
     revalidate: 10
   }
