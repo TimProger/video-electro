@@ -230,7 +230,7 @@ const Catalog: React.FC<ICatalogProps> = ({
   const togglePageHandler = (el: number) =>{
     setPage(el)
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    push(`/catalog/${levels.join('/')}?page=${el}`)
+    push(`/catalog/${levels.join('/')}?page=${el}`) // this one is needs to be merged
   }
 
   const displayPages = () => {
