@@ -14,6 +14,7 @@ import Checkbox from "@/components/UI/Checkbox";
 import Dropdown from "@/components/UI/Dropdown";
 import {IFilter, IProductShort} from "@/types/Product.types";
 import {API_BASE_URL} from "@/http/axios";
+import {useRouter} from "next/router";
 
 interface ISelectElement {
   name: string;
@@ -39,15 +40,17 @@ interface ICatalogProps {
   products: IProductShort[];
   count_pages: number;
   info: string[];
+  levels: string[];
 }
 
 const Catalog: React.FC<ICatalogProps> = ({
                                             filtersArray,
                                             products,
                                             info = [],
+                                            levels = [],
                                             count_pages}) => {
 
-  // const { push } = useRouter()
+  const { push } = useRouter()
 
   const [sortTypes, _setSortTypes] = useState<ISelectElement[]>([
     {
@@ -226,8 +229,8 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const togglePageHandler = (el: number) =>{
     setPage(el)
-    window.scrollTo({ top: 240, behavior: 'smooth' });
-    // push(`/catalog?min=${usedFilters.price[0]}&max=${usedFilters.price[1]}&page=${el}${usedFilters.[Level4].length > 0 ? `&[Level4]=${usedFilters.[Level4]}` : ''}${usedFilters.color.length > 0 ? `&color=${usedFilters.color}` : ''}${usedFilters.collection.length > 0 ? `&collection=${usedFilters.collection}` : ''}${usedFilters.type.length > 0 ? `&type=${usedFilters.type}` : ''}`)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    push(`/catalog/${levels.join('/')}?page=${el}`)
   }
 
   const displayPages = () => {
@@ -535,7 +538,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       return undefined
     })
 
-  const res2 = await fetch(`${API_BASE_URL}/product/catalog/values/20/1/`, {
+  const res2 = await fetch(`${API_BASE_URL}/product/catalog/values/${params?.limit && +params?.limit !== 20 ? params?.limit : 20}/${params?.page && +params?.page > 1 ? params?.page : 1}/`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
@@ -585,7 +588,8 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       filtersArray: array,
       products: products.data,
       count_pages: products.count_pages,
-      info: info
+      info: info,
+      levels: params?.levels,
     },
     revalidate: 10
   }
