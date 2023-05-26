@@ -275,9 +275,15 @@ const Catalog: React.FC<ICatalogProps> = ({
           arr.push(page+i+1)
         }else{
           if(page+i >= countPages){
-            arr[3] = countPages-1
-            arr[2] = countPages-2
-            arr[1] = countPages-3
+            if(page+1 === countPages){
+              arr[3] = page
+              arr[2] = page-1
+              arr[1] = page-2
+            }else{
+              arr[3] = page+1
+              arr[2] = page
+              arr[1] = page-1
+            }
             break
           }else{
             arr.push(page+i)
