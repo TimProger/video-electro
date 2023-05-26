@@ -94,7 +94,7 @@ const Catalog: React.FC<ICatalogProps> = ({
     },
     {
       name: 'Не ограничено',
-      key: '20'
+      key: 'null'
     }
   ])
   const [count, setCount] = useState<ISelectElement>(counts[0])
@@ -122,6 +122,54 @@ const Catalog: React.FC<ICatalogProps> = ({
   const [page, setPage] = useState<number>(1)
 
   const { query } = useRouter()
+
+  function isScrollAtBottom() {
+    let windowHeight = window.innerHeight; // Высота окна браузера
+    let documentHeight = document.documentElement.scrollHeight; // Высота всего документа
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop; // Позиция прокрутки
+
+    return scrollTop + windowHeight >= documentHeight - 800;
+  }
+
+  let loadedPage = 1
+
+  const loadProducts = () => {
+
+    if(isScrollAtBottom()){
+      const obj: ICatalogQuery = {
+        sort: sortType.key,
+      }
+
+      if(levels.length === 3){
+        obj.Level2 = levels[2]
+      }else if(levels.length === 2){
+        obj.Level3 = levels[1]
+      }else {
+        obj.Level4 = levels[0]
+      }
+
+      window.removeEventListener('scroll', loadProducts)
+
+      if(page + loadedPage >= count_pages) return
+      $api.post(`/product/catalog/values/20/${page+loadedPage}/`, obj)
+        .then((res) => {
+          loadedPage += 1
+          setNewProducts(prev => [...prev, ...res.data.data])
+          setTimeout(()=>{
+            window.addEventListener('scroll', loadProducts)
+          }, 1500)
+        })
+        .catch(() => {})
+    }
+  }
+
+  useEffect(() => {
+    if(count.key === 'null'){
+      window.addEventListener('scroll', loadProducts)
+    }else{
+      window.removeEventListener('scroll', loadProducts)
+    }
+  },[count])
 
   // const updateCatalog = (params: ICatalogQuery, p = page) => {
   //
@@ -160,21 +208,22 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const isFirstRun = useRef(true);
   const isSecondRun = useRef(true);
+
   useEffect(() => {
-    console.log('isFirstRun',isFirstRun)
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
     }
-    console.log('isSecondRun',isSecondRun)
     if (isSecondRun.current) {
       isSecondRun.current = false;
       return;
     }
+
+    if(count.key === 'null') return
+
     const obj: ICatalogQuery = {
       sort: sortType.key,
     }
-    console.log('levels',levels)
 
     if(levels.length === 3){
       obj.Level2 = levels[2]
@@ -189,6 +238,10 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
 
     updateCatalog(obj)
+
+    return () => {
+      setPage(1)
+    }
   },[count, page, sortType, query])
 
   const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
@@ -351,7 +404,15 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 {(()=>{
                                   const used = tempFilters.find((elem) => elem.feature_id === el.featureETIMDetails_id)
                                   if(used && used.data.length > 0){
-                                    return <Text type={'span'} colored>({used.data.map(el => el).join(', ')})</Text>
+                                    let text = used.data.map(el => el).join(', ')
+                                    if(text.length > 20) {
+                                      if(el.featureName.length > 20){
+                                        text = `${text.slice(0,14)}...`
+                                      }else{
+                                        text = `${text.slice(0,24)}...`
+                                      }
+                                    }
+                                    return <Text type={'span'} colored>{text}</Text>
                                   }
                                   return <></>
                                 })()}
@@ -468,7 +529,7 @@ const Catalog: React.FC<ICatalogProps> = ({
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
             <div>
-              {countPages !== 0 && <div className={s.catalog__catalog__pages}>
+              {count.key !== 'null' && countPages !== 0 && <div className={s.catalog__catalog__pages}>
                 <div className={s.catalog__catalog__pages__container}>
                   {displayPages()}
                 </div>
@@ -547,7 +608,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
 
-  let obj: any = {}
+  let obj: any = {
+    sort: 'descending'
+  }
 
   if(params?.levels){
     switch (params?.levels.length){
