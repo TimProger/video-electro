@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
@@ -12,8 +12,8 @@ import {Storage} from "@/utils/storage";
 import Modal from "@/components/UI/Modal";
 import Checkbox from "@/components/UI/Checkbox";
 import Dropdown from "@/components/UI/Dropdown";
-import {IFilter, IProductShort} from "@/types/Product.types";
-import {API_BASE_URL} from "@/http/axios";
+import {ICatalogQuery, IFilter, IProductShort} from "@/types/Product.types";
+import {$api, API_BASE_URL} from "@/http/axios";
 import {useRouter} from "next/router";
 
 interface ISelectElement {
@@ -49,6 +49,8 @@ const Catalog: React.FC<ICatalogProps> = ({
                                             info = [],
                                             levels = [],
                                             count_pages}) => {
+
+  const [newProducts, setNewProducts] = useState<IProductShort[]>([...products])
 
   const { push } = useRouter()
 
@@ -116,9 +118,10 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
   }, [])
 
+  const [countPages, setCountPages] = useState<number>(count_pages)
   const [page, setPage] = useState<number>(1)
 
-  // const { query } = useRouter()
+  const { query } = useRouter()
 
   // const updateCatalog = (params: ICatalogQuery, p = page) => {
   //
@@ -144,19 +147,49 @@ const Catalog: React.FC<ICatalogProps> = ({
   //   }
   // }, [data])
 
-  // useEffect(() => {
-  //   const obj: ICatalogQuery = {
-  //     sort: sortType.key,
-  //   }
-  //
-  //   if(query.Level2){
-  //     obj.Level2 = `${query.Level2}`
-  //   }else if(query.Level3){
-  //     obj.Level3 = `${query.Level3}`
-  //   }
-  //
-  //   updateCatalog(obj)
-  // },[count, page, sortType, query.Level2, query.Level3])
+  const updateCatalog = (obj: ICatalogQuery) => {
+    setTimeout(()=>{
+      $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
+        .then((res) => {
+          setNewProducts(res.data.data)
+          setCountPages(res.data.count_pages)
+        })
+        .catch(() => setNewProducts([]))
+    },500)
+  }
+
+  const isFirstRun = useRef(true);
+  const isSecondRun = useRef(true);
+  useEffect(() => {
+    console.log('isFirstRun',isFirstRun)
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    console.log('isSecondRun',isSecondRun)
+    if (isSecondRun.current) {
+      isSecondRun.current = false;
+      return;
+    }
+    const obj: ICatalogQuery = {
+      sort: sortType.key,
+    }
+    console.log('levels',levels)
+
+    if(levels.length === 3){
+      obj.Level2 = levels[2]
+    }else if(levels.length === 2){
+      obj.Level3 = levels[1]
+    }else {
+      obj.Level4 = levels[0]
+    }
+
+    if(query.page){
+      setPage(+`${query.page}`)
+    }
+
+    updateCatalog(obj)
+  },[count, page, sortType, query])
 
   const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
 
@@ -235,26 +268,26 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const displayPages = () => {
     const arr = []
-    if(count_pages > 5){
+    if(countPages > 5){
       arr[0] = 1
       for(let i=0;i<4;i++){
         if(page === 1){
           arr.push(page+i+1)
         }else{
-          if(page+i >= count_pages){
-            arr[3] = count_pages-1
-            arr[2] = count_pages-2
-            arr[1] = count_pages-3
+          if(page+i >= countPages){
+            arr[3] = countPages-1
+            arr[2] = countPages-2
+            arr[1] = countPages-3
             break
           }else{
             arr.push(page+i)
           }
         }
       }
-      arr[4] = count_pages
+      arr[4] = countPages
 
     }else{
-      for(let i=0;i<count_pages;i++){
+      for(let i=0;i<countPages;i++){
         arr.push(i+1)
       }
     }
@@ -422,12 +455,12 @@ const Catalog: React.FC<ICatalogProps> = ({
               </div>
             </div>
             <div className={s.catalog__catalog__cards}>
-              {products.length > 0 ? products.map((el, _index)=>{
+              {newProducts.length > 0 ? newProducts.map((el, _index)=>{
                 return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
             <div>
-              {count_pages !== 0 && <div className={s.catalog__catalog__pages}>
+              {countPages !== 0 && <div className={s.catalog__catalog__pages}>
                 <div className={s.catalog__catalog__pages__container}>
                   {displayPages()}
                 </div>
@@ -538,7 +571,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       return undefined
     })
 
-  const res2 = await fetch(`${API_BASE_URL}/product/catalog/values/${params?.limit && +params?.limit !== 20 ? params?.limit : 20}/${params?.page && +params?.page > 1 ? params?.page : 1}/`, {
+  const res2 = await fetch(`${API_BASE_URL}/product/catalog/values/20/1/`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",

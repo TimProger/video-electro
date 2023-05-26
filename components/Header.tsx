@@ -86,7 +86,7 @@ const Header: React.FC<IHeaderProps> = () => {
       setMenuContent([])
     },300)
     if(e.target.classList && e.target.classList.length > 0 && (e.target.classList[1] === s.header__bottom__btn || e.target.parentElement.classList[1] === s.header__bottom__btn)) return
-    if(e.target.classList[1] === 'btn_' || e.target.parentElement.classList[1] === 'btn_') return;
+    if((e.target.classList && e.target.classList[1] === 'btn_') || (e.target.parentElement && e.target.parentElement.classList[1] === 'btn_')) return;
     dispatch(setHeader(false))
   });
 

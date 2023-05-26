@@ -147,6 +147,7 @@ export interface ICatalogQuery {
   sort?: string;
   Level2?: string;
   Level3?: string;
+  Level4?: string;
   feature?: string;
   page?: number;
 }
