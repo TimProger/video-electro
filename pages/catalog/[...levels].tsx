@@ -261,42 +261,44 @@ const Catalog: React.FC<ICatalogProps> = ({
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
 
   const togglePageHandler = (el: number) =>{
-    setPage(el)
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    push(`/catalog/${levels.join('/')}?page=${el}`) // this one is needs to be merged
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
+    push(`/catalog/${levels.join('/')}?page=${el}`)
   }
 
   const displayPages = () => {
     const arr = []
     if(countPages > 5){
       arr[0] = 1
-      for(let i=0;i<4;i++){
-        if(page === 1){
-          arr.push(page+i+1)
-        }else{
-          if(page+i >= countPages){
-            if(page+1 === countPages){
-              arr[3] = page
-              arr[2] = page-1
-              arr[1] = page-2
-            }else{
-              arr[3] = page+1
-              arr[2] = page
-              arr[1] = page-1
-            }
-            break
-          }else{
-            arr.push(page+i)
-          }
+      if(page === 1){
+        for(let i=0;i<4;i++) {
+          arr.push(page + i + 1)
+        }
+      }else{
+        if (page + 1 === countPages) {
+          arr[3] = page
+          arr[2] = page - 1
+          arr[1] = page - 2
+        }else if (page + 1 >= countPages) {
+          arr[3] = page - 1
+          arr[2] = page - 2
+          arr[1] = page - 3
+        } else if(page - 1 !== 1) {
+          arr[3] = page + 1
+          arr[2] = page
+          arr[1] = page - 1
+        }else {
+          arr[3] = page + 2
+          arr[2] = page + 1
+          arr[1] = page
         }
       }
       arr[4] = countPages
-
     }else{
       for(let i=0;i<countPages;i++){
         arr.push(i+1)
       }
     }
+
     return arr.map((el)=>{
       return <Button
         onClick={()=>togglePageHandler(el)}
