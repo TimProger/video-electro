@@ -11,6 +11,7 @@ export interface ICheckboxProps {
   colored?: boolean;
   onChange: () => void;
   isChecked: boolean;
+  disabled?: boolean;
   error?: boolean;
 }
 
@@ -20,6 +21,7 @@ const Checkbox: React.FC<ICheckboxProps> = ({
                                               colored = false,
                                               onChange,
                                               isChecked,
+                                              disabled,
                                               error = false}) => {
 
   // const cn = classNames(
@@ -51,11 +53,14 @@ const Checkbox: React.FC<ICheckboxProps> = ({
     );
 
     return (
-      <label className={classNames(s.label, className)}>
+      <label className={classNames(s.label, className, {[s.label_disabled]: disabled})}>
         <input
           className={s.input}
           type="checkbox"
           onChange={() => {
+            if(disabled){
+              return;
+            }
             onChange()
           }}
         />
