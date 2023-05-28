@@ -6,6 +6,12 @@
 
   &_small{
     font-size: $font-size-small;
+
+    @media screen and (max-width: 1150px) {
+      & {
+        font-size: $font-size-smaller;
+      }
+    }
   }
 
   &_medium{

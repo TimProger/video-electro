@@ -85,7 +85,7 @@ const Basket = () => {
 //                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 //                     <path
 //                       d="M4 4L16 16M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z"
-//                       stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+//                       stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 //                   </svg>
 //                   Удалить все</Button>}
 //               </div>
@@ -143,7 +143,7 @@ const Basket = () => {
 //                   onClick={()=>setPage(0)}
 //                   colored>
 //               <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-//                 <path d="M7 1L1 7L7 13" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+//                 <path d="M7 1L1 7L7 13" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 //               </svg>
 //               Назад в корзину</Text>
 //             <div className={s.basket__order__main}>

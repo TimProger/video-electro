@@ -1,0 +1,77 @@
+@import "../_vars.scss";
+
+.profile{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  gap: 30px;
+
+  &__content{
+    width: 100%;
+    padding: 40px 0;
+    border-radius: $border-radius-block;
+    background-color: $block-sec;
+    display: flex;
+    gap: 40px;
+  }
+
+  &__pages{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 1150px) {
+      width: 30%;
+    }
+
+    &__page{
+      display: flex;
+      align-items: center;
+      padding-left: 23px;
+      gap: 10px;
+      width: 100%;
+      height: 64px;
+      cursor: pointer;
+      border-bottom: 1px solid #00000000;
+
+      & p{
+        color: $text-forth;
+      }
+
+      &:hover{
+        background-color: $block-forth;
+      }
+
+      &_active{
+        background-color: $block-forth;
+        border-bottom: 1px solid $border-color-main;
+
+        & svg{
+
+          & path{
+            stroke: $text-sec;
+          }
+        }
+
+        & p{
+          color: $text-sec;
+        }
+      }
+    }
+  }
+
+  &__page{
+    width: 60%;
+  }
+}
+
+.page{
+  width: 100%;
+
+  &__info{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
