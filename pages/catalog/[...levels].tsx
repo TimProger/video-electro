@@ -27,7 +27,7 @@ interface IFilterFeatureValue {
 }
 
 interface IFiltersFeature {
-  featureETIMDetails_id: number,
+  id: number,
   featureCode: string,
   featureName: string,
   featureUom: string,
@@ -311,7 +311,13 @@ const Catalog: React.FC<ICatalogProps> = ({
     setTempFilters([])
   }
 
+  const [newFiltersArray, setNewFiltersArray] = useState<IFiltersFeature[]>([...filtersArray])
   const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
+
+  useEffect(()=>{
+    setNewFiltersArray([...filtersArray])
+    setDropdownsOpen(filtersArray.map(() => false))
+  },[filtersArray])
 
   const togglePageHandler = (el: number) =>{
     // window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -390,19 +396,43 @@ const Catalog: React.FC<ICatalogProps> = ({
               </Button>
             </div>
             <div className={s.filters__content}>
-              {filtersArray.map((el, index)=>{
+              {newFiltersArray.map((el, index)=>{
                 return <div key={index} className={s.filters__content__filter}>
                   <Dropdown type={'inside'}
                             open={dropdownsOpen[index]}
                             onClick={() => {
-                              dropdownsOpen[index] = !dropdownsOpen[index]
-                              setDropdownsOpen(prev => [...prev])
+                              if(!dropdownsOpen[index]){
+                                if(newFiltersArray[index].featureValue && newFiltersArray[index].featureValue.length > 0){
+                                  dropdownsOpen[index] = !dropdownsOpen[index]
+                                  setDropdownsOpen(prev => [...prev])
+                                }
+                                let obj: ICatalogQuery = {}
+
+                                if(levels.length === 3){
+                                  obj.Level2 = levels[2]
+                                }else if(levels.length === 2){
+                                  obj.Level3 = levels[1]
+                                }else {
+                                  obj.Level4 = levels[0]
+                                }
+
+                                $api.post(`/product/catalog/getFilters/${el.id}`,  obj)
+                                  .then((res) => {
+                                    newFiltersArray[index].featureValue = res.data.data
+                                    setNewFiltersArray(prev => [...prev])
+                                    dropdownsOpen[index] = !dropdownsOpen[index]
+                                    setDropdownsOpen(prev => [...prev])
+                                  })
+                              }else{
+                                dropdownsOpen[index] = !dropdownsOpen[index]
+                                setDropdownsOpen(prev => [...prev])
+                              }
                             }}
                             setDropdowns={setDropdownsOpen}
                             title_inside={
                               <Text className={s.filters__content__filter__name} bold>{el.featureName}
                                 {(()=>{
-                                  const used = tempFilters.find((elem) => elem.feature_id === el.featureETIMDetails_id)
+                                  const used = tempFilters.find((elem) => elem.feature_id === el.id)
                                   if(used && used.data.length > 0){
                                     let text = used.data.map(elem => `${elem} ${el.featureUom ? el.featureUom : ''}`).join(', ')
                                     if(text.length > 20) {
@@ -419,43 +449,43 @@ const Catalog: React.FC<ICatalogProps> = ({
                               </Text>
                             }
                   >
-                    <Checkbox isChecked={(
+                    {el.featureValue && <Checkbox isChecked={(
                       () => {
-                        const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
-                        if(used){
+                        const used = tempFilters.find((used) => used.feature_id === el.id)
+                        if (used) {
                           return used.data.length === el.featureValue.length
                         }
                         return false
                       }
                     )()}
-                              className={s.filters__content__filter__options__option}
-                              onChange={() => {
-                                const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
-                                if(used){
-                                  const index = tempFilters.indexOf(used)
-                                  if(used.data.length === el.featureValue.length){
-                                    tempFilters[index].data = []
-                                    tempFilters.splice(index, 1)
-                                  }else{
-                                    tempFilters[index].data = el.featureValue.map((value) => {
-                                      return value.featureValue
-                                    })
-                                  }
-                                }else{
-                                  tempFilters.push({
-                                    feature_id: el.featureETIMDetails_id,
-                                    data: el.featureValue.map((value) => {
-                                      return value.featureValue
-                                    })
-                                  })
-                                }
-                                setTempFilters([...tempFilters])
-                              }} colored label={'Выбрать все'} />
-                    {el.featureValue.map((elem, index) => {
+                               className={s.filters__content__filter__options__option}
+                               onChange={() => {
+                                 const used = tempFilters.find((used) => used.feature_id === el.id)
+                                 if (used) {
+                                   const index = tempFilters.indexOf(used)
+                                   if (used.data.length === el.featureValue.length) {
+                                     tempFilters[index].data = []
+                                     tempFilters.splice(index, 1)
+                                   } else {
+                                     tempFilters[index].data = el.featureValue.map((value) => {
+                                       return value.featureValue
+                                     })
+                                   }
+                                 } else {
+                                   tempFilters.push({
+                                     feature_id: el.id,
+                                     data: el.featureValue.map((value) => {
+                                       return value.featureValue
+                                     })
+                                   })
+                                 }
+                                 setTempFilters([...tempFilters])
+                               }} colored label={'Выбрать все'}/>}
+                    {el.featureValue && el.featureValue.map((elem, index) => {
                       return <Checkbox key={index}
                                        className={s.filters__content__filter__options__option}
                                        isChecked={(() => {
-                                         const used = tempFilters.find((used) => used.feature_id === el.featureETIMDetails_id)
+                                         const used = tempFilters.find((used) => used.feature_id === el.id)
                                          if(used){
                                            const index = tempFilters.indexOf(used)
                                            const usedValue = tempFilters[index].data.find((usedString) => usedString === elem.featureValue)
@@ -464,7 +494,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                                            return false
                                          }
                                        })()}
-                                       onChange={()=>toggleFilter(el.featureETIMDetails_id, elem.featureValue)}
+                                       onChange={()=>toggleFilter(el.id, elem.featureValue)}
                                        label={`${elem.featureValue} ${el.featureUom ? el.featureUom : ''} (${elem.count})`} />
                     })}
                   </Dropdown>
@@ -659,7 +689,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     }
   }
 
-  const array = await res1.json()
+  const filters = await res1.json()
   const products = await res2.json()
 
   const res = await fetch(`${API_BASE_URL}/product/catalog/`)
@@ -689,7 +719,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
   return {
     props: {
-      filtersArray: array,
+      filtersArray: filters.filters,
       products: products.data,
       count_pages: products.count_pages,
       info: info,
