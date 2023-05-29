@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
@@ -206,23 +206,25 @@ const Catalog: React.FC<ICatalogProps> = ({
     },500)
   }
 
-  const isFirstRun = useRef(true);
-  const isSecondRun = useRef(true);
-
   useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-    if (isSecondRun.current) {
-      isSecondRun.current = false;
-      return;
-    }
 
-    if(count.key === 'null') return
+    if(count.key === 'null'){
+      return
+    }else{
+      window.removeEventListener('scroll', loadProducts)
+    }
 
     const obj: ICatalogQuery = {
       sort: sortType.key,
+    }
+
+    if(query.feature) {
+      obj.feature = `${query.feature}`
+      usedFilters.splice(0, usedFilters.length)
+      JSON.parse(`${query.feature}`).map((el: IFilter) => {
+        usedFilters.push(el)
+      })
+      setTempFilters([...usedFilters])
     }
 
     if(levels.length === 3){
@@ -244,36 +246,41 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
   },[count, page, sortType, query])
 
-  const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
+  const [usedFilters, _setUsedFilters] = useState<IFilter[]>([])
 
-  // useEffect(() => {
-  //   if(usedFilters.length > 0){
-  //     const obj: ICatalogQuery = {
-  //       sort: sortType.key,
-  //       feature: JSON.stringify(usedFilters)
-  //     }
-  //
-  //     if(query.Level2){
-  //       obj.Level2 = `${query.Level2}`
-  //     }else if(query.Level3){
-  //       obj.Level3 = `${query.Level3}`
-  //     }
-  //
-  //     updateCatalog(obj)
-  //   }else{
-  //     const obj: ICatalogQuery = {
-  //       sort: sortType.key
-  //     }
-  //
-  //     if(query.Level2){
-  //       obj.Level2 = `${query.Level2}`
-  //     }else if(query.Level3){
-  //       obj.Level3 = `${query.Level3}`
-  //     }
-  //
-  //     updateCatalog(obj, page)
-  //   }
-  // }, [usedFilters])
+  useEffect(() => {
+    if(usedFilters.length > 0){
+      const obj: ICatalogQuery = {
+        sort: sortType.key,
+        feature: JSON.stringify(usedFilters)
+      }
+
+      if(levels.length === 3){
+        obj.Level2 = levels[2]
+      }else if(levels.length === 2){
+        obj.Level3 = levels[1]
+      }else {
+        obj.Level4 = levels[0]
+      }
+
+      updateCatalog(obj)
+    }
+    else{
+      const obj: ICatalogQuery = {
+        sort: sortType.key
+      }
+
+      if(levels.length === 3){
+        obj.Level2 = levels[2]
+      }else if(levels.length === 2){
+        obj.Level3 = levels[1]
+      }else {
+        obj.Level4 = levels[0]
+      }
+
+      updateCatalog(obj)
+    }
+  }, [usedFilters])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
@@ -300,11 +307,11 @@ const Catalog: React.FC<ICatalogProps> = ({
   }
 
   const declineFilters = () => {
-    setTempFilters([...usedFilters])
+    setTempFilters(JSON.parse(JSON.stringify(usedFilters)))
   }
 
   const acceptFilters = () => {
-    setUsedFilters([...tempFilters])
+    push(`/catalog/${levels.join('/')}?page=1&feature=${JSON.stringify(tempFilters)}`)
   }
 
   const clearFilters = () => {
@@ -317,11 +324,14 @@ const Catalog: React.FC<ICatalogProps> = ({
   useEffect(()=>{
     setNewFiltersArray([...filtersArray])
     setDropdownsOpen(filtersArray.map(() => false))
+    usedFilters.splice(0, usedFilters.length)
+    setTempFilters([...usedFilters])
+
   },[filtersArray])
 
   const togglePageHandler = (el: number) =>{
     // window.scrollTo({ top: 0, behavior: 'smooth' });
-    push(`/catalog/${levels.join('/')}?page=${el}`)
+    push(`/catalog/${levels.join('/')}?page=${el}${usedFilters.length > 0 ? `&feature=${JSON.stringify(usedFilters)}` : ``}`)
   }
 
   const displayPages = () => {
@@ -405,7 +415,9 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 if(newFiltersArray[index].featureValue && newFiltersArray[index].featureValue.length > 0){
                                   dropdownsOpen[index] = !dropdownsOpen[index]
                                   setDropdownsOpen(prev => [...prev])
+                                  return;
                                 }
+
                                 let obj: ICatalogQuery = {}
 
                                 if(levels.length === 3){
@@ -559,7 +571,7 @@ const Catalog: React.FC<ICatalogProps> = ({
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
             <div>
-              {count.key !== 'null' && countPages !== 0 && <div className={s.catalog__catalog__pages}>
+              {count.key !== 'null' && countPages > 1 && <div className={s.catalog__catalog__pages}>
                 <div className={s.catalog__catalog__pages__container}>
                   {displayPages()}
                 </div>
