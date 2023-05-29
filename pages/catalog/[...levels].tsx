@@ -149,8 +149,7 @@ const Catalog: React.FC<ICatalogProps> = ({
       }
 
       window.removeEventListener('scroll', loadProducts)
-
-      if(page + loadedPage >= count_pages) return
+      if(page + loadedPage > countPages) return
       $api.post(`/product/catalog/values/20/${page+loadedPage}/`, obj)
         .then((res) => {
           loadedPage += 1
@@ -210,8 +209,6 @@ const Catalog: React.FC<ICatalogProps> = ({
 
     if(count.key === 'null'){
       return
-    }else{
-      window.removeEventListener('scroll', loadProducts)
     }
 
     const obj: ICatalogQuery = {
@@ -311,7 +308,7 @@ const Catalog: React.FC<ICatalogProps> = ({
   }
 
   const acceptFilters = () => {
-    push(`/catalog/${levels.join('/')}?page=1&feature=${JSON.stringify(tempFilters)}`)
+    push(`/catalog/${levels.join('/')}?page=1${tempFilters.length > 0 ? `&feature=${JSON.stringify(tempFilters)}` : ``}`)
   }
 
   const clearFilters = () => {
