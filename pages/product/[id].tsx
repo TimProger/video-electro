@@ -106,11 +106,11 @@ const Product: React.FC<IProductProps> = ({info}) => {
           <div className={s.product__content}>
             <div className={s.product__content__images}>
               <div className={s.product__content__images__image}>
-                <img src={image} alt={product.ProductName} />
+                {image && <img src={image} alt={product.ProductName}/>}
               </div>
               <div className={s.product__content__images__list}>
                 <img className={classNames({[s.product__content__images__list_active]: image === product.image})} onClick={() => setImage(product.image)} src={product.image} alt={product.ProductName} />
-                {images.map((el) => {
+                {images && images.length > 0 && images.map((el) => {
                   return <img onClick={() => setImage(el.imageURL)}
                               className={classNames({[s.product__content__images__list_active]: image === el.imageURL})}
                               src={el.imageURL}

@@ -22,7 +22,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
                                               title_inside,
                                               children,
                                               open = false,
-                                              type = 'inside',
+                                              type = 'block',
                                               onClick
 }) => {
 
