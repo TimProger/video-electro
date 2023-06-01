@@ -9,7 +9,7 @@ export interface ITextProps {
   href?: string;
   colored?: boolean;
   type?: 'p' | 'span' | 'link' | 'h1' | 'h2' | 'h3';
-  size?: 'bigger' | 'big' | 'big+' | 'medium' | 'small';
+  size?: 'bigger' | 'big' | 'big+' | 'medium' | 'small' | 'smaller';
   external?: boolean;
   bold?: boolean;
   no_td?: boolean;
@@ -38,6 +38,7 @@ const Text: React.FC<ITextProps> = ({
     {[s.text_bigPlus]: size === 'big+'},
     {[s.text_medium]: size === 'medium'},
     {[s.text_small]: size === 'small'},
+    {[s.text_smaller]: size === 'smaller'},
     {[s.text_colored]: colored},
     {[s.text_error]: error},
     {[s.text_bold]: bold},

@@ -15,6 +15,7 @@ import Dropdown from "@/components/UI/Dropdown";
 import {ICatalogQuery, IFilter, IProductShort} from "@/types/Product.types";
 import {$api, API_BASE_URL} from "@/http/axios";
 import {useRouter} from "next/router";
+import {isScrollAtBottom} from "@/utils/isScrollAtBottom";
 
 interface ISelectElement {
   name: string;
@@ -66,6 +67,14 @@ const Catalog: React.FC<ICatalogProps> = ({
     {
       name: 'популярности',
       key: 'popularity'
+    },
+    {
+      name: 'убыванию цены (группой)',
+      key: 'descendingGroup'
+    },
+    {
+      name: 'возрастанию цены (группой)',
+      key: 'ascendingGroup'
     }
   ])
 
@@ -122,14 +131,6 @@ const Catalog: React.FC<ICatalogProps> = ({
   const [page, setPage] = useState<number>(1)
 
   const { query } = useRouter()
-
-  function isScrollAtBottom() {
-    let windowHeight = window.innerHeight; // Высота окна браузера
-    let documentHeight = document.documentElement.scrollHeight; // Высота всего документа
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop; // Позиция прокрутки
-
-    return scrollTop + windowHeight >= documentHeight - 800;
-  }
 
   let loadedPage = 1
 
