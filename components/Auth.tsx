@@ -123,7 +123,7 @@ const Auth: React.FC<IAuthProps> = ({
               ...prevBody,
               reg: {
                 ...prevBody.reg,
-                phone: '+7',
+                phone: '+7 ',
               },
             };
           });
@@ -134,7 +134,7 @@ const Auth: React.FC<IAuthProps> = ({
               ...prevBody,
               reg: {
                 ...prevBody.reg,
-                email: e.target.value,
+                phone: '+7 ',
               },
             };
           });
@@ -399,7 +399,7 @@ const Auth: React.FC<IAuthProps> = ({
                 <Text className={s.authorization__header__text}>Рады вас видеть! Авторизуйтесь, чтобы получить больше возможностей на сайте Video-Electro.</Text>
               </div>
               <div className={s.authorization__inputs}>
-                <Text size={'small'} type={'p'}>Введите Email</Text>
+                <Text size={'small'} type={'p'}>Введите номер телефона</Text>
                 <Input value={body.auth.phone}
                        error={errors.auth.phone[0]}
                        onChange={(e) => onChangePhone(e, 'authorization')}

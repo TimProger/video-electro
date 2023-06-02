@@ -8,6 +8,9 @@ import s from '@/styles/pages/Profile.module.scss'
 import classNames from "classnames";
 import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import {setHeader} from "@/store/Slices/Profile.slice";
 
 interface IProfileProps {
 }
@@ -49,7 +52,7 @@ const Profile: React.FC<IProfileProps> = () => {
   const [urINN, setUrINN] = useState<string>('')
   const [urAddress, setUrAddress] = useState<string>('')
   const [infoEmail, setInfoEmail] = useState<string>('')
-  const [infoPhone, setInfoPhone] = useState<string>('')
+  const [infoPhone, setInfoPhone] = useState<string>('+7 ')
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInfoEmail(e.target.value)
@@ -57,7 +60,31 @@ const Profile: React.FC<IProfileProps> = () => {
   }
 
   const onChangeInfoPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInfoPhone(e.target.value)
+    let phoneVal = e.target.value.replace(/\D/g, ""),
+      formattedPhone = `+7 `
+
+    if(!phoneVal){
+      setInfoPhone(formattedPhone)
+    }
+
+    if (phoneVal.length > 1) {
+      formattedPhone += '' + phoneVal.substring(1, 4);
+    }
+
+    if (phoneVal.length >= 5) {
+      formattedPhone += ' ' + phoneVal.substring(4, 7);
+    }
+
+    if (phoneVal.length >= 8) {
+      formattedPhone += ' ' + phoneVal.substring(7, 9);
+    }
+
+    if (phoneVal.length >= 10) {
+      formattedPhone += ' ' + phoneVal.substring(9, 11);
+    }
+
+    if(formattedPhone === infoPhone) return
+    setInfoPhone(formattedPhone)
     errors.infoPhone = [false, '']
   }
 
@@ -138,6 +165,11 @@ const Profile: React.FC<IProfileProps> = () => {
     }
   },[edit])
 
+  const [orders, _setOrders] = useState<any[]>([])
+
+  const profile = useTypedSelector(state => state.profile)
+  const dispatch = useAppDispatch()
+
   const displayPages = () => {
     switch (page) {
       case 1:
@@ -185,7 +217,13 @@ const Profile: React.FC<IProfileProps> = () => {
           </div>
         </div>
       case 2:
-        return <div className={s.page__info}>
+        return <div className={s.page__orders}>
+          {orders.length > 0 ? <div></div> : <div className={s.page__orders__none}>
+            <Text size={'small'} type={'p'}>Название компании</Text>
+            <Button size={'medium'} className={'btn_'} onClick={() => {
+              dispatch(setHeader(!profile.headerShow))
+            }}>В каталог</Button>
+          </div> }
         </div>
       case 3:
         return <div className={s.page__info}>
