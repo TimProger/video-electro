@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import {GetStaticProps} from 'next'
 import React, {useEffect, useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
@@ -211,70 +211,6 @@ const Catalog: React.FC<ICatalogProps> = ({
     },500)
   }
 
-  // useEffect(() => {
-  //
-  //   if(count.key === 'null'){
-  //     return
-  //   }
-  //
-  //   const obj: ICatalogQuery = {
-  //     sort: sortType.key,
-  //   }
-  //
-  //   if(query.feature) {
-  //     obj.feature = `${query.feature}`
-  //     usedFilters.splice(0, usedFilters.length)
-  //     JSON.parse(`${query.feature}`).map((el: IFilter) => {
-  //       usedFilters.push(el)
-  //     })
-  //     setTempFilters([JSON.parse(JSON.stringify(usedFilters))])
-  //   }
-  //
-  //   if(levels.length === 3){
-  //     obj.Level2 = levels[2]
-  //   }else if(levels.length === 2){
-  //     obj.Level3 = levels[1]
-  //   }else {
-  //     obj.Level4 = levels[0]
-  //   }
-  //
-  //   if(query.page){
-  //     setPage(+`${query.page}`)
-  //   }
-  //
-  //   updateCatalog(obj)
-  //
-  //   if(query.feature){
-  //     let obj: ICatalogQuery = {}
-  //
-  //     if(usedFilters.length > 0){
-  //       obj.feature = JSON.stringify(usedFilters)
-  //     }
-  //
-  //     if(levels.length === 3){
-  //       obj.Level2 = levels[2]
-  //     }else if(levels.length === 2){
-  //       obj.Level3 = levels[1]
-  //     }else {
-  //       obj.Level4 = levels[0]
-  //     }
-  //
-  //     JSON.parse(`${query.feature}`).map((el: IFilter, index: number) => {
-  //       $api.post(`/product/catalog/getFilters/${el.feature_id}`,  obj)
-  //         .then((res) => {
-  //           newFiltersArray[index].featureValue = res.data.data
-  //           setNewFiltersArray(prev => [...prev])
-  //         })
-  //     })
-  //   }
-  //
-  //   console.log(tempFilters)
-  //
-  //   return () => {
-  //     setPage(1)
-  //   }
-  // },[count, page, sortType, query])
-
   useEffect(() => {
     if(query.page){
       setPage(+`${query.page}`)
@@ -285,6 +221,34 @@ const Catalog: React.FC<ICatalogProps> = ({
       tempFilters.splice(0, tempFilters.length)
       JSON.parse(`${query.feature}`).map((el: IFilter) => {
         usedFilters.push(el)
+
+        let obj: ICatalogQuery = {}
+
+        if(usedFilters.length > 0){
+          obj.feature = JSON.stringify(usedFilters)
+        }
+
+        if(levels.length === 3){
+          obj.Level2 = levels[2]
+        }else if(levels.length === 2){
+          obj.Level3 = levels[1]
+        }else {
+          obj.Level4 = levels[0]
+        }
+
+        $api.post(`/product/catalog/getFilters/${el.feature_id}`,  obj)
+          .then((res) => {
+            const elem = newFiltersArray.find(elem => elem.id === el.feature_id)
+            if(elem){
+              console.log(JSON.stringify(newFiltersArray), newFiltersArray.length)
+              console.log(JSON.stringify(dropdownsOpen), dropdownsOpen.length)
+              const index = newFiltersArray.indexOf(elem)
+              newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
+              dropdownsOpen[index] = true
+              setDropdownsOpen([...dropdownsOpen])
+              setNewFiltersArray([...newFiltersArray])
+            }
+          })
       })
       setUsedFilters([...usedFilters])
       setTempFilters([...JSON.parse(JSON.stringify(usedFilters))])
@@ -324,27 +288,35 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
     setTempFilters([...tempFilters])
     window.clearTimeout(timeoutId)
-    let id = window.setTimeout(acceptFilters, 1500)
+    let id = window.setTimeout(acceptFilters, 1000)
     setTimeoutId(id)
   }
 
-  const declineFilters = () => {
-    setTempFilters(JSON.parse(JSON.stringify(usedFilters)))
-  }
+  // const declineFilters = () => {
+  //   setTempFilters(JSON.parse(JSON.stringify(usedFilters)))
+  // }
 
   const clearFilters = () => {
     tempFilters.splice(0, tempFilters.length)
     window.clearTimeout(timeoutId)
-    let id = window.setTimeout(acceptFilters, 1500)
+    let id = window.setTimeout(acceptFilters, 500)
     setTimeoutId(id)
   }
 
-  const [newFiltersArray, setNewFiltersArray] = useState<IFiltersFeature[]>([...filtersArray])
-  const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>(filtersArray.map(() => false))
+  const [newFiltersArray, setNewFiltersArray] = useState<IFiltersFeature[]>([])
+  const [dropdownsOpen, setDropdownsOpen] = useState<boolean[]>([])
 
   useEffect(()=>{
     setNewFiltersArray([...filtersArray])
-    setDropdownsOpen(filtersArray.map(() => false))
+    filtersArray.map((elem, index) => {
+      if(query.feature){
+        const includes = JSON.parse(`${query.feature}`).find((el: IFilter) => el.feature_id === elem.id)
+        dropdownsOpen[index] = !!includes;
+      }else{
+        dropdownsOpen[index] = false
+      }
+    })
+    setDropdownsOpen([...dropdownsOpen])
     if(query.feature) {
       usedFilters.splice(0, usedFilters.length)
       JSON.parse(`${query.feature}`).map((el: IFilter) => {
@@ -459,7 +431,7 @@ const Catalog: React.FC<ICatalogProps> = ({
 
                                 $api.post(`/product/catalog/getFilters/${el.id}`,  obj)
                                   .then((res) => {
-                                    newFiltersArray[index].featureValue = res.data.data
+                                    newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
                                     setNewFiltersArray(prev => [...prev])
                                     dropdownsOpen[index] = !dropdownsOpen[index]
                                     setDropdownsOpen(prev => [...prev])
@@ -527,7 +499,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                                  }
                                  setTempFilters([...tempFilters])
                                  window.clearTimeout(timeoutId)
-                                 let id = window.setTimeout(acceptFilters, 1500)
+                                 let id = window.setTimeout(acceptFilters, 1000)
                                  setTimeoutId(id)
                                }} colored label={'Выбрать все'}/>}
                     {el.featureValue && el.featureValue.map((elem, index) => {
@@ -551,15 +523,15 @@ const Catalog: React.FC<ICatalogProps> = ({
                 </div>
               })}
             </div>
-            <div className={s.filters__btns}>
-              <Button
-                style={'outlined'}
-                onClick={declineFilters}
-                size={'bigger'}>Отмена</Button>
-              <Button
-                onClick={acceptFilters}
-                size={'bigger'}>Применить</Button>
-            </div>
+            {/*<div className={s.filters__btns}>*/}
+            {/*  <Button*/}
+            {/*    style={'outlined'}*/}
+            {/*    onClick={declineFilters}*/}
+            {/*    size={'bigger'}>Отмена</Button>*/}
+            {/*  <Button*/}
+            {/*    onClick={acceptFilters}*/}
+            {/*    size={'bigger'}>Применить</Button>*/}
+            {/*</div>*/}
           </div>
         </Modal>
         <div className={s.catalog}>

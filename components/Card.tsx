@@ -108,7 +108,7 @@ const Card: React.FC<ICardProps> = ({
                   {`${product.discount/product.RetailPrice*100}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 <Text bold colored={true} size={'medium'}>
-                  {`${product.discount ? product.RetailPrice-product.discount : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.RetailPrice === null ? product.discount ? product.RetailPrice-product.discount : `${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : 'По договорённости'}`} &#8381;
                 </Text>
               </div>
               <div className={s.cardLong__content__bottom__btns}>
