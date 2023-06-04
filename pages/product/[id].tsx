@@ -133,15 +133,19 @@ const Product: React.FC<IProductProps> = ({info}) => {
               <Text type={'h1'}
                     size={'big+'}>{product.ProductName}</Text>
               <div className={s.product__content__info__price}>
-                {product.discount && <Text type={'span'}
+                {product.RetailPrice !== null ? product.discount && <Text type={'span'}
                                            className={s.product__content__info__price__old}
                                            size={'medium'}>
                   {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                </Text> : <Text type={'span'}
+                                className={s.product__content__info__price__old}
+                                size={'medium'}>
+                  Цена по договорённости
                 </Text>}
                 <Text bold
                       colored={true}
                       size={'big+'}>
-                  {`${product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.RetailPrice !== null && product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.product__content__info__btns}>
@@ -165,7 +169,9 @@ const Product: React.FC<IProductProps> = ({info}) => {
               </div>
               <div className={s.product__content__info__desc}>
                 <Text size={'medium'}>Описание:</Text>
-                <Text className={s.product__content__info__desc__text}>В случае если у товара есть описание то первые 4 строчки можно вывести сюда, для удобства пользователя. Соответственно следуя этому правилу я добавлю кнопку ниже, просто так!...</Text>
+                <Text className={s.product__content__info__desc__text}>{(()=>{
+                  return product.ProductDescription.length > 170 ? `${product.ProductDescription.slice(0, 160)}...` : product.ProductDescription
+                })()} <Text onClick={() => window.scrollTo({ top: 900, behavior: 'smooth' })} type={'span'} colored>Подробнее</Text></Text>
               </div>
             </div>
           </div>

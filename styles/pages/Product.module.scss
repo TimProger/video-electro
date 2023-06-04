@@ -139,6 +139,10 @@
         &__text{
           width: 80%;
           color: $text-forth;
+
+          & span{
+            cursor: pointer;
+          }
         }
       }
     }

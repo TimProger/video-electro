@@ -104,12 +104,14 @@ const Card: React.FC<ICardProps> = ({
             </Button> : <span></span>}
             <div className={s.cardLong__content__bottom}>
               <div className={s.cardLong__content__bottom__price}>
-                {product.discount && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
+                {product.RetailPrice !== null && product.discount && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
                   {`${product.discount/product.RetailPrice*100}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
-                <Text bold colored={true} size={'medium'}>
-                  {`${product.RetailPrice === null ? product.discount ? product.RetailPrice-product.discount : `${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ") : 'По договорённости'}`} &#8381;
-                </Text>
+                {product.RetailPrice !== null ? <Text bold colored={true} size={'medium'}>
+                  {`${product.discount ? product.RetailPrice - product.discount : `${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
+                </Text> : <Text bold colored={true} size={'medium'}>
+                  По договорённости
+                </Text>}
               </div>
               <div className={s.cardLong__content__bottom__btns}>
                 {favs ? <Button onClick={()=>onRemoveFavs(product.id)}
@@ -192,12 +194,14 @@ const Card: React.FC<ICardProps> = ({
             </Text>
           </div>
           <div className={s.card__price}>
-            {product.discount && <Text type={'span'} className={s.card__price__old} size={'small'}>
+            {product.RetailPrice !== null && product.discount && <Text type={'span'} className={s.card__price__old} size={'small'}>
               {`${product.discount}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>}
-            <Text bold colored={true} size={'medium'}>
-              {`${product.discount ? product.RetailPrice-product.discount : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
-            </Text>
+            {product.RetailPrice !== null ? <Text bold colored={true} size={'medium'}>
+              {`${product.discount ? product.RetailPrice - product.discount : `${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
+            </Text> : <Text bold colored={true} size={'medium'}>
+              По договорённости
+            </Text>}
           </div>
           <div className={s.card__btns}>
             <Button icon={true}
