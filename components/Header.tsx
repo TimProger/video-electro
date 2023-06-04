@@ -101,7 +101,7 @@ const Header: React.FC<IHeaderProps> = () => {
       tension: profile.headerShow ? 200 : 300
     },
     height: profile.headerShow ? `${contentHeight < contentRightHeight ? contentRightHeight + 30 : contentHeight + 10}px` : '0px',
-    width: menuContentShow ? (width === 'desktop' ? `1120px` : `810px`) : (width === 'desktop' ? `444px` : `350px`),
+    width: menuContentShow ? (width === 'desktop' ? `1112px` : `810px`) : (width === 'desktop' ? `444px` : `350px`),
     overflow: 'hidden'
   });
 

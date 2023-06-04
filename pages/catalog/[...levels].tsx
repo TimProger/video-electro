@@ -25,6 +25,7 @@ interface ISelectElement {
 interface IFilterFeatureValue {
   featureValue: string;
   count: number;
+  disable?: boolean;
 }
 
 interface IFiltersFeature {
@@ -110,6 +111,9 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const onCountChange = (value: ISelectElement) => {
     setCount(value)
+    if(value.key !== 'null'){
+      updateCatalog(page)
+    }
   }
 
   const [viewStyle, setViewStyle] = useState<number>(0)
@@ -163,66 +167,30 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
   }
 
+  /////////////////////////////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     if(count.key === 'null'){
       window.addEventListener('scroll', loadProducts)
     }else{
       window.removeEventListener('scroll', loadProducts)
     }
+
+    return () => {
+      window.removeEventListener('scroll', loadProducts)
+    }
   },[count])
 
-  // const updateCatalog = (params: ICatalogQuery, p = page) => {
-  //
-  //   $api.post(`/product/catalog/values/${+count.key}/${p}/`, params)
-  //     .then((res) => {
-  //       setProducts([])
-  //       setData(res.data)
-  //       setIsLoading(false)
-  //     })
-  //     .catch(()=>{
-  //       setProducts([])
-  //       setIsLoading(false)
-  //     })
-  // }
+  const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
 
-  // useEffect(()=>{
-  //   if(!data) return
-  //   if(data.count_pages){
-  //     setPages(data.count_pages)
-  //   }
-  //   if(data.data) {
-  //     setProducts(data.data)
-  //   }
-  // }, [data])
-
-  const updateCatalog = (obj: ICatalogQuery) => {
-    setTimeout(()=>{
-      $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
-        .then((res) => {
-          setNewProducts(res.data.data)
-          setCountPages(res.data.count_pages)
-        })
-        .catch(() => setNewProducts([]))
-    },500)
-  }
-
-  useEffect(() => {
-
-    if(count.key === 'null'){
-      return
-    }
+  const updateCatalog = (page: number) => {
 
     const obj: ICatalogQuery = {
       sort: sortType.key,
     }
 
-    if(query.feature) {
-      obj.feature = `${query.feature}`
-      usedFilters.splice(0, usedFilters.length)
-      JSON.parse(`${query.feature}`).map((el: IFilter) => {
-        usedFilters.push(el)
-      })
-      setTempFilters([...usedFilters])
+    if(usedFilters.length > 0) {
+      obj.feature = JSON.stringify(usedFilters)
     }
 
     if(levels.length === 3){
@@ -233,57 +201,110 @@ const Catalog: React.FC<ICatalogProps> = ({
       obj.Level4 = levels[0]
     }
 
+    setTimeout(()=>{
+      $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
+        .then((res) => {
+          setNewProducts(res.data.data)
+          setCountPages(res.data.count_pages)
+        })
+        .catch(() => setNewProducts([]))
+    },500)
+  }
+
+  // useEffect(() => {
+  //
+  //   if(count.key === 'null'){
+  //     return
+  //   }
+  //
+  //   const obj: ICatalogQuery = {
+  //     sort: sortType.key,
+  //   }
+  //
+  //   if(query.feature) {
+  //     obj.feature = `${query.feature}`
+  //     usedFilters.splice(0, usedFilters.length)
+  //     JSON.parse(`${query.feature}`).map((el: IFilter) => {
+  //       usedFilters.push(el)
+  //     })
+  //     setTempFilters([JSON.parse(JSON.stringify(usedFilters))])
+  //   }
+  //
+  //   if(levels.length === 3){
+  //     obj.Level2 = levels[2]
+  //   }else if(levels.length === 2){
+  //     obj.Level3 = levels[1]
+  //   }else {
+  //     obj.Level4 = levels[0]
+  //   }
+  //
+  //   if(query.page){
+  //     setPage(+`${query.page}`)
+  //   }
+  //
+  //   updateCatalog(obj)
+  //
+  //   if(query.feature){
+  //     let obj: ICatalogQuery = {}
+  //
+  //     if(usedFilters.length > 0){
+  //       obj.feature = JSON.stringify(usedFilters)
+  //     }
+  //
+  //     if(levels.length === 3){
+  //       obj.Level2 = levels[2]
+  //     }else if(levels.length === 2){
+  //       obj.Level3 = levels[1]
+  //     }else {
+  //       obj.Level4 = levels[0]
+  //     }
+  //
+  //     JSON.parse(`${query.feature}`).map((el: IFilter, index: number) => {
+  //       $api.post(`/product/catalog/getFilters/${el.feature_id}`,  obj)
+  //         .then((res) => {
+  //           newFiltersArray[index].featureValue = res.data.data
+  //           setNewFiltersArray(prev => [...prev])
+  //         })
+  //     })
+  //   }
+  //
+  //   console.log(tempFilters)
+  //
+  //   return () => {
+  //     setPage(1)
+  //   }
+  // },[count, page, sortType, query])
+
+  useEffect(() => {
     if(query.page){
       setPage(+`${query.page}`)
     }
 
-    updateCatalog(obj)
-
-    return () => {
-      setPage(1)
+    if(query.feature) {
+      usedFilters.splice(0, usedFilters.length)
+      tempFilters.splice(0, tempFilters.length)
+      JSON.parse(`${query.feature}`).map((el: IFilter) => {
+        usedFilters.push(el)
+      })
+      setUsedFilters([...usedFilters])
+      setTempFilters([...JSON.parse(JSON.stringify(usedFilters))])
+    }else{
+      usedFilters.splice(0, usedFilters.length)
+      tempFilters.splice(0, tempFilters.length)
     }
-  },[count, page, sortType, query])
 
-  const [usedFilters, _setUsedFilters] = useState<IFilter[]>([])
-
-  useEffect(() => {
-    if(usedFilters.length > 0){
-      const obj: ICatalogQuery = {
-        sort: sortType.key,
-        feature: JSON.stringify(usedFilters)
-      }
-
-      if(levels.length === 3){
-        obj.Level2 = levels[2]
-      }else if(levels.length === 2){
-        obj.Level3 = levels[1]
-      }else {
-        obj.Level4 = levels[0]
-      }
-
-      updateCatalog(obj)
-    }
-    else{
-      const obj: ICatalogQuery = {
-        sort: sortType.key
-      }
-
-      if(levels.length === 3){
-        obj.Level2 = levels[2]
-      }else if(levels.length === 2){
-        obj.Level3 = levels[1]
-      }else {
-        obj.Level4 = levels[0]
-      }
-
-      updateCatalog(obj)
-    }
-  }, [usedFilters])
+    updateCatalog(query.page ? +`${query.page}` : 1)
+  },[query])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
 
   const [tempFilters, setTempFilters] = useState<IFilter[]>([])
 
+  const acceptFilters = () => {
+    push(`/catalog/${levels.join('/')}?page=1${tempFilters.length > 0 ? `&feature=${JSON.stringify(tempFilters)}` : ``}`)
+  }
+
+  const [timeoutId, setTimeoutId] = useState<number>(0)
   const toggleFilter = (feature_id: number, value: string) => {
     const includes = tempFilters.find((el) => el.feature_id === feature_id)
     if(!includes){
@@ -302,18 +323,20 @@ const Catalog: React.FC<ICatalogProps> = ({
       }
     }
     setTempFilters([...tempFilters])
+    window.clearTimeout(timeoutId)
+    let id = window.setTimeout(acceptFilters, 1500)
+    setTimeoutId(id)
   }
 
   const declineFilters = () => {
     setTempFilters(JSON.parse(JSON.stringify(usedFilters)))
   }
 
-  const acceptFilters = () => {
-    push(`/catalog/${levels.join('/')}?page=1${tempFilters.length > 0 ? `&feature=${JSON.stringify(tempFilters)}` : ``}`)
-  }
-
   const clearFilters = () => {
-    setTempFilters([])
+    tempFilters.splice(0, tempFilters.length)
+    window.clearTimeout(timeoutId)
+    let id = window.setTimeout(acceptFilters, 1500)
+    setTimeoutId(id)
   }
 
   const [newFiltersArray, setNewFiltersArray] = useState<IFiltersFeature[]>([...filtersArray])
@@ -322,9 +345,13 @@ const Catalog: React.FC<ICatalogProps> = ({
   useEffect(()=>{
     setNewFiltersArray([...filtersArray])
     setDropdownsOpen(filtersArray.map(() => false))
-    usedFilters.splice(0, usedFilters.length)
-    setTempFilters([...usedFilters])
-
+    if(query.feature) {
+      usedFilters.splice(0, usedFilters.length)
+      JSON.parse(`${query.feature}`).map((el: IFilter) => {
+        usedFilters.push(el)
+      })
+    }
+    setTempFilters([...JSON.parse(JSON.stringify(usedFilters))])
   },[filtersArray])
 
   const togglePageHandler = (el: number) =>{
@@ -384,9 +411,9 @@ const Catalog: React.FC<ICatalogProps> = ({
       <Container>
         <Modal showModal={isFilters} closeHandler={()=>{
           setIsFilters(false)
-          if(JSON.stringify(tempFilters) !== JSON.stringify(usedFilters)){
-            acceptFilters()
-          }
+          // if(JSON.stringify(tempFilters) !== JSON.stringify(usedFilters)){
+          //   acceptFilters()
+          // }
         }}>
           <div className={s.filters}>
             <div className={s.filters__header}>
@@ -417,6 +444,10 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 }
 
                                 let obj: ICatalogQuery = {}
+
+                                if(usedFilters.length > 0){
+                                  obj.feature = JSON.stringify(usedFilters)
+                                }
 
                                 if(levels.length === 3){
                                   obj.Level2 = levels[2]
@@ -459,41 +490,50 @@ const Catalog: React.FC<ICatalogProps> = ({
                               </Text>
                             }
                   >
-                    {el.featureValue && <Checkbox isChecked={(
-                      () => {
-                        const used = tempFilters.find((used) => used.feature_id === el.id)
-                        if (used) {
-                          return used.data.length === el.featureValue.length
-                        }
-                        return false
-                      }
-                    )()}
+                    {el.featureValue && <Checkbox disabled={(()=>{
+                                  const isAllDisabled = el.featureValue.filter((el) => el.disable)
+                                  return isAllDisabled.length === el.featureValue.length
+                                })()}
+                                isChecked={(() => {
+                                    const used = tempFilters.find((used) => used.feature_id === el.id)
+                                    if (used) {
+                                      const allThatNotDisabled = el.featureValue.filter((el) => !el.disable)
+                                      return used.data.length === allThatNotDisabled.length
+                                    }
+                                    return false
+                                  }
+                                )()}
                                className={s.filters__content__filter__options__option}
                                onChange={() => {
+                                 const allThatNotDisabled = el.featureValue.filter((el) => !el.disable)
                                  const used = tempFilters.find((used) => used.feature_id === el.id)
                                  if (used) {
                                    const index = tempFilters.indexOf(used)
-                                   if (used.data.length === el.featureValue.length) {
+                                   if (used.data.length === allThatNotDisabled.length) {
                                      tempFilters[index].data = []
                                      tempFilters.splice(index, 1)
                                    } else {
-                                     tempFilters[index].data = el.featureValue.map((value) => {
+                                     tempFilters[index].data = allThatNotDisabled.map((value) => {
                                        return value.featureValue
                                      })
                                    }
                                  } else {
                                    tempFilters.push({
                                      feature_id: el.id,
-                                     data: el.featureValue.map((value) => {
+                                     data: allThatNotDisabled.map((value) => {
                                        return value.featureValue
                                      })
                                    })
                                  }
                                  setTempFilters([...tempFilters])
+                                 window.clearTimeout(timeoutId)
+                                 let id = window.setTimeout(acceptFilters, 1500)
+                                 setTimeoutId(id)
                                }} colored label={'Выбрать все'}/>}
                     {el.featureValue && el.featureValue.map((elem, index) => {
                       return <Checkbox key={index}
                                        className={s.filters__content__filter__options__option}
+                                       disabled={!!elem.disable}
                                        isChecked={(() => {
                                          const used = tempFilters.find((used) => used.feature_id === el.id)
                                          if(used){

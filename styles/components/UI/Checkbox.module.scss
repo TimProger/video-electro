@@ -5,6 +5,17 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+
+  &_disabled{
+
+    & p{
+      color: $text-forth !important;
+    }
+
+    & .checkbox {
+      border-color: $text-forth;
+    }
+  }
 }
 
 .input {
