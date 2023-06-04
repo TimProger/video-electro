@@ -179,7 +179,7 @@ const Card: React.FC<ICardProps> = ({
                 {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
                 {product.is_hit && <div>Хит продаж</div>}
                 {product.is_new && <div>Новинка</div>}
-                {product.discount && <div>-${product.discount/product.RetailPrice*100}%</div>}
+                {product.RetailPrice !== null && product.discount && <div>-${product.discount/product.RetailPrice*100}%</div>}
               </div>
               <img src={product.image} alt={product.ProductName}/>
             </div>
@@ -190,7 +190,9 @@ const Card: React.FC<ICardProps> = ({
                     Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
                   }}
                   href={`/product/${product.id}`} no_td bold>
-              {product.ProductName}
+              {(()=>{
+                return product.ProductName.length > 48 ? `${product.ProductName.slice(0, 48)}...` : product.ProductName
+              })()}
             </Text>
           </div>
           <div className={s.card__price}>

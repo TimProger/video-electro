@@ -30,8 +30,10 @@
 
 .checkbox {
   display: inline-block;
-  height: 20px;
   width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   background: #fff;
   border: 1px solid #5B74F9;
   border-radius: 5px;
