@@ -16,6 +16,13 @@
     justify-content: space-between;
     gap: 50px;
 
+    @media screen and (max-width: 820px) {
+
+      & {
+        flex-direction: column;
+      }
+    }
+
     & p{
       color: $text-forth;
     }
@@ -25,6 +32,13 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
+
+      @media screen and (max-width: 820px) {
+
+        & {
+          width: 100%;
+        }
+      }
 
       & img{
         width: 100%;
@@ -37,6 +51,13 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+
+      @media screen and (max-width: 820px) {
+
+        & {
+          width: 100%;
+        }
+      }
 
       & img{
         width: 100%;
@@ -59,11 +80,27 @@
     box-shadow: 0 0 5px 4px $border-color-third,
     0 0 5px 2px $border-color-sec;
 
+    @media screen and (max-width: 820px) {
+
+      & {
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+
     &__left{
       width: 60%;
       display: flex;
       flex-direction: column;
       gap: 20px;
+
+      @media screen and (max-width: 820px) {
+
+        & {
+          width: 100%;
+        }
+      }
 
       & p{
         color: $text-forth;
@@ -77,6 +114,13 @@
       flex-direction: column;
       align-items: center;
       gap: 30px;
+
+      @media screen and (max-width: 820px) {
+
+        & {
+          width: 100%;
+        }
+      }
 
       &__input{
         width: 100%;

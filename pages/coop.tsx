@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Text from "@/components/UI/Text";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
@@ -79,6 +79,42 @@ const Coop: React.FC<ICoopProps> = () => {
     }
     setErrors(JSON.parse(JSON.stringify(errors)))
   }
+
+  const [width, setWidth] = useState<string>('desktop')
+
+  const resize = () => {
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 820) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', resize)
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 700) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
   return (
     <Layout>
       <Head>
@@ -95,11 +131,12 @@ const Coop: React.FC<ICoopProps> = () => {
                 <Image unoptimized width={225} height={225} src={about.src} alt=""/>
               </div>
               <div className={s.coop__content__right}>
-                <Image unoptimized width={225} height={225} src={about.src} alt=""/>
+                {width !== 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
                 <Text type={'h2'} size={'big+'}>Процесс сотрудничества</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text type={'h2'} size={'big+'}>Оптовый заказ</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
+                {width === 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
               </div>
             </div>
             <div className={s.coop__call}>

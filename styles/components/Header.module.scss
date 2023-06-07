@@ -42,8 +42,13 @@
         gap: 45px;
 
         @media screen and (max-width: 1150px) {
+
           & {
-            display: none;
+            gap: 20px;
+
+            & a {
+              font-size: $font-size-smaller !important;
+            }
           }
         }
 
