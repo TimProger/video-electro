@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
@@ -147,6 +147,41 @@ const Main: React.FC<IMainProps> = ({products}) => {
   const profile = useTypedSelector(state => state.profile)
   const dispatch = useAppDispatch()
 
+  const [width, setWidth] = useState<string>('desktop')
+
+  const resize = () => {
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 820) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', resize)
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 700) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
   return (
     <Layout>
       <Head>
@@ -177,12 +212,15 @@ const Main: React.FC<IMainProps> = ({products}) => {
           <div className={s.main__about}>
             <div className={s.main__about__info}>
               <Text size={'bigger'} type={'h2'}>О компании</Text>
+              {width === 'mobile' && <div className={s.main__about__image}>
+                <Image unoptimized width={225} height={225} src={about.src} alt=""/>
+              </div>}
               <Text size={'small'} type={'p'}>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
               <Button type={'link'} href={'/about'} size={'bigger'}>Подробнее</Button>
             </div>
-            <div className={s.main__about__image}>
+            {width !== 'mobile' && <div className={s.main__about__image}>
               <Image unoptimized width={225} height={225} src={about.src} alt=""/>
-            </div>
+            </div>}
           </div>
           <div className={s.main__team}>
             <div className={s.main__team__title}>
@@ -236,6 +274,7 @@ const Main: React.FC<IMainProps> = ({products}) => {
               <div className={s.main__call__right__input}>
                 <Text size={'small'} type={'p'}>Ваше имя</Text>
                 <Input value={callName}
+                       className={s.main__call__right__input__component}
                        error={errors.name[0]}
                        onChange={(e)=>onChangeName(e)}
                        placeholder={'Иван'}
@@ -248,6 +287,7 @@ const Main: React.FC<IMainProps> = ({products}) => {
               <div className={s.main__call__right__input}>
                 <Text size={'small'} type={'p'}>Ваш телефон</Text>
                 <Input value={callPhone}
+                       className={s.main__call__right__input__component}
                        error={errors.phone[0]}
                        onChange={(e)=>onChangePhone(e)}
                        placeholder={'+7'}
