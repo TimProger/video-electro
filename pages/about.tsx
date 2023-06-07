@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Text from "@/components/UI/Text";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
@@ -17,6 +17,43 @@ interface IAboutProps {
 
 const About: React.FC<IAboutProps> = () => {
 
+  const [width, setWidth] = useState<string>('desktop')
+
+  const resize = () => {
+    if(window){
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 820) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+  }
+
+  useEffect(()=>{
+    window.addEventListener('resize', resize)
+    console.log(1)
+    if(window){
+      console.log(window.innerWidth)
+      if(window.innerWidth > 1150){
+        setWidth('desktop')
+      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
+        setWidth('tablet')
+      }else if(window.innerWidth <= 820) {
+        setWidth('mobile')
+      }else{
+        setWidth('desktop')
+      }
+    }
+
+    return () => {
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
   return (
     <Layout>
       <Head>
@@ -33,11 +70,12 @@ const About: React.FC<IAboutProps> = () => {
                 <Image unoptimized width={225} height={225} src={about.src} alt=""/>
               </div>
               <div className={s.about__content__right}>
-                <Image unoptimized width={225} height={225} src={about.src} alt=""/>
+                {width !== 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
                 <Text type={'h2'} size={'big+'}>Что мы делаем?</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text type={'h2'} size={'big+'}>Почему стоит выбрать нас?</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
+                {width === 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
               </div>
             </div>
             <div className={s.about__documents}>
