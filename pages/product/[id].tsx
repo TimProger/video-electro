@@ -45,40 +45,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
     dispatch(toggleFavsProduct(product))
   }
 
-  const [width, setWidth] = useState<string>('desktop')
-
-  const resize = () => {
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 700) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-  }
-
-  useEffect(()=>{
-    window.addEventListener('resize', resize)
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 700) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
+  const {width} = useTypedSelector(state => state.profile)
 
   const [image, setImage] = useState<string>(product.image)
 

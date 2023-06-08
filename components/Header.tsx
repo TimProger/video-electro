@@ -34,41 +34,6 @@ const Header: React.FC<IHeaderProps> = () => {
 
   const { pathname } = useRouter();
 
-  const [width, setWidth] = useState<string>('desktop')
-
-  const resize = () => {
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-  }
-
-  useEffect(()=>{
-    window.addEventListener('resize', resize)
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
-
   const favs = useTypedSelector(state => state.favs)
   const profile = useTypedSelector(state => state.profile)
   // const basket = useTypedSelector(state => state.basket)
@@ -101,7 +66,7 @@ const Header: React.FC<IHeaderProps> = () => {
       tension: profile.headerShow ? 200 : 300
     },
     height: profile.headerShow ? `${contentHeight < contentRightHeight ? contentRightHeight + 30 : contentHeight + 10}px` : '0px',
-    width: width === 'mobile' ? '100%' : (menuContentShow ? (width === 'desktop' ? `1112px` : `810px`) : (width === 'desktop' ? `444px` : `350px`)),
+    width: profile.width === 'mobile' ? '100%' : (menuContentShow ? (profile.width === 'desktop' ? `1112px` : `810px`) : (profile.width === 'desktop' ? `444px` : `350px`)),
     overflow: 'hidden'
   });
 
@@ -110,7 +75,7 @@ const Header: React.FC<IHeaderProps> = () => {
       friction: menuContentShow ? 30 : 50,
       tension: menuContentShow ? 200 : 500
     },
-    width: menuContentShow ? (width === 'desktop' ? `688px` : `470px`) : '0px',
+    width: menuContentShow ? (profile.width === 'desktop' ? `688px` : `470px`) : '0px',
     height: `${contentRightHeight + 30}px`,
     overflow: 'hidden'
   });
@@ -151,7 +116,7 @@ const Header: React.FC<IHeaderProps> = () => {
             </div>
           </div>
           <div className={s.header__top__right}>
-            {width !== 'mobile' && <div
+            {profile.width !== 'mobile' && <div
               className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: pathname === '/favs'})}>
               <Link href={'/favs'}>
                 {favs.products.length > 0 && <div
@@ -217,7 +182,7 @@ const Header: React.FC<IHeaderProps> = () => {
             </svg>}
             Каталог
           </Button>
-          {width === 'mobile' && <div className={s.header__top__right}>
+          {profile.width === 'mobile' && <div className={s.header__top__right}>
             <div
               className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: pathname === '/favs'})}>
               <Link href={'/favs'}>
@@ -238,7 +203,7 @@ const Header: React.FC<IHeaderProps> = () => {
               </svg>
             </div>
           </div>}
-          {width !== 'mobile' && <Input value={searchValue}
+          {profile.width !== 'mobile' && <Input value={searchValue}
                                         onChange={(e) => setSearchValue(e.target.value)}
                                         placeholder={'Поиск'} key={'s'}
                                         icon={<svg className={s.header__bottom__svg} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +217,7 @@ const Header: React.FC<IHeaderProps> = () => {
           <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: profile.headerShow})}>
             <div ref={refMenuLeft} className={s.headerMenu__left}>
               <div className={s.headerMenu__left__space}></div>
-              {width === 'mobile' && menuContentShow !== 0 && <div className={s.headerMenu__right__back} onClick={() => {
+              {profile.width === 'mobile' && menuContentShow !== 0 && <div className={s.headerMenu__right__back} onClick={() => {
                 setMenuContentShow(0)
                 setTimeout(()=>{
                   setMenuContent([])
@@ -263,7 +228,7 @@ const Header: React.FC<IHeaderProps> = () => {
                         strokeLinejoin="round"/>
                 </svg>
                 Назад</div>}
-              {width === 'mobile' && menuContentShow !== 0 && <Text type={'h2'}
+              {profile.width === 'mobile' && menuContentShow !== 0 && <Text type={'h2'}
                                                                     size={'big'}
                                                                     className={s.headerMenu__right__name}>{(()=>{
                 const found = data.find((el: any) => el.Level4ID === menuContentShow)
@@ -273,7 +238,7 @@ const Header: React.FC<IHeaderProps> = () => {
                   return
                 }
               })()}</Text>}
-              {width !== 'mobile' ? data.map((el: any) => {
+              {profile.width !== 'mobile' ? data.map((el: any) => {
                 return (<div key={el.Level4ID} onClick={()=>{
                   if(menuContentShow === el.Level4ID){
                     setMenuContentShow(0)
@@ -291,7 +256,7 @@ const Header: React.FC<IHeaderProps> = () => {
                   </div>
                   <svg style={{
                     transition: 'all .3s linear',
-                    transform: menuContentShow === el.Level4ID ? (width === 'mobile' ? 'rotate(-90deg)' : 'rotate(90deg)') : 'rotate(-90deg)'
+                    transform: menuContentShow === el.Level4ID ? (profile.width === 'mobile' ? 'rotate(-90deg)' : 'rotate(90deg)') : 'rotate(-90deg)'
                   }} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L9 9L17 1" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round"
                           strokeLinejoin="round"/>
@@ -343,7 +308,7 @@ const Header: React.FC<IHeaderProps> = () => {
                   </div>
                   <svg style={{
                     transition: 'all .3s linear',
-                    transform: menuContentShow === el.Level4ID ? (width === 'mobile' ? 'rotate(-90deg)' : 'rotate(90deg)') : 'rotate(-90deg)'
+                    transform: menuContentShow === el.Level4ID ? (profile.width === 'mobile' ? 'rotate(-90deg)' : 'rotate(90deg)') : 'rotate(-90deg)'
                   }} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L9 9L17 1" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round"
                           strokeLinejoin="round"/>
@@ -352,7 +317,7 @@ const Header: React.FC<IHeaderProps> = () => {
               })}
               <div className={s.headerMenu__left__space}></div>
             </div>
-            {width !== 'mobile' && <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
+            {profile.width !== 'mobile' && <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
               <div ref={refMenuRight} className={s.headerMenu__right}>
                 {menuContent.map((el) => {
                   return <div className={s.headerMenu__right__lvl1_container}>

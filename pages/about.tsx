@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Text from "@/components/UI/Text";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
@@ -11,48 +11,14 @@ import certificate1 from "@/public/images/pages/about/documents/certificate1.png
 import certificate2 from "@/public/images/pages/about/documents/certificate2.png"
 import certificate3 from "@/public/images/pages/about/documents/certificate3.png"
 import Image from "next/image";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
 
 interface IAboutProps {
 }
 
 const About: React.FC<IAboutProps> = () => {
 
-  const [width, setWidth] = useState<string>('desktop')
-
-  const resize = () => {
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-  }
-
-  useEffect(()=>{
-    window.addEventListener('resize', resize)
-    console.log(1)
-    if(window){
-      console.log(window.innerWidth)
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
+  const {width} = useTypedSelector(state => state.profile)
 
   return (
     <Layout>

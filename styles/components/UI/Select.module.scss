@@ -16,11 +16,26 @@
     }
   }
 
+  @media screen and (max-width: 820px) {
+    & {
+      width: 110px;
+    }
+  }
+
   *{
     margin: 0;
   }
 
   & svg{
+    width: 17px;
+    min-width: 17px;
+
+    @media screen and (max-width: 820px) {
+      & {
+        width: 14px;
+        min-width: 14px;
+      }
+    }
 
     & path{
       transition: all .3s;
@@ -54,6 +69,12 @@
     box-sizing: border-box;
     z-index: $z-index-dropdown-upper;
 
+    @media screen and (max-width: 820px) {
+      & {
+        padding: 5px 10px;
+      }
+    }
+
     & p{
       color: $text-forth;
     }
@@ -83,6 +104,20 @@
       justify-content: center;
       margin-top: 15px;
       z-index: $z-index-dropdown;
+
+      @media screen and (max-width: 820px) {
+        & {
+          margin-left: 137px;
+        }
+      }
+
+      @media screen and (max-width: 300px) {
+        & {
+          margin-left: 0;
+          width: 100%;
+          left: 0;
+        }
+      }
     }
 
     @media screen and (max-width: 1150px) {

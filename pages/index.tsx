@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
@@ -7,11 +7,6 @@ import s from '@/styles/pages/Main.module.scss'
 import Text from "@/components/UI/Text";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
-// import team__ivan from "@/public/images/pages/main/team/ivan_vlad.png"
-// import team__petrov from "@/public/images/pages/main/team/petrov_oleg.png"
-// import team__aranian from "@/public/images/pages/main/team/aranian_viktorya.png"
-// import team__belov from "@/public/images/pages/main/team/belov_arseniy.png"
-// import about from "@/public/images/pages/main/about.jpg"
 import welcome from "@/public/images/pages/main/welcome.jpg"
 import Image from "next/image";
 import Input from "@/components/UI/Input";
@@ -22,6 +17,11 @@ import {API_BASE_URL} from "@/http/axios";
 import {setHeader} from "@/store/Slices/Profile.slice";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
+// import team__ivan from "@/public/images/pages/main/team/ivan_vlad.png"
+// import team__petrov from "@/public/images/pages/main/team/petrov_oleg.png"
+// import team__aranian from "@/public/images/pages/main/team/aranian_viktorya.png"
+// import team__belov from "@/public/images/pages/main/team/belov_arseniy.png"
+// import about from "@/public/images/pages/main/about.jpg"
 
 interface IMainProps {
   products: IProductShort[]
@@ -147,41 +147,6 @@ const Main: React.FC<IMainProps> = ({products}) => {
   const profile = useTypedSelector(state => state.profile)
   const dispatch = useAppDispatch()
 
-  const [width, setWidth] = useState<string>('desktop')
-
-  const resize = () => {
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-  }
-
-  useEffect(()=>{
-    window.addEventListener('resize', resize)
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 700) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 700) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
-
   return (
     <Layout>
       <Head>
@@ -212,13 +177,13 @@ const Main: React.FC<IMainProps> = ({products}) => {
           <div className={s.main__about}>
             <div className={s.main__about__info}>
               <Text size={'bigger'} type={'h2'}>О компании</Text>
-              {width === 'mobile' && <div className={s.main__about__image}>
+              {profile.width === 'mobile' && <div className={s.main__about__image}>
                 <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
               </div>}
               <Text size={'small'} type={'p'}>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
               <Button type={'link'} href={'/about'} size={'bigger'}>Подробнее</Button>
             </div>
-            {width !== 'mobile' && <div className={s.main__about__image}>
+            {profile.width !== 'mobile' && <div className={s.main__about__image}>
               <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
             </div>}
           </div>

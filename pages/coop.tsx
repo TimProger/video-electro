@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Text from "@/components/UI/Text";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
@@ -9,6 +9,7 @@ import s from '@/styles/pages/Coop.module.scss'
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
 
 interface ICoopProps {
 }
@@ -80,40 +81,8 @@ const Coop: React.FC<ICoopProps> = () => {
     setErrors(JSON.parse(JSON.stringify(errors)))
   }
 
-  const [width, setWidth] = useState<string>('desktop')
+  const {width} = useTypedSelector(state => state.profile)
 
-  const resize = () => {
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-  }
-
-  useEffect(()=>{
-    window.addEventListener('resize', resize)
-    if(window){
-      if(window.innerWidth > 1150){
-        setWidth('desktop')
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        setWidth('mobile')
-      }else{
-        setWidth('desktop')
-      }
-    }
-
-    return () => {
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
 
   return (
     <Layout>

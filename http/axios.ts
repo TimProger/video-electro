@@ -17,7 +17,7 @@ const $api = axios.create({
 
 const authInterceptor = (config: InternalAxiosRequestConfig) => {
   if(config.headers){
-    config.headers.Authorization = Storage.get("accessToken");
+      config.headers.Authorization = Storage.get("accessToken");
   }
   return config;
 };
