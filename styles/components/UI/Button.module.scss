@@ -194,13 +194,13 @@
     }
 
     &:hover{
-      background: $block-main;
-      color: $text-third;
+      background: $block-sec-hover-sec;
+      color: $text-sec;
 
       & svg{
 
         & path{
-          stroke: $text-third;
+          stroke: $text-sec;
         }
       }
     }

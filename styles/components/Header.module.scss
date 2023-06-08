@@ -17,6 +17,13 @@
     }
   }
 
+  @media screen and (max-width: 820px) {
+
+    & {
+      width: 100%;
+    }
+  }
+
   &__top{
     display: flex;
     align-items: center;
@@ -52,6 +59,13 @@
           }
         }
 
+        @media screen and (max-width: 820px) {
+
+          & {
+            display: none;
+          }
+        }
+
         & a{
           color: $text-forth;
         }
@@ -63,9 +77,14 @@
       gap: 48px;
 
       &__link{
+        cursor: pointer;
+        user-select: none;
 
         & svg{
           height: 35px;
+          min-height: 35px;
+          width: 25px;
+          min-width: 25px;
         }
 
         &__svg{
@@ -130,8 +149,21 @@
     align-items: center;
     gap: 40px;
 
+    @media screen and (max-width: 820px) {
+      & {
+        justify-content: space-between;
+      }
+    }
+
     &__btn{
       visibility: visible;
+    }
+
+    &__svg{
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
     }
   }
 }
@@ -151,6 +183,12 @@
         width: 800px;
       }
     }
+
+    @media screen and (max-width: 820px) {
+      & {
+        width: 95%;
+      }
+    }
   }
 
   &__animated{
@@ -164,6 +202,12 @@
     @media screen and (max-width: 1150px) {
       & {
         width: 800px;
+      }
+    }
+
+    @media screen and (max-width: 820px) {
+      & {
+        left: 0;
       }
     }
   }
@@ -189,6 +233,12 @@
       }
     }
 
+    @media screen and (max-width: 820px) {
+      & {
+        width: 100%;
+      }
+    }
+
     &__item{
       padding: 10px 25px;
       display: flex;
@@ -198,6 +248,13 @@
       &:hover{
         background-color: $block-forth-hover;
         cursor: pointer;
+      }
+
+      & svg{
+        height: 15px;
+        width: 15px;
+        min-height: 15px;
+        min-width: 15px;
       }
     }
 
@@ -223,6 +280,25 @@
     padding-bottom: 20px;
     margin-bottom: 20px;
 
+    &__back{
+      padding: 0 25px 0 50px;
+      color: $text-forth;
+      cursor: pointer;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+
+      & svg{
+        transform: rotate(90deg);
+        height: 8px;
+      }
+    }
+
+    &__name{
+      padding: 0 25px 0 50px;
+    }
+
     &__animated{
       position: absolute;
       margin-left: 422px;
@@ -241,6 +317,12 @@
       align-items: flex-start;
       width: 100%;
       margin-top: 20px;
+
+      @media screen and (max-width: 820px) {
+        & {
+          margin-top: 10px;
+        }
+      }
     }
 
     &__lvl2_container{

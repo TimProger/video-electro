@@ -101,7 +101,7 @@ const Header: React.FC<IHeaderProps> = () => {
       tension: profile.headerShow ? 200 : 300
     },
     height: profile.headerShow ? `${contentHeight < contentRightHeight ? contentRightHeight + 30 : contentHeight + 10}px` : '0px',
-    width: menuContentShow ? (width === 'desktop' ? `1112px` : `810px`) : (width === 'desktop' ? `444px` : `350px`),
+    width: width === 'mobile' ? '100%' : (menuContentShow ? (width === 'desktop' ? `1112px` : `810px`) : (width === 'desktop' ? `444px` : `350px`)),
     overflow: 'hidden'
   });
 
@@ -134,6 +134,8 @@ const Header: React.FC<IHeaderProps> = () => {
     setMenuContent(content)
   }
 
+  const [searchOpen, setSearchOpen] = useState<boolean>(false)
+
   return (
     <>
       <Auth show={showAuth} setShow={setShowAuth} />
@@ -149,15 +151,18 @@ const Header: React.FC<IHeaderProps> = () => {
             </div>
           </div>
           <div className={s.header__top__right}>
-            <div className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: pathname === '/favs'})}>
+            {width !== 'mobile' && <div
+              className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: pathname === '/favs'})}>
               <Link href={'/favs'}>
                 {favs.products.length > 0 && <div
                   className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
                 <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13 4.00018C10.6008 1.20415 6.59169 0.340049 3.58563 2.90037C0.579573 5.46069 0.156361 9.74142 2.51704 12.7695C4.47978 15.2872 10.4197 20.5971 12.3665 22.3157C12.5843 22.508 12.6932 22.6042 12.8203 22.6419C12.9311 22.6749 13.0524 22.6749 13.1633 22.6419C13.2903 22.6042 13.3992 22.508 13.617 22.3157C15.5638 20.5971 21.5038 15.2872 23.4665 12.7695C25.8272 9.74142 25.4557 5.43376 22.3979 2.90037C19.3402 0.366981 15.3992 1.20415 13 4.00018Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M13 4.00018C10.6008 1.20415 6.59169 0.340049 3.58563 2.90037C0.579573 5.46069 0.156361 9.74142 2.51704 12.7695C4.47978 15.2872 10.4197 20.5971 12.3665 22.3157C12.5843 22.508 12.6932 22.6042 12.8203 22.6419C12.9311 22.6749 13.0524 22.6749 13.1633 22.6419C13.2903 22.6042 13.3992 22.508 13.617 22.3157C15.5638 20.5971 21.5038 15.2872 23.4665 12.7695C25.8272 9.74142 25.4557 5.43376 22.3979 2.90037C19.3402 0.366981 15.3992 1.20415 13 4.00018Z"
+                        stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
-            </div>
+            </div>}
             {/*<div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/basket'})}>*/}
             {/*  <Link href={'/basket'}>*/}
             {/*    /!*{basket.products.length > 0 && <div*!/*/}
@@ -201,15 +206,45 @@ const Header: React.FC<IHeaderProps> = () => {
           <Button size={'big'}
                   className={s.header__bottom__btn}
                   onClick={()=>dispatch(setHeader(!profile.headerShow))}
+                  style={profile.headerShow ? 'outlined' : 'filled'}
           >
-            <svg width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1.5 1H17.5M1.5 7H17.5M1.5 13H17.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            {profile.headerShow ? <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L17 17M17 1L1 17" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              : <svg width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 1H17.5M1.5 7H17.5M1.5 13H17.5" stroke="white" strokeWidth="2" strokeLinecap="round"
+                    strokeLinejoin="round"/>
+            </svg>}
             Каталог
           </Button>
-          <Input value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} placeholder={'Поиск'} key={'s'} icon={<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.7955 13.8111L19 19M16 8.5C16 12.6421 12.6421 16 8.5 16C4.35786 16 1 12.6421 1 8.5C1 4.35786 4.35786 1 8.5 1C12.6421 1 16 4.35786 16 8.5Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>} />
+          {width === 'mobile' && <div className={s.header__top__right}>
+            <div
+              className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: pathname === '/favs'})}>
+              <Link href={'/favs'}>
+                {favs.products.length > 0 && <div
+                  className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
+                <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M13 4.00018C10.6008 1.20415 6.59169 0.340049 3.58563 2.90037C0.579573 5.46069 0.156361 9.74142 2.51704 12.7695C4.47978 15.2872 10.4197 20.5971 12.3665 22.3157C12.5843 22.508 12.6932 22.6042 12.8203 22.6419C12.9311 22.6749 13.0524 22.6749 13.1633 22.6419C13.2903 22.6042 13.3992 22.508 13.617 22.3157C15.5638 20.5971 21.5038 15.2872 23.4665 12.7695C25.8272 9.74142 25.4557 5.43376 22.3979 2.90037C19.3402 0.366981 15.3992 1.20415 13 4.00018Z"
+                        stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
+            </div>
+            <div
+              onClick={() => setSearchOpen(prev => !prev)}
+              className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: searchOpen})}>
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>}
+          {width !== 'mobile' && <Input value={searchValue}
+                                        onChange={(e) => setSearchValue(e.target.value)}
+                                        placeholder={'Поиск'} key={'s'}
+                                        icon={<svg className={s.header__bottom__svg} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>}
+          />}
         </div>
       </div>
       <div className={s.headerMenu__container}>
@@ -217,7 +252,28 @@ const Header: React.FC<IHeaderProps> = () => {
           <div ref={ref} className={classNames(s.headerMenu, {[s.headerMenu_active]: profile.headerShow})}>
             <div ref={refMenuLeft} className={s.headerMenu__left}>
               <div className={s.headerMenu__left__space}></div>
-              {data.map((el: any) => {
+              {width === 'mobile' && menuContentShow !== 0 && <div className={s.headerMenu__right__back} onClick={() => {
+                setMenuContentShow(0)
+                setTimeout(()=>{
+                  setMenuContent([])
+                }, 300)
+              }}>
+                <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1L9 9L17 1" stroke="#898989" strokeWidth="2" strokeLinecap="round"
+                        strokeLinejoin="round"/>
+                </svg>
+                Назад</div>}
+              {width === 'mobile' && menuContentShow !== 0 && <Text type={'h2'}
+                                                                    size={'big'}
+                                                                    className={s.headerMenu__right__name}>{(()=>{
+                const found = data.find((el: any) => el.Level4ID === menuContentShow)
+                if(found){
+                  return found.Level4Name
+                }else{
+                  return
+                }
+              })()}</Text>}
+              {width !== 'mobile' ? data.map((el: any) => {
                 return (<div key={el.Level4ID} onClick={()=>{
                   if(menuContentShow === el.Level4ID){
                     setMenuContentShow(0)
@@ -233,23 +289,79 @@ const Header: React.FC<IHeaderProps> = () => {
                   <div>
                     <Text>{el.Level4Name}</Text>
                   </div>
-                  <svg style={{transition: 'all .3s linear', transform: menuContentShow === el.Level4ID ? 'rotate(90deg)' : 'rotate(-90deg)'}} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1L9 9L17 1" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg style={{
+                    transition: 'all .3s linear',
+                    transform: menuContentShow === el.Level4ID ? (width === 'mobile' ? 'rotate(-90deg)' : 'rotate(90deg)') : 'rotate(-90deg)'
+                  }} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L9 9L17 1" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
+                  </svg>
+                </div>)
+              }) : menuContentShow !== 0 ? menuContent.map((el) => {
+                return <div className={s.headerMenu__right__lvl1_container}>
+                  <div key={el.Level3ID} className={s.headerMenu__right__lvl1}>
+                    <Text no_td type={'link'} onClick={() => {
+                      setMenuContentShow(0)
+                      setTimeout(() => {
+                        setMenuContent([])
+                      }, 300)
+                      dispatch(setHeader(false))
+                    }} href={`/catalog/${menuContentShow}/${el.Level3ID}`} colored>
+                      {el.Level3Name}
+                    </Text>
+                  </div>
+                  <div className={s.headerMenu__right__lvl2_container}>
+                    {el.Level2.map((elem: any) => {
+                      return <Text no_td onClick={() => {
+                        setMenuContentShow(0)
+                        setTimeout(() => {
+                          setMenuContent([])
+                        }, 300)
+                        dispatch(setHeader(false))
+                      }} type={'link'} href={`/catalog/${menuContentShow}/${el.Level3ID}/${elem.Level2ID}`}
+                                   key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
+                        {elem.Level2Name}
+                      </Text>
+                    })}
+                  </div>
+                </div>
+              }) : data.map((el: any) => {
+                return (<div key={el.Level4ID} onClick={()=>{
+                  if(menuContentShow === el.Level4ID){
+                    setMenuContentShow(0)
+                    setTimeout(()=>{
+                      setMenuContent([])
+                    }, 300)
+                  }else{
+                    // @ts-ignore
+                    setMenuContentShow(el.Level4ID)
+                    onMenuClick(el.Level3)
+                  }
+                }} className={s.headerMenu__left__item}>
+                  <div>
+                    <Text>{el.Level4Name}</Text>
+                  </div>
+                  <svg style={{
+                    transition: 'all .3s linear',
+                    transform: menuContentShow === el.Level4ID ? (width === 'mobile' ? 'rotate(-90deg)' : 'rotate(90deg)') : 'rotate(-90deg)'
+                  }} width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L9 9L17 1" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
                   </svg>
                 </div>)
               })}
               <div className={s.headerMenu__left__space}></div>
             </div>
-            <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
+            {width !== 'mobile' && <animated.div className={classNames(s.headerMenu__right__animated)} style={expand__right}>
               <div ref={refMenuRight} className={s.headerMenu__right}>
-                {menuContent.map((el)=>{
+                {menuContent.map((el) => {
                   return <div className={s.headerMenu__right__lvl1_container}>
                     <div key={el.Level3ID} className={s.headerMenu__right__lvl1}>
                       <Text no_td type={'link'} onClick={() => {
                         setMenuContentShow(0)
-                        setTimeout(()=>{
+                        setTimeout(() => {
                           setMenuContent([])
-                        },300)
+                        }, 300)
                         dispatch(setHeader(false))
                       }} href={`/catalog/${menuContentShow}/${el.Level3ID}`} colored>
                         {el.Level3Name}
@@ -259,11 +371,12 @@ const Header: React.FC<IHeaderProps> = () => {
                       {el.Level2.map((elem: any) => {
                         return <Text no_td onClick={() => {
                           setMenuContentShow(0)
-                          setTimeout(()=>{
+                          setTimeout(() => {
                             setMenuContent([])
-                          },300)
+                          }, 300)
                           dispatch(setHeader(false))
-                        }} type={'link'} href={`/catalog/${menuContentShow}/${el.Level3ID}/${elem.Level2ID}`} key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
+                        }} type={'link'} href={`/catalog/${menuContentShow}/${el.Level3ID}/${elem.Level2ID}`}
+                                     key={elem.Level2ID} className={s.headerMenu__right__lvl2}>
                           {elem.Level2Name}
                         </Text>
                       })}
@@ -271,7 +384,7 @@ const Header: React.FC<IHeaderProps> = () => {
                   </div>
                 })}
               </div>
-            </animated.div>
+            </animated.div>}
           </div>
         </animated.div>
       </div>
