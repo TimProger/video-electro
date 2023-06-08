@@ -59,7 +59,15 @@
   }
 
   & svg{
-    height: 17px;
+    width: 17px;
+    min-width: 17px;
+
+    @media screen and (max-width: 420px) {
+      & {
+        width: 12px;
+        min-width: 12px;
+      }
+    }
   }
 
   &_bigger{
