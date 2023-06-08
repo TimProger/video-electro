@@ -5,7 +5,7 @@ import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/Coop.module.scss'
-import about from "@/public/images/pages/main/about.jpg"
+// import about from "@/public/images/pages/main/about.jpg"
 import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
@@ -128,15 +128,15 @@ const Coop: React.FC<ICoopProps> = () => {
                 <Text type={'h1'} size={'bigger'}>Сотрудничество</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
-                <Image unoptimized width={225} height={225} src={about.src} alt=""/>
+                <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
               </div>
               <div className={s.coop__content__right}>
-                {width !== 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
+                {width !== 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
                 <Text type={'h2'} size={'big+'}>Процесс сотрудничества</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text type={'h2'} size={'big+'}>Оптовый заказ</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
-                {width === 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
+                {width === 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
               </div>
             </div>
             <div className={s.coop__call}>

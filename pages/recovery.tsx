@@ -5,7 +5,7 @@ import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/Recovery.module.scss'
-import about from "@/public/images/pages/main/about.jpg"
+// import about from "@/public/images/pages/main/about.jpg"
 import recovery_one from "@/public/images/pages/recovery/1.png"
 import recovery_two from "@/public/images/pages/recovery/2.png"
 import recovery_three from "@/public/images/pages/recovery/3.png"
@@ -55,7 +55,7 @@ const Recovery: React.FC<IRecoveryProps> = () => {
                 </div>
               </div>
               <div className={s.recovery__content__right}>
-                <Image unoptimized width={225} height={225} src={about.src} alt=""/>
+                <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
               </div>
             </div>
           </div>

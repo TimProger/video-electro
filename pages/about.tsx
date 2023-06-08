@@ -5,7 +5,7 @@ import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/About.module.scss'
-import about from "@/public/images/pages/main/about.jpg"
+// import about from "@/public/images/pages/main/about.jpg"
 import certificate0 from "@/public/images/pages/about/documents/certificate0.png"
 import certificate1 from "@/public/images/pages/about/documents/certificate1.png"
 import certificate2 from "@/public/images/pages/about/documents/certificate2.png"
@@ -67,15 +67,15 @@ const About: React.FC<IAboutProps> = () => {
                 <Text type={'h1'} size={'bigger'}>О компании</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
-                <Image unoptimized width={225} height={225} src={about.src} alt=""/>
+                <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
               </div>
               <div className={s.about__content__right}>
-                {width !== 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
+                {width !== 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
                 <Text type={'h2'} size={'big+'}>Что мы делаем?</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text type={'h2'} size={'big+'}>Почему стоит выбрать нас?</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
-                {width === 'mobile' && <Image unoptimized width={225} height={225} src={about.src} alt=""/>}
+                {width === 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
               </div>
             </div>
             <div className={s.about__documents}>
