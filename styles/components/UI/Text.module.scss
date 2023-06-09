@@ -58,6 +58,18 @@
         font-size: $font-size-big;
       }
     }
+
+    @media screen and (max-width: 820px) {
+      & {
+        font-size: $font-size-medium;
+      }
+    }
+
+    @media screen and (max-width: 420px) {
+      & {
+        font-size: $font-size-small;
+      }
+    }
   }
 
   &_bigger{
@@ -70,6 +82,12 @@
     }
 
     @media screen and (max-width: 820px) {
+      & {
+        font-size: $font-size-big;
+      }
+    }
+
+    @media screen and (max-width: 420px) {
       & {
         font-size: $font-size-medium;
       }
