@@ -57,19 +57,19 @@ const Product: React.FC<IProductProps> = ({info}) => {
       </Head>
       <Container>
         <div className={s.product}>
-          <Text no_td
-                className={s.product__back}
-                type={'link'}
-                href={(()=>{
-                  if (typeof window !== 'undefined') {
-                    return Storage.get('prevPage')
-                  }
-                })()}
-                colored>
+          {width !== 'mobile' && <Text no_td
+                 className={s.product__back}
+                 type={'link'}
+                 href={(() => {
+                   if (typeof window !== 'undefined') {
+                     return Storage.get('prevPage')
+                   }
+                 })()}
+                 colored>
             <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M7 1L1 7L7 13" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            Назад</Text>
+            Назад</Text>}
           <div className={s.product__content}>
             <div className={s.product__content__images}>
               <div className={s.product__content__images__image}>
@@ -86,7 +86,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
               </div>
             </div>
             <div className={s.product__content__info}>
-              <div className={s.product__content__info__header}>
+              {width !== 'mobile' && <div className={s.product__content__info__header}>
                 <div className={s.product__content__info__header__statuses}>
                   {/*{product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}*/}
                   {product.is_hit && <div>Хит продаж</div>}
@@ -96,7 +96,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
                 <div className={s.product__content__info__header__article}>
                   <div>Артикул: {product.ProductCode}</div>
                 </div>
-              </div>
+              </div>}
               <Text type={'h1'}
                     size={'big+'}>{product.ProductName}</Text>
               <div className={s.product__content__info__price}>
