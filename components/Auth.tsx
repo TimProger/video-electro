@@ -411,6 +411,7 @@ const Auth: React.FC<IAuthProps> = ({
               <div className={s.authorization__inputs}>
                 <Text size={'small'} type={'p'}>Введите пароль</Text>
                 <Input value={body.auth.password}
+                       type={'password'}
                        error={errors.auth.password[0]}
                        onChange={(e) => onChangePassword(e, 'authorization')}
                        full
@@ -504,6 +505,7 @@ const Auth: React.FC<IAuthProps> = ({
                        onChange={(e) => onChangePassword(e, 'registration')}
                        full
                        placeholder={'Пароль'}
+                       type={'password'}
                        key={'password'} />
                 {errors.reg.password[1].length > 0 && <Text error={errors.reg.password[0]}>{errors.reg.password[1]}</Text>}
               </div>
@@ -514,6 +516,7 @@ const Auth: React.FC<IAuthProps> = ({
                        onChange={(e) => onChangePasswordRepeat(e)}
                        full
                        placeholder={'Пароль'}
+                       type={'password'}
                        key={'password_repeat'} />
                 {errors.reg.password_repeat[1].length > 0 && <Text error={errors.reg.password_repeat[0]}>{errors.reg.password_repeat[1]}</Text>}
               </div>

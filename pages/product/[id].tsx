@@ -134,12 +134,14 @@ const Product: React.FC<IProductProps> = ({info}) => {
                   </svg>
                 </Button>
               </div>
-              <div className={s.product__content__info__desc}>
+              {product.ProductDescription && product.ProductDescription.length > 0 && <div className={s.product__content__info__desc}>
                 <Text size={'medium'}>Описание:</Text>
-                <Text className={s.product__content__info__desc__text}>{(()=>{
+                <Text className={s.product__content__info__desc__text}>{(() => {
                   return product.ProductDescription.length > 170 ? `${product.ProductDescription.slice(0, 160)}...` : product.ProductDescription
-                })()} <Text onClick={() => window.scrollTo({ top: 900, behavior: 'smooth' })} type={'span'} colored>Подробнее</Text></Text>
-              </div>
+                })()} <Text onClick={() => window.scrollTo({top: 900, behavior: 'smooth'})} type={'span'}
+                            colored>Подробнее</Text>
+                </Text>
+              </div>}
             </div>
           </div>
           <div className={s.product__info}>
@@ -153,12 +155,12 @@ const Product: React.FC<IProductProps> = ({info}) => {
                 </div>
               })}
             </div>
-            <div className={s.product__info__desc}>
+            {product.ProductDescription && product.ProductDescription.length > 0 && <div className={s.product__info__desc}>
               <Text size={'big+'} type={'h2'}>Описание</Text>
               <Text className={s.product__info__desc__text}>
                 {product.ProductDescription}
               </Text>
-            </div>
+            </div>}
           </div>
         </div>
       </Container>
