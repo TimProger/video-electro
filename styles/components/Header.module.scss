@@ -76,9 +76,29 @@
       display: flex;
       gap: 48px;
 
+      @media screen and (max-width: 1150px) {
+        & {
+          gap: 20px;
+        }
+      }
+
       &__link{
         cursor: pointer;
         user-select: none;
+
+        &__image{
+          height: 35px;
+          min-height: 35px;
+          width: 35px;
+          min-width: 35px;
+          background-size: cover;
+          border-radius: 50%;
+          border: none;
+
+          &_active{
+            border: 1px solid $border-color-main;
+          }
+        }
 
         & svg{
           height: 35px;

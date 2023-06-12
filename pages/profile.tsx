@@ -11,6 +11,9 @@ import Button from "@/components/UI/Button";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {setHeader} from "@/store/Slices/Profile.slice";
+import {useRouter} from "next/router";
+import {Storage} from "@/utils/storage";
+import {API_BASE_URL} from "@/http/axios";
 
 interface IProfileProps {
 }
@@ -30,6 +33,39 @@ interface IUserEdit {
 }
 
 const Profile: React.FC<IProfileProps> = () => {
+
+  const {user, headerShow} = useTypedSelector(state => state.profile)
+  const dispatch = useAppDispatch()
+  const {push} = useRouter()
+
+  useEffect(()=>{
+    if(typeof window !== undefined){
+      if(!Storage.get('accessToken')){
+        push('/')
+      }else{
+        if(user){
+          setInfoEmail(user.email)
+          let phoneLen = user.phone.toString().length
+          let digits = user.phone.toString().substring(0, phoneLen-10)
+          let number = user.phone.toString().substring(phoneLen-10, 11)
+
+          let formattedPhone: string = ''
+
+          formattedPhone += `+${digits} ` + number.substring(0, 3);
+          formattedPhone += ' ' + number.substring(3, 6);
+          formattedPhone += ' ' + number.substring(6, 8);
+          formattedPhone += ' ' + number.substring(8, 10);
+
+          setInfoPhone(formattedPhone);
+
+          // $api.get(`/order/my_orders/`)
+          //   .then((res)=>{
+          //     setOrders(res.data)
+          //   })
+        }
+      }
+    }
+  },[user])
 
   const [page, setPage] = useState<number>(1)
 
@@ -167,17 +203,15 @@ const Profile: React.FC<IProfileProps> = () => {
 
   const [orders, _setOrders] = useState<any[]>([])
 
-  const profile = useTypedSelector(state => state.profile)
-  const dispatch = useAppDispatch()
-
   const displayPages = () => {
     switch (page) {
       case 1:
+        if(!user) return
         return <div className={s.page__user}>
           <div className={s.page__user__info}>
-            <img src={''} alt={''} />
+            <img src={`${API_BASE_URL}${user.user_image}`} alt={''} />
             <div className={s.page__user__info__right}>
-              <Text type={'h2'} size={'big+'}>Шишков Дмитрий Андреевич</Text>
+              <Text type={'h2'} size={'big+'}>{user.first_name} {user.last_name} {user.middle_name}</Text>
               <Text>ООО “ИТ ХАБ”</Text>
             </div>
           </div>
@@ -221,7 +255,7 @@ const Profile: React.FC<IProfileProps> = () => {
           {orders.length > 0 ? <div></div> : <div className={s.page__orders__none}>
             <Text size={'small'} type={'p'}>Название компании</Text>
             <Button size={'medium'} className={'btn_'} onClick={() => {
-              dispatch(setHeader(!profile.headerShow))
+              dispatch(setHeader(!headerShow))
             }}>В каталог</Button>
           </div> }
         </div>

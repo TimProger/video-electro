@@ -11,7 +11,7 @@ import classNames from "classnames";
 import useOnclickOutside from "react-cool-onclickoutside";
 import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
-import {$api} from "@/http/axios";
+import {$api, API_BASE_URL} from "@/http/axios";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {setHeader} from "@/store/Slices/Profile.slice";
 
@@ -36,7 +36,7 @@ const Header: React.FC<IHeaderProps> = () => {
 
   const favs = useTypedSelector(state => state.favs)
   const profile = useTypedSelector(state => state.profile)
-  // const basket = useTypedSelector(state => state.basket)
+  const basket = useTypedSelector(state => state.basket)
 
   const [searchValue, setSearchValue] = useState('')
   const [showAuth, setShowAuth] = useState<boolean>(false)
@@ -52,7 +52,9 @@ const Header: React.FC<IHeaderProps> = () => {
     },300)
     if(e.target.classList && e.target.classList.length > 0 && (e.target.classList[1] === s.header__bottom__btn || e.target.parentElement.classList[1] === s.header__bottom__btn)) return
     if((e.target.classList && e.target.classList[1] === 'btn_') || (e.target.parentElement && e.target.parentElement.classList[1] === 'btn_')) return;
-    dispatch(setHeader(false))
+    if(profile.headerShow) {
+      dispatch(setHeader(false))
+    }
   });
 
   const [contentHeight, setContentHeight] = useState<number>(0);
@@ -128,24 +130,22 @@ const Header: React.FC<IHeaderProps> = () => {
                 </svg>
               </Link>
             </div>}
-            {/*<div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/basket'})}>*/}
-            {/*  <Link href={'/basket'}>*/}
-            {/*    /!*{basket.products.length > 0 && <div*!/*/}
-            {/*    /!*  className={s.header__top__right__link__count}>{basket.products.length > 9 ? '9+' : basket.products.length}</div>}*!/*/}
-            {/*    /!*<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">*!/*/}
-            {/*    /!*  <path d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>*!/*/}
-            {/*    /!*</svg>*!/*/}
-            {/*    /!*{basket.products.length > 0 && <div*!/*/}
-            {/*    /!*  className={s.header__top__right__link__price}>{`${basket.totalPrice-basket.discountedPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</div>}*!/*/}
-            {/*  </Link>*/}
-            {/*</div>*/}
-            <div className={s.header__top__right__link}>
-              {false ? <Link href={'/profile'}>
+            <div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/basket'})}>
+              <Link href={'/basket'}>
+                {basket.products.length > 0 && <div
+                  className={s.header__top__right__link__count}>{basket.products.length > 9 ? '9+' : basket.products.length}</div>}
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z"
-                    stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
+                {basket.products.length > 0 && <div
+                  className={s.header__top__right__link__price}>{`${basket.totalPrice-basket.discountedPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</div>}
+              </Link>
+            </div>
+            <div className={s.header__top__right__link}>
+              {profile.user ? <Link href={'/profile'}>
+                <div className={classNames(s.header__top__right__link__image, {[s.header__top__right__link__image_active]: pathname === '/profile'})}
+                     style={{backgroundImage: `url("${API_BASE_URL}${profile.user.user_image}")`}}>
+                </div>
               </Link> : <div onClick={()=>{
                 setShowAuth(true)
                 document.body.classList.toggle('no-scroll', showAuth);

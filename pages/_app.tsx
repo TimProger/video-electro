@@ -4,7 +4,13 @@ import {wrapper} from "@/store";
 import '@/styles/_globals.scss'
 import ErrorBoundary from "@/components/ErrorBoundary";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setWidth} from "@/store/Slices/Profile.slice";
+import {setUser, setWidth} from "@/store/Slices/Profile.slice";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
+import {Storage} from "@/utils/storage";
+import {$api} from "@/http/axios";
+import {IUser} from "@/types/Profile.types";
+import {AxiosResponse} from "axios";
+import {useRouter} from "next/router";
 
 const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
 
@@ -42,6 +48,23 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
       window.removeEventListener('resize', resize)
     }
   }, [])
+
+  const profile = useTypedSelector(state => state.profile)
+  const {push} = useRouter()
+
+  useEffect(()=>{
+    if(!profile.isAuth){
+      if(Storage.get('accessToken')){
+        $api.get(`/profile/`)
+          .then((res: AxiosResponse<IUser>) => {
+            dispatch(setUser(res.data))
+          })
+          .catch(() => {
+            push('/')
+          })
+      }
+    }
+  },[])
 
   return <ErrorBoundary>
     <Component {...pageProps} />
