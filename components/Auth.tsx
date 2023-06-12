@@ -7,6 +7,10 @@ import Input from "@/components/UI/Input";
 import Checkbox from "@/components/UI/Checkbox";
 import AuthService from "@/http/auth.service";
 import {Storage} from "@/utils/storage";
+import classNames from "classnames";
+import {useRouter} from "next/router";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import {setUser} from "@/store/Slices/Profile.slice";
 
 interface IAuthProps {
   show: boolean;
@@ -205,6 +209,14 @@ const Auth: React.FC<IAuthProps> = ({
     setErrors(JSON.parse(JSON.stringify(errors)))
   }
 
+  const [passwordSecure, setPasswordSecure] = useState<{
+    text:  'Плохая' | 'Слабая' | 'Нормальная' | 'Хорошая';
+    level: number;
+  }>({
+    text: 'Плохая',
+    level: 0
+  })
+
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>,
                             type: 'authorization' | 'registration') => {
     switch (type){
@@ -222,6 +234,42 @@ const Auth: React.FC<IAuthProps> = ({
         setErrors(JSON.parse(JSON.stringify(errors)))
         break;
       case "registration":
+        let secure = 0
+        if(/\d/.test(e.target.value)){
+          secure += 1
+        }
+        if(/[A-Z]/.test(e.target.value) && /[a-z]/.test(e.target.value)){
+          secure += 1
+        }
+        if(/[!@#$%^&*(),.?":{}|<>_]/.test(e.target.value) || e.target.value.length > 7){
+          secure += 1
+        }
+        switch (secure){
+          case 0:
+            setPasswordSecure({
+              text: 'Плохая',
+              level: 0
+            })
+            break;
+          case 1:
+            setPasswordSecure({
+              text: 'Слабая',
+              level: 1
+            })
+            break;
+          case 2:
+            setPasswordSecure({
+              text: 'Нормальная',
+              level: 2
+            })
+            break;
+          case 3:
+            setPasswordSecure({
+              text: 'Хорошая',
+              level: 3
+            })
+            break;
+        }
         setBody((prevBody) => {
           return {
             ...prevBody,
@@ -315,6 +363,10 @@ const Auth: React.FC<IAuthProps> = ({
           .then(() => {
             setPage(2)
           })
+          .catch(() => {
+            setPage(1)
+            setErrors(JSON.parse(JSON.stringify(errors)))
+          })
         break;
       case "registration":
         if(body.reg.name.length <= 1){
@@ -349,9 +401,17 @@ const Auth: React.FC<IAuthProps> = ({
           .then(() => {
             setPage(2)
           })
+          .catch(() => {
+            setPage(1)
+            setErrors(JSON.parse(JSON.stringify(errors)))
+          })
         break;
     }
   }
+
+  const {push} = useRouter()
+
+  const dispatch = useAppDispatch()
 
   const onSumbitConfirm = (type: 'authorization' | 'registration') => {
     switch (type){
@@ -359,7 +419,11 @@ const Auth: React.FC<IAuthProps> = ({
         AuthService.confirm_code(+body.auth.phone.replace(/\s/g, ''), +body.auth.code.replace(/\s/g, ''))
           .then((res) => {
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
-            AuthService.patchProfile()
+            AuthService.getProfile()
+              .then((res ) => {
+                dispatch(setUser(res.data))
+                push('/profile')
+              })
           })
           .catch(() => {
             errors.auth.code = [true, 'Неверный код']
@@ -372,6 +436,10 @@ const Auth: React.FC<IAuthProps> = ({
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             const names = body.reg.name.split(' ')
             AuthService.patchProfile(names[0], names[1], names[2], body.reg.email, body.reg.password)
+              .then((res ) => {
+                dispatch(setUser(res.data))
+                push('/profile')
+              })
           })
           .catch(() => {
             errors.auth.code = [true, 'Неверный код']
@@ -507,6 +575,18 @@ const Auth: React.FC<IAuthProps> = ({
                        placeholder={'Пароль'}
                        type={'password'}
                        key={'password'} />
+                <div className={s.registration__inputs__password__text}>
+                  <svg className={classNames(s.registration__inputs__svg, {[s.registration__inputs__svg_active]: passwordSecure.level > 1})} width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 7.61111L5.92308 12.5L17 1.5" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <Text colored={passwordSecure.level > 1}>{passwordSecure.text} защита</Text>
+                </div>
+                <div className={s.registration__inputs__password__text}>
+                  <svg className={classNames(s.registration__inputs__svg, {[s.registration__inputs__svg_active]: body.reg.password.length > 7 && /[A-Z]/.test(body.reg.password)})} width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 10L6 15L17 4M3 4.88889L6.07692 8L13 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <Text colored={body.reg.password.length > 7 && /[A-Z]/.test(body.reg.password)}>8 символов, заглавные буквы</Text>
+                </div>
                 {errors.reg.password[1].length > 0 && <Text error={errors.reg.password[0]}>{errors.reg.password[1]}</Text>}
               </div>
               <div className={s.registration__inputs}>

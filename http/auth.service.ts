@@ -49,6 +49,17 @@ class AuthService {
         throw e
       })
   }
+
+  async getProfile() {
+    return await $api
+      .get('/profile')
+      .then((res)=>{
+        return res
+      })
+      .catch((e)=>{
+        throw e
+      })
+  }
 }
 
 export default new AuthService()
