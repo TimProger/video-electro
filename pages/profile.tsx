@@ -10,7 +10,7 @@ import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setHeader} from "@/store/Slices/Profile.slice";
+import {setHeader, setUser} from "@/store/Slices/Profile.slice";
 import {useRouter} from "next/router";
 import {Storage} from "@/utils/storage";
 import {API_BASE_URL} from "@/http/axios";
@@ -320,6 +320,13 @@ const Profile: React.FC<IProfileProps> = () => {
     }
   }
 
+  const exitHandler = () => {
+    dispatch(setUser(null))
+    Storage.delete('accessToken')
+    push('/')
+
+  }
+
   return (
     <Layout>
       <Head>
@@ -352,6 +359,12 @@ const Profile: React.FC<IProfileProps> = () => {
                     <path d="M10 6V5H11V6H10Z" stroke="#898989FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <Text size={'small'}>Юридическое лицо</Text>
+                </div>
+                <div onClick={() => exitHandler()} className={classNames(s.profile__pages__page, s.profile__pages__exit)}>
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 19H5.8C4.11984 19 3.27976 19 2.63803 18.673C2.07354 18.3854 1.6146 17.9265 1.32698 17.362C1 16.7202 1 15.8802 1 14.2V5.8C1 4.11984 1 3.27976 1.32698 2.63803C1.6146 2.07354 2.07354 1.6146 2.63803 1.32698C3.27976 1 4.11984 1 5.8 1H10M15 14L19 10M19 10L15 6M19 10H9" stroke="#F95B5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <Text size={'small'}>Выйти из аккаунта</Text>
                 </div>
               </div>
               <div className={s.profile__page}>

@@ -131,7 +131,7 @@ const Header: React.FC<IHeaderProps> = () => {
               </Link>
             </div>}
             <div className={classNames(s.header__top__right__link, {[s.header__top__right__link__active]: pathname === '/basket'})}>
-              <Link href={'/basket'}>
+              <div>
                 {basket.products.length > 0 && <div
                   className={s.header__top__right__link__count}>{basket.products.length > 9 ? '9+' : basket.products.length}</div>}
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +139,7 @@ const Header: React.FC<IHeaderProps> = () => {
                 </svg>
                 {basket.products.length > 0 && <div
                   className={s.header__top__right__link__price}>{`${basket.totalPrice-basket.discountedPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</div>}
-              </Link>
+              </div>
             </div>
             <div className={s.header__top__right__link}>
               {profile.user ? <Link href={'/profile'}>

@@ -33,7 +33,7 @@ export const profileSlice = createSlice({
 
       }
     },
-    setUser: (state: IProfileState, action: PayloadAction<IUser>) => {
+    setUser: (state: IProfileState, action: PayloadAction<IUser | null>) => {
       state.user = action.payload
     },
     setHeader: (state: IProfileState, action: PayloadAction<boolean>) => {

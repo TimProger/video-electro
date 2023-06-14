@@ -60,6 +60,13 @@
         }
       }
     }
+
+    &__exit{
+
+      & p{
+        color: $text-error;
+      }
+    }
   }
 
   &__page{
