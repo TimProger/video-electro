@@ -350,6 +350,7 @@ const Auth: React.FC<IAuthProps> = ({
   }
 
   const onSubmit = (type: 'authorization' | 'registration') => {
+    let phone = ''
     switch (type){
       case "authorization":
         if(body.auth.phone.length < 16){
@@ -360,12 +361,21 @@ const Auth: React.FC<IAuthProps> = ({
         }
         setErrors(JSON.parse(JSON.stringify(errors)))
         if(errors.auth.phone[1].length > 0 || errors.auth.password[1].length > 0) return
-        AuthService.confirm_phone(+body.auth.phone.replace(/\s/g, '').replace(/\+/, ''))
-          .then(() => {
-            setPage(2)
+        phone = body.auth.phone.replace(/\s/g, '').replace(/\+/, '')
+        AuthService.jwt(+`8${phone.slice(1, phone.length)}`, body.auth.password)
+          .then((res) => {
+            Storage.set('accessToken', `Bearer ${res.data.access}`)
+            AuthService.getProfile()
+              .then((res ) => {
+                dispatch(setUser(res.data))
+                push('/profile')
+              })
           })
-          .catch(() => {
-            setPage(1)
+          .catch((res) => {
+            alert(JSON.stringify(res.data))
+            if(res.data.detail){
+              errors.auth.phone = [true, 'Неверный номер телефона или пароль']
+            }
             setErrors(JSON.parse(JSON.stringify(errors)))
           })
         break;
@@ -398,7 +408,8 @@ const Auth: React.FC<IAuthProps> = ({
         || errors.reg.password[1].length > 0
         || errors.reg.password_repeat[1].length > 0
         || errors.reg.confirmation[1].length > 0) return
-        AuthService.confirm_phone(+body.reg.phone.replace(/\s/g, '').replace(/\+/, ''))
+        phone = body.reg.phone.replace(/\s/g, '').replace(/\+/, '')
+        AuthService.confirm_phone(+`8${phone.slice(1, phone.length)}`)
           .then(() => {
             setPage(2)
           })
@@ -415,9 +426,11 @@ const Auth: React.FC<IAuthProps> = ({
   const dispatch = useAppDispatch()
 
   const onSumbitConfirm = (type: 'authorization' | 'registration') => {
+    let phone = ''
     switch (type){
       case "authorization":
-        AuthService.confirm_code(+body.auth.phone.replace(/\s/g, ''), +body.auth.code.replace(/\s/g, ''))
+        phone = body.auth.phone.replace(/\s/g, '').replace(/\+/, '')
+        AuthService.jwt(+`8${phone.slice(1, phone.length)}`, body.auth.password)
           .then((res) => {
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             AuthService.getProfile()
@@ -433,7 +446,8 @@ const Auth: React.FC<IAuthProps> = ({
         break;
       case "registration":
         const names = body.reg.name.split(' ')
-        AuthService.createProfile(+body.reg.code.replace(/\s/g, ''), +body.reg.phone.replace(/\s/g, ''), names[0], names[1], names[2], body.reg.email, body.reg.password)
+        phone = body.reg.phone.replace(/\s/g, '').replace(/\+/, '')
+        AuthService.createProfile(+body.reg.code.replace(/\s/g, ''), +`8${phone.slice(1, phone.length)}`, names[0], names[1], names[2], body.reg.email, body.reg.password)
           .then((res ) => {
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             AuthService.getProfile()
@@ -447,20 +461,6 @@ const Auth: React.FC<IAuthProps> = ({
               setPage(1)
             }
           })
-        // AuthService.confirm_code(+body.reg.phone.replace(/\s/g, ''), +body.reg.code.replace(/\s/g, ''))
-        //   .then((res) => {
-        //     Storage.set('accessToken', `Bearer ${res.data.access_token}`)
-        //     const names = body.reg.name.split(' ')
-        //     AuthService.createProfile(names[0], names[1], names[2], body.reg.email, body.reg.password)
-        //       .then((res ) => {
-        //         dispatch(setUser(res.data))
-        //         push('/profile')
-        //       })
-        //   })
-        //   .catch(() => {
-        //     errors.auth.code = [true, 'Неверный код']
-        //     setErrors(JSON.parse(JSON.stringify(errors)))
-        //   })
         break;
     }
   }

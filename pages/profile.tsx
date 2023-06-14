@@ -46,12 +46,11 @@ const Profile: React.FC<IProfileProps> = () => {
         if(user){
           setInfoEmail(user.email)
           let phoneLen = user.phone.toString().length
-          let digits = user.phone.toString().substring(0, phoneLen-10)
           let number = user.phone.toString().substring(phoneLen-10, 11)
 
           let formattedPhone: string = ''
 
-          formattedPhone += `+${digits} ` + number.substring(0, 3);
+          formattedPhone += `+7 ` + number.substring(0, 3);
           formattedPhone += ' ' + number.substring(3, 6);
           formattedPhone += ' ' + number.substring(6, 8);
           formattedPhone += ' ' + number.substring(8, 10);

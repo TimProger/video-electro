@@ -29,6 +29,20 @@ class AuthService {
       })
   }
 
+  async jwt(phone: number, password: string) {
+    return await $api
+      .post('/jwt', {
+        phone,
+        password
+      })
+      .then((res)=>{
+        return res
+      })
+      .catch((e)=>{
+        throw e
+      })
+  }
+
   async patchProfile(first_name?: string,
                      last_name?: string,
                      middle_name?: string,
