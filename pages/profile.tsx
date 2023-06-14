@@ -209,7 +209,10 @@ const Profile: React.FC<IProfileProps> = () => {
         if(!user) return
         return <div className={s.page__user}>
           <div className={s.page__user__info}>
-            <img src={`${API_BASE_URL}${user.user_image}`} alt={''} />
+            <div className={s.page__user__info__image}>
+              <img src={`${API_BASE_URL}${user.user_image}`} alt={''} />
+              <div className={s.page__user__info__hover}></div>
+            </div>
             <div className={s.page__user__info__right}>
               <Text type={'h2'} size={'big+'}>{user.first_name} {user.last_name} {user.middle_name}</Text>
               <Text>ООО “ИТ ХАБ”</Text>

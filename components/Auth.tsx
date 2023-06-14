@@ -98,6 +98,7 @@ const Auth: React.FC<IAuthProps> = ({
 
   const onChangeType = (type: 'authorization' | 'registration') => {
     setType(type)
+    setPage(1)
   }
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -325,7 +326,7 @@ const Auth: React.FC<IAuthProps> = ({
             ...prevBody,
             auth: {
               ...prevBody.auth,
-              code: codeVal.length > 4 ? prevBody.auth.code : e.target.value.split('').join(' '),
+              code: codeVal.length > 4 ? prevBody.auth.code : e.target.value.replace(/\s/g, '').split('').join(' '),
             },
           };
         });
@@ -338,7 +339,7 @@ const Auth: React.FC<IAuthProps> = ({
             ...prevBody,
             reg: {
               ...prevBody.reg,
-              code: codeVal.length > 4 ? prevBody.reg.code : e.target.value.split('').join(' '),
+              code: codeVal.length > 4 ? prevBody.reg.code : e.target.value.replace(/\s/g, '').split('').join(' '),
             },
           };
         });
@@ -431,20 +432,35 @@ const Auth: React.FC<IAuthProps> = ({
           })
         break;
       case "registration":
-        AuthService.confirm_code(+body.reg.phone.replace(/\s/g, ''), +body.reg.code.replace(/\s/g, ''))
-          .then((res) => {
+        const names = body.reg.name.split(' ')
+        AuthService.createProfile(+body.reg.code.replace(/\s/g, ''), +body.reg.phone.replace(/\s/g, ''), names[0], names[1], names[2], body.reg.email, body.reg.password)
+          .then((res ) => {
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
-            const names = body.reg.name.split(' ')
-            AuthService.patchProfile(names[0], names[1], names[2], body.reg.email, body.reg.password)
-              .then((res ) => {
+            AuthService.getProfile()
+              .then((res) => {
                 dispatch(setUser(res.data))
                 push('/profile')
               })
           })
-          .catch(() => {
-            errors.auth.code = [true, 'Неверный код']
-            setErrors(JSON.parse(JSON.stringify(errors)))
+          .catch((res) => {
+            if(res.data.detail === 'Такой пользователь уже существует'){
+              setPage(1)
+            }
           })
+        // AuthService.confirm_code(+body.reg.phone.replace(/\s/g, ''), +body.reg.code.replace(/\s/g, ''))
+        //   .then((res) => {
+        //     Storage.set('accessToken', `Bearer ${res.data.access_token}`)
+        //     const names = body.reg.name.split(' ')
+        //     AuthService.createProfile(names[0], names[1], names[2], body.reg.email, body.reg.password)
+        //       .then((res ) => {
+        //         dispatch(setUser(res.data))
+        //         push('/profile')
+        //       })
+        //   })
+        //   .catch(() => {
+        //     errors.auth.code = [true, 'Неверный код']
+        //     setErrors(JSON.parse(JSON.stringify(errors)))
+        //   })
         break;
     }
   }

@@ -50,6 +50,31 @@ class AuthService {
       })
   }
 
+  async createProfile(code?: number,
+                      phone?: number,
+                      first_name?: string,
+                      last_name?: string,
+                      middle_name?: string,
+                      email?: string,
+                      password?: string) {
+    return await $api
+      .post('/profile/createUser', {
+        code,
+        phone,
+        first_name,
+        last_name,
+        middle_name,
+        email,
+        password
+      })
+      .then((res)=>{
+        return res
+      })
+      .catch((e)=>{
+        throw e
+      })
+  }
+
   async getProfile() {
     return await $api
       .get('/profile')
