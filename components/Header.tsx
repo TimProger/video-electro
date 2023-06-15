@@ -143,9 +143,9 @@ const Header: React.FC<IHeaderProps> = () => {
             </div>
             <div className={s.header__top__right__link}>
               {profile.user ? <Link href={'/profile'}>
-                <div className={classNames(s.header__top__right__link__image, {[s.header__top__right__link__image_active]: pathname === '/profile'})}
-                     style={{backgroundImage: `url("${API_BASE_URL}${profile.user.user_image}")`}}>
-                </div>
+                <img
+                  className={classNames(s.header__top__right__link__image, {[s.header__top__right__link__image_active]: pathname === '/profile'})}
+                  src={profile.user?.user_image ? (typeof profile.user.user_image !== 'string' ? URL.createObjectURL(profile.user.user_image) : `${API_BASE_URL}${profile.user?.user_image}`) : ''} alt='user'/>
               </Link> : <div onClick={()=>{
                 setShowAuth(true)
                 document.body.classList.toggle('no-scroll', showAuth);

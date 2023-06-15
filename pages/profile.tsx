@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React, {useEffect, useRef, useState} from "react";
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import Text from "@/components/UI/Text";
 import Layout from '@/components/Layout';
 import Container from '@/components/UI/Container';
@@ -10,10 +10,11 @@ import Input from "@/components/UI/Input";
 import Button from "@/components/UI/Button";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setHeader, setUser} from "@/store/Slices/Profile.slice";
+import {setHeader, setImage, setUser} from "@/store/Slices/Profile.slice";
 import {useRouter} from "next/router";
 import {Storage} from "@/utils/storage";
-import {API_BASE_URL} from "@/http/axios";
+import {$api, API_BASE_URL} from "@/http/axios";
+import img from '@/public/images/Icon.png'
 
 interface IProfileProps {
 }
@@ -202,19 +203,40 @@ const Profile: React.FC<IProfileProps> = () => {
 
   const [orders, _setOrders] = useState<any[]>([])
 
+  const changeFile = (e: ChangeEvent) => {
+    const data = new FormData()
+    const target = e.target as HTMLInputElement;
+    const files = target.files as FileList;
+
+    if(!files[0]){
+      return
+    }
+
+    dispatch(setImage(files[0]))
+
+    if(files[0]){
+      data.append('user_image', files[0]);
+    }
+    $api.patch('/profile/', data)
+      .then(()=>{
+      })
+  }
+
   const displayPages = () => {
     switch (page) {
       case 1:
         if(!user) return
         return <div className={s.page__user}>
           <div className={s.page__user__info}>
-            <div className={s.page__user__info__image}>
-              <img src={`${API_BASE_URL}${user.user_image}`} alt={''} />
-              <div className={s.page__user__info__hover}></div>
-            </div>
+            <label title="&nbsp;" className={s.page__user__info__image} htmlFor="profileImgInput">
+              <img src={user?.user_image ? (typeof user.user_image !== 'string' ? URL.createObjectURL(user.user_image) : `${API_BASE_URL}${user?.user_image}`) : ``} alt={''} />
+              <div className={s.page__user__info__image__hover}>
+                <img src={`${img.src}`} alt="camera"/>
+              </div>
+              <input title="&nbsp;" accept="image/*" id='profileImgInput' className={s.page__user__info__image__input} type='file' onChange={changeFile} />
+            </label>
             <div className={s.page__user__info__right}>
               <Text type={'h2'} size={'big+'}>{user.first_name} {user.last_name} {user.middle_name}</Text>
-              <Text>ООО “ИТ ХАБ”</Text>
             </div>
           </div>
           <div className={s.page__user__form}>
