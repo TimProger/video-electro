@@ -36,6 +36,15 @@
 
       & a, & span{
 
+        & svg{
+
+          @media screen and (max-width: 450px) {
+            & {
+              width: 140px;
+            }
+          }
+        }
+
         @media screen and (max-width: 1150px) {
           & {
             font-size: $font-size-big !important;
@@ -93,7 +102,7 @@
           min-width: 35px;
           object-fit: contain;
           border-radius: 50%;
-          border: none;
+          border: 1px solid $text-forth;
 
           &_active{
             border: 1px solid $border-color-main;
