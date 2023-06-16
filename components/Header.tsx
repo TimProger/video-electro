@@ -13,7 +13,7 @@ import {useMeasure} from "react-use";
 import {animated, useSpring} from "react-spring";
 import {$api, API_BASE_URL} from "@/http/axios";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setHeader} from "@/store/Slices/Profile.slice";
+import {setAuthShow, setHeader} from "@/store/Slices/Profile.slice";
 
 interface IHeaderProps {
 }
@@ -39,7 +39,6 @@ const Header: React.FC<IHeaderProps> = () => {
   const basket = useTypedSelector(state => state.basket)
 
   const [searchValue, setSearchValue] = useState('')
-  const [showAuth, setShowAuth] = useState<boolean>(false)
   const [menuContent, setMenuContent] = useState<any[]>([])
   const [menuContentShow, setMenuContentShow] = useState<number>(0)
 
@@ -105,7 +104,7 @@ const Header: React.FC<IHeaderProps> = () => {
 
   return (
     <>
-      <Auth show={showAuth} setShow={setShowAuth} />
+      <Auth show={profile.authShow} setShow={(value: boolean) => dispatch(setAuthShow(value))} />
       <div className={s.header}>
         <div className={s.header__top}>
           <div className={s.header__top__left}>
@@ -163,8 +162,8 @@ const Header: React.FC<IHeaderProps> = () => {
                   className={classNames(s.header__top__right__link__image, {[s.header__top__right__link__image_active]: pathname === '/profile'})}
                   src={profile.user?.user_image ? (typeof profile.user.user_image !== 'string' ? URL.createObjectURL(profile.user.user_image) : `${API_BASE_URL}${profile.user?.user_image}`) : ''} alt='user'/>
               </Link> : <div onClick={()=>{
-                setShowAuth(true)
-                document.body.classList.toggle('no-scroll', showAuth);
+                dispatch(setAuthShow(true))
+                document.body.classList.toggle('no-scroll', profile.authShow);
               }} className={s.header__top__right__link__svg}>
                 <svg width="35" height="35" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_11_163)">

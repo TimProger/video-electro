@@ -10,7 +10,7 @@ import {Storage} from "@/utils/storage";
 import classNames from "classnames";
 import {useRouter} from "next/router";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {setUser} from "@/store/Slices/Profile.slice";
+import {setAuthShow, setUser} from "@/store/Slices/Profile.slice";
 
 interface IAuthProps {
   show: boolean;
@@ -368,6 +368,7 @@ const Auth: React.FC<IAuthProps> = ({
             AuthService.getProfile()
               .then((res ) => {
                 dispatch(setUser(res.data))
+                dispatch(setAuthShow(false))
                 push('/profile')
               })
           })

@@ -2,13 +2,20 @@ import React from 'react';
 import s from '@/styles/components/Footer.module.scss'
 import Text from "@/components/UI/Text";
 import {useRouter} from "next/router";
+import {useTypedSelector} from "@/hooks/useTypedSelector";
+import {useAppDispatch} from "@/hooks/useAppDispatch";
+import {setAuthShow} from "@/store/Slices/Profile.slice";
 
 interface IHeaderProps {
 }
 
 const Footer: React.FC<IHeaderProps> = () => {
 
-  const { pathname } = useRouter()
+  const { pathname, query } = useRouter()
+
+  const profile = useTypedSelector(state => state.profile)
+
+  const dispatch = useAppDispatch()
 
   return (
     <div className={s.footer}>
@@ -25,7 +32,18 @@ const Footer: React.FC<IHeaderProps> = () => {
                     <Text type={'link'} no_td={true} href={'/'} colored={pathname === "/"}>Главная</Text>
                   </td>
                   <td>
-                    <Text type={'link'} no_td={true} href={'/profile'} colored={pathname === "/profile"}>Профиль</Text>
+                    {profile.isAuth
+                      ? <Text type={'link'}
+                              no_td={true}
+                              href={"/profile?page=1"}
+                              colored={pathname === "/profile" && (query.page === "1" || !query.page)}>Профиль</Text>
+                      : <Text
+                        onClick={(e) => {
+                          if(!profile.isAuth){
+                            if(e) e.preventDefault()
+                            dispatch(setAuthShow(true))
+                          }
+                        }}>Профиль</Text>}
                   </td>
                   <td>
                     <Text type={'link'} no_td={true} href={'/faq'} colored={pathname === "/faq"}>Вопросы и ответы</Text>
@@ -39,7 +57,18 @@ const Footer: React.FC<IHeaderProps> = () => {
                     <Text type={'link'} no_td={true} href={'/catalog'} colored={pathname === "/catalog"}>Каталог</Text>
                   </td>
                   <td>
-                    <Text type={'link'} no_td={true} href={'/orders'} colored={pathname === "/orders"}>Заказы</Text>
+                    {profile.isAuth
+                      ? <Text type={'link'}
+                              no_td={true}
+                              href={"/profile?page=2"}
+                              colored={pathname === "/profile" && query.page === "2"}>Заказы</Text>
+                      : <Text
+                          onClick={(e) => {
+                            if(!profile.isAuth){
+                              if(e) e.preventDefault()
+                              dispatch(setAuthShow(true))
+                            }
+                          }}>Заказы</Text>}
                   </td>
                   <td>
                     <Text type={'link'} no_td={true} href={'/recovery'} colored={pathname === "/recovery"}>Возврат и обмен</Text>
@@ -53,7 +82,19 @@ const Footer: React.FC<IHeaderProps> = () => {
                     <Text type={'link'} no_td={true} href={'/about'} colored={pathname === "/about"}>О нас</Text>
                   </td>
                   <td>
-                    <Text type={'link'} no_td={true} href={'/company'} colored={pathname === "/company"}>Компания</Text>
+                    {profile.isAuth
+                      ? <Text
+                          type={'link'}
+                          no_td={true}
+                          href={'/profile?page=3'}
+                          colored={pathname === "/profile" && query.page === "3"}>Компания</Text>
+                      : <Text
+                          onClick={(e) => {
+                            if(!profile.isAuth){
+                              if(e) e.preventDefault()
+                              dispatch(setAuthShow(true))
+                            }
+                          }}>Компания</Text>}
                   </td>
                   <td>
                     <Text type={'link'} no_td={true} href={'/delivery'} colored={pathname === "/delivery"}>Доставка</Text>

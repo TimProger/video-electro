@@ -13,7 +13,7 @@ export interface ITextProps {
   external?: boolean;
   bold?: boolean;
   no_td?: boolean;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   error?: boolean;
 }
 

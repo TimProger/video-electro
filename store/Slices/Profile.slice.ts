@@ -7,6 +7,7 @@ interface IProfileState {
   user: IUser | null;
   isAuth: boolean;
   headerShow: boolean;
+  authShow: boolean;
   width: 'desktop' | 'tablet' | 'mobile'
 }
 
@@ -16,6 +17,7 @@ const initialState: IProfileState = {
   user: null,
   isAuth: false,
   headerShow: false,
+  authShow: false,
   width: 'desktop'
 }
 
@@ -30,14 +32,17 @@ export const profileSlice = createSlice({
     setImage: (state: IProfileState, action: PayloadAction<any>) => {
       if(state.user){
         state.user.user_image = action.payload
-
       }
     },
     setUser: (state: IProfileState, action: PayloadAction<IUser | null>) => {
       state.user = action.payload
+      state.isAuth = !!action.payload;
     },
     setHeader: (state: IProfileState, action: PayloadAction<boolean>) => {
       state.headerShow = action.payload
+    },
+    setAuthShow: (state: IProfileState, action: PayloadAction<boolean>) => {
+      state.authShow = action.payload
     },
     setWidth: (state: IProfileState, action: PayloadAction<'desktop' | 'tablet' | 'mobile'>) => {
       state.width = action.payload
@@ -45,6 +50,6 @@ export const profileSlice = createSlice({
   }
 })
 
-export const { exit, setImage, setUser, setHeader, setWidth } = profileSlice.actions
+export const { exit, setImage, setUser, setHeader, setWidth, setAuthShow } = profileSlice.actions
 
 export default profileSlice.reducer

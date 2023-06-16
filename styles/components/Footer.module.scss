@@ -72,6 +72,11 @@
           & a{
             color: $text-forth;
           }
+
+          & p{
+            color: $text-forth;
+            cursor: pointer;
+          }
         }
       }
     }
