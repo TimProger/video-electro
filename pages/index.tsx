@@ -198,17 +198,17 @@ const Main: React.FC<IMainProps> = ({products}) => {
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Генеральный директор</Text>
               </div>
               <div className={s.main__team__list__teammate}>
-                <Image unoptimized width={225} height={225} src={'team__petrov.src'} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={'team__petrov.src'} alt="Петров Олег Андреевич"/>
                 <Text bold size={'medium'}>Петров Олег Андреевич</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Заведующий складом</Text>
               </div>
               <div className={s.main__team__list__teammate}>
-                <Image unoptimized width={225} height={225} src={'team__aranian.src'} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={'team__aranian.src'} alt="Араньян Виктория Сергеевна"/>
                 <Text bold size={'medium'}>Араньян Виктория Сергеевна</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Менеджер</Text>
               </div>
               <div className={s.main__team__list__teammate}>
-                <Image unoptimized width={225} height={225} src={'team__belov.src'} alt="Иванов Владислав Валерьевич"/>
+                <Image unoptimized width={225} height={225} src={'team__belov.src'} alt="Белов Арсений Аркадьевич"/>
                 <Text bold size={'medium'}>Белов Арсений Аркадьевич</Text>
                 <Text className={s.main__team__list__teammate__job} size={'small'}>Бухгалтер</Text>
               </div>
