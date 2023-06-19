@@ -25,37 +25,37 @@ export const BasketSlice = createSlice({
         // }
         return Object.assign(el,{buy_now: true})
       })
-      state.totalPrice = action.payload.reduce((sum, el) => {
-        return sum += +el.RetailPrice.toFixed(2)
-      }, 0)
-      state.discountedPrice = action.payload.reduce((sum, el) => {
-        return sum += (el.discount ? +el.RetailPrice.toFixed(2) / 100 * el.discount : 0)
-      }, 0)
+      // state.totalPrice = action.payload.reduce((sum, el) => {
+      //   return sum += +el.RetailPrice.toFixed(2)
+      // }, 0)
+      // state.discountedPrice = action.payload.reduce((sum, el) => {
+      //   return sum += (el.discount ? +el.RetailPrice.toFixed(2) / 100 * el.discount : 0)
+      // }, 0)
     },
     setBasketProducts: (state: IBasketState, action: PayloadAction<IBasketProduct[]>) => {
       state.products = [...action.payload]
-      state.totalPrice = action.payload.reduce((sum, el) => {
-        return sum += +el.RetailPrice.toFixed(2)
-      }, 0)
-      state.discountedPrice = action.payload.reduce((sum, el) => {
-        return sum += (el.discount ? +el.RetailPrice.toFixed(2) / 100 * el.discount : 0)
-      }, 0)
+      // state.totalPrice = action.payload.reduce((sum, el) => {
+      //   return sum += +el.RetailPrice.toFixed(2)
+      // }, 0)
+      // state.discountedPrice = action.payload.reduce((sum, el) => {
+      //   return sum += (el.discount ? +el.RetailPrice.toFixed(2) / 100 * el.discount : 0)
+      // }, 0)
     },
     addProductToBasket: (state: IBasketState, action: PayloadAction<IProductShort>) => {
       const elem = JSON.parse(JSON.stringify(action.payload))
       const newElem = Object.assign(elem,{buy_now: true})
       // @ts-ignore
       state.products = [...state.products, newElem]
-      state.totalPrice += +action.payload.RetailPrice.toFixed(2)
-      state.totalPrice = +state.totalPrice.toFixed(2)
-      state.discountedPrice += (action.payload.discount ? +action.payload.RetailPrice.toFixed(2) / 100 * action.payload.discount : 0)
+      // state.totalPrice += +action.payload.RetailPrice.toFixed(2)
+      // state.totalPrice = +state.totalPrice.toFixed(2)
+      // state.discountedPrice += (action.payload.discount ? +action.payload.RetailPrice.toFixed(2) / 100 * action.payload.discount : 0)
     },
     removeBasketProducts: (state: IBasketState, action: PayloadAction<number>) => {
       const elem = state.products.find((el) => el.id === action.payload)
       if(elem){
-        state.totalPrice -= +elem.RetailPrice.toFixed(2)
-        state.totalPrice = +state.totalPrice.toFixed(2)
-        state.discountedPrice -= (elem.discount ? +elem.RetailPrice.toFixed(2) / 100 * elem.discount : 0)
+        // state.totalPrice -= +elem.RetailPrice.toFixed(2)
+        // state.totalPrice = +state.totalPrice.toFixed(2)
+        // state.discountedPrice -= (elem.discount ? +elem.RetailPrice.toFixed(2) / 100 * elem.discount : 0)
         const index = state.products.indexOf(elem)
         state.products.splice(index, 1)
       }
@@ -65,14 +65,17 @@ export const BasketSlice = createSlice({
       if(elem){
         const index = state.products.indexOf(elem)
         state.products[index].buy_now = action.payload.buy_now
-        if(action.payload.buy_now){
-          state.totalPrice += +elem.RetailPrice.toFixed(2)
-          state.discountedPrice += (elem.discount ? +elem.RetailPrice.toFixed(2) / 100 * elem.discount : 0)
-        }else{
-          state.totalPrice -= +elem.RetailPrice.toFixed(2)
-          state.discountedPrice -= (elem.discount ? +elem.RetailPrice.toFixed(2) / 100 * elem.discount : 0)
-        }
+        // if(action.payload.buy_now){
+        //   state.totalPrice += +elem.RetailPrice.toFixed(2)
+        //   state.discountedPrice += (elem.discount ? +elem.RetailPrice.toFixed(2) / 100 * elem.discount : 0)
+        // }else{
+        //   state.totalPrice -= +elem.RetailPrice.toFixed(2)
+        //   state.discountedPrice -= (elem.discount ? +elem.RetailPrice.toFixed(2) / 100 * elem.discount : 0)
+        // }
       }
+    },
+    setTotalPrice: (state: IBasketState, action: PayloadAction<number>) => {
+      state.totalPrice = action.payload
     },
     // selectAllBasketProducts: (state: IBasketState, action: PayloadAction<{ products: IBasketProduct[], buy_now: boolean }>) => {
     //   action.payload.products.map((product) => {
@@ -100,6 +103,7 @@ export const {
   addProductToBasket,
   removeBasketProducts,
   selectBasketProduct,
+  setTotalPrice
   // selectAllBasketProducts
 } = BasketSlice.actions
 

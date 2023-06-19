@@ -23,7 +23,7 @@ const Header: React.FC<IHeaderProps> = () => {
   const [data, setData] = useState<any>([])
 
   useEffect(() => {
-    $api.get('/product/catalog')
+    $api.get('/product/catalog/')
         .then((res) => {
           const newData = [...res.data]
           newData.pop()
@@ -138,7 +138,7 @@ const Header: React.FC<IHeaderProps> = () => {
                 {favs.products.length > 0 && <div
                   className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
                 <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
+                  <path fillRule="evenodd" clipRule="evenodd"
                         d="M13 4.00018C10.6008 1.20415 6.59169 0.340049 3.58563 2.90037C0.579573 5.46069 0.156361 9.74142 2.51704 12.7695C4.47978 15.2872 10.4197 20.5971 12.3665 22.3157C12.5843 22.508 12.6932 22.6042 12.8203 22.6419C12.9311 22.6749 13.0524 22.6749 13.1633 22.6419C13.2903 22.6042 13.3992 22.508 13.617 22.3157C15.5638 20.5971 21.5038 15.2872 23.4665 12.7695C25.8272 9.74142 25.4557 5.43376 22.3979 2.90037C19.3402 0.366981 15.3992 1.20415 13 4.00018Z"
                         stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -165,7 +165,7 @@ const Header: React.FC<IHeaderProps> = () => {
                 document.body.classList.toggle('no-scroll', profile.authShow);
               }} className={s.header__top__right__link__svg}>
                 <svg width="35" height="35" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_11_163)">
+                  <g clipPath="url(#clip0_11_163)">
                     <rect width="200" height="200" fill="#F9F9FF"/>
                     <ellipse cx="100" cy="173.5" rx="82" ry="46.5" fill="#5B74F9"/>
                     <circle cx="100.5" cy="63.5" r="46.5" fill="#5B74F9"/>
@@ -188,7 +188,7 @@ const Header: React.FC<IHeaderProps> = () => {
                   style={profile.headerShow ? 'outlined' : 'filled'}
           >
             {profile.headerShow ? <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1L17 17M17 1L1 17" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 1L17 17M17 1L1 17" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               : <svg width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.5 1H17.5M1.5 7H17.5M1.5 13H17.5" stroke="white" strokeWidth="2" strokeLinecap="round"
@@ -203,7 +203,7 @@ const Header: React.FC<IHeaderProps> = () => {
                 {favs.products.length > 0 && <div
                   className={s.header__top__right__link__count}>{favs.products.length > 9 ? '9+' : favs.products.length}</div>}
                 <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd"
+                  <path fillRule="evenodd" clipRule="evenodd"
                         d="M13 4.00018C10.6008 1.20415 6.59169 0.340049 3.58563 2.90037C0.579573 5.46069 0.156361 9.74142 2.51704 12.7695C4.47978 15.2872 10.4197 20.5971 12.3665 22.3157C12.5843 22.508 12.6932 22.6042 12.8203 22.6419C12.9311 22.6749 13.0524 22.6749 13.1633 22.6419C13.2903 22.6042 13.3992 22.508 13.617 22.3157C15.5638 20.5971 21.5038 15.2872 23.4665 12.7695C25.8272 9.74142 25.4557 5.43376 22.3979 2.90037C19.3402 0.366981 15.3992 1.20415 13 4.00018Z"
                         stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -213,7 +213,7 @@ const Header: React.FC<IHeaderProps> = () => {
               onClick={() => setSearchOpen(prev => !prev)}
               className={classNames(s.header__top__right__link, {[s.header__top__right__link_active]: searchOpen})}>
               <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           </div>}
@@ -221,7 +221,7 @@ const Header: React.FC<IHeaderProps> = () => {
                                         onChange={(e) => setSearchValue(e.target.value)}
                                         placeholder={'Поиск'} key={'s'}
                                         icon={<svg className={s.header__bottom__svg} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                          <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>}
           />}
         </div>

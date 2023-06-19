@@ -11,7 +11,7 @@ import {$api} from "@/http/axios";
 import {IUser} from "@/types/Profile.types";
 import {AxiosResponse} from "axios";
 import {useRouter} from "next/router";
-import {setBasketProducts} from "@/store/Slices/Basket.slice";
+import {setBasketProducts, setTotalPrice} from "@/store/Slices/Basket.slice";
 
 const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
 
@@ -67,9 +67,11 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
     }
   },[])
 
+  const basket = useTypedSelector(state => state.basket)
+
   useEffect(() => {
     if(profile.isAuth){
-      $api.get('/basket')
+      $api.get('/basket/')
         .then((res) => {
           dispatch(setBasketProducts(res.data.data.map((el: any) => {
             return {
@@ -84,9 +86,19 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
               buy_now: el.buy_now
             }
           })))
+          dispatch(setTotalPrice(res.data.total_price))
         })
     }
   },[profile])
+
+  useEffect(() => {
+    if(profile.isAuth){
+      $api.get('/basket/')
+        .then((res) => {
+          dispatch(setTotalPrice(res.data.total_price))
+        })
+    }
+  }, [basket.products])
 
   return <ErrorBoundary>
     <Component {...pageProps} />

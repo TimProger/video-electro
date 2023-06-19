@@ -594,13 +594,13 @@ const Auth: React.FC<IAuthProps> = ({
                        key={'password'} />
                 <div className={s.registration__inputs__password__text}>
                   <svg className={classNames(s.registration__inputs__svg, {[s.registration__inputs__svg_active]: passwordSecure.level > 1})} width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 7.61111L5.92308 12.5L17 1.5" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M1 7.61111L5.92308 12.5L17 1.5" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <Text colored={passwordSecure.level > 1}>{passwordSecure.text} защита</Text>
                 </div>
                 <div className={s.registration__inputs__password__text}>
                   <svg className={classNames(s.registration__inputs__svg, {[s.registration__inputs__svg_active]: body.reg.password.length > 7 && /[A-Z]/.test(body.reg.password)})} width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 10L6 15L17 4M3 4.88889L6.07692 8L13 1" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M1 10L6 15L17 4M3 4.88889L6.07692 8L13 1" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   <Text colored={body.reg.password.length > 7 && /[A-Z]/.test(body.reg.password)}>8 символов, заглавные буквы</Text>
                 </div>
