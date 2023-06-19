@@ -3,12 +3,15 @@ import s from '@/styles/components/Card.module.scss'
 import classNames from "classnames";
 import Text from "@/components/UI/Text";
 import Button from "@/components/UI/Button";
-import {IProductShort} from "@/types/Product.types";
+import {IBasketProduct, IProductShort} from "@/types/Product.types";
 import Link from "next/link";
 import {Storage} from "@/utils/storage";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {removeFavsProduct, toggleFavsProduct} from "@/store/Slices/Favs.slice";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
+import {addProductToBasket, removeBasketProducts} from "@/store/Slices/Basket.slice";
+import {setAuthShow} from "@/store/Slices/Profile.slice";
+import {$api} from "@/http/axios";
 // import {removeBasketProducts} from "@/store/Slices/Basket.slice";
 
 export interface ICardProps {
@@ -31,9 +34,9 @@ const Card: React.FC<ICardProps> = ({
 
   const dispatch = useAppDispatch()
   const favsState = useTypedSelector(state => state.favs)
-  // const basketState = useTypedSelector(state => state.basket)
+  const basketState = useTypedSelector(state => state.basket)
   const [isFav, setIsFav] = useState<boolean>(false)
-  // const [inBasket, setInBasket] = useState<IBasketProduct | null>(null)
+  const [inBasket, setInBasket] = useState<IBasketProduct | null>(null)
 
   useEffect(()=>{
     const includes = favsState.products.find(el => el.id === product.id)
@@ -44,14 +47,14 @@ const Card: React.FC<ICardProps> = ({
     }
   },[favsState.products])
 
-  // useEffect(()=>{
-  //   const includes = basketState.products.find(el => el.id === product.id)
-  //   if(includes){
-  //     setInBasket(includes)
-  //   }else{
-  //     setInBasket(null)
-  //   }
-  // },[basketState.products])
+  useEffect(()=>{
+    const includes = basketState.products.find(el => el.product_id === product.id)
+    if(includes){
+      setInBasket(includes)
+    }else{
+      setInBasket(null)
+    }
+  },[basketState.products])
 
   // const onClick = (e: React.MouseEvent) => {
   //   e.stopPropagation()
@@ -64,6 +67,8 @@ const Card: React.FC<ICardProps> = ({
   const onToggleFavs = () => {
     dispatch(toggleFavsProduct(product))
   }
+
+  const profile = useTypedSelector(state => state.profile)
 
   switch (type){
     case 'long':
@@ -105,10 +110,10 @@ const Card: React.FC<ICardProps> = ({
             <div className={s.cardLong__content__bottom}>
               <div className={s.cardLong__content__bottom__price}>
                 {product.RetailPrice !== null && product.discount && <Text type={'span'} className={s.cardLong__content__bottom__price__old} size={'small'}>
-                  {`${product.discount/product.RetailPrice*100}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.discount/(+product.RetailPrice.toFixed(2))*100}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>}
                 {product.RetailPrice !== null ? <Text bold colored={true} size={'medium'}>
-                  {`${product.discount ? product.RetailPrice - product.discount : `${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
+                  {`${product.discount ? +product.RetailPrice.toFixed(2) - product.discount : `${product.RetailPrice.toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
                 </Text> : <Text bold colored={true} size={'medium'}>
                   По договорённости
                 </Text>}
@@ -125,7 +130,10 @@ const Card: React.FC<ICardProps> = ({
                   Удалить
                 </Button> : ''}
                 {basket ? <Button onClick={()=>{
-                  // dispatch(removeBasketProducts(product.id))
+                  $api.delete(`/basket/${product.id}/`)
+                    .then(() => {
+                      dispatch(removeBasketProducts(product.id))
+                    })
                 }}
                                 size={'medium'}
                                 style={'borderless'}>
@@ -136,10 +144,24 @@ const Card: React.FC<ICardProps> = ({
                   </svg>
                   Удалить
                 </Button> : ''}
-                {!basket ? <Button
+                {!basket && (!inBasket ? <Button
                       // disabled={product.availability <= 0}
                                      onClick={() => {
-                                       // dispatch(addProductToBasket(product))
+                                       if(!profile.isAuth){
+                                         dispatch(setAuthShow(true))
+                                         return
+                                       }
+                                       $api.post('/basket/', {product: product.id})
+                                         .then((res) => {
+                                           const obj = Object.assign(res.data, {
+                                             product_id: product.id,
+                                             product__ProductName: product.ProductName,
+                                             product__discount: product.discount,
+                                             product__image: product.image,
+                                             product__RetailPrice: product.RetailPrice,
+                                           })
+                                           dispatch(addProductToBasket(obj))
+                                         })
                                      }}
                                      size={'medium'}
                                      style={'filled'}>
@@ -150,7 +172,7 @@ const Card: React.FC<ICardProps> = ({
                   </svg>
                   В корзину
                 </Button> : <Button onClick={() => {
-                                      // dispatch(removeBasketProducts(product.id))
+                                      dispatch(removeBasketProducts(product.id))
                                     }}
                                     size={'medium'}
                                     style={'outlined'}>
@@ -160,7 +182,7 @@ const Card: React.FC<ICardProps> = ({
                       stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   Удалить
-                </Button>}
+                </Button>)}
               </div>
             </div>
           </div>
@@ -179,7 +201,7 @@ const Card: React.FC<ICardProps> = ({
                 {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
                 {product.is_hit && <div>Хит продаж</div>}
                 {product.is_new && <div>Новинка</div>}
-                {product.RetailPrice !== null && product.discount && <div>-${product.discount/product.RetailPrice*100}%</div>}
+                {product.RetailPrice !== null && product.discount && <div>-${product.discount/(+product.RetailPrice.toFixed(2))*100}%</div>}
               </div>
               <img src={product.image} alt={product.ProductName}/>
             </div>
@@ -200,7 +222,7 @@ const Card: React.FC<ICardProps> = ({
               {`${product.discount}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>}
             {product.RetailPrice !== null ? <Text bold colored={true} size={'medium'}>
-              {`${product.discount ? product.RetailPrice - product.discount : `${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
+              {`${product.discount ? +product.RetailPrice.toFixed(2) - product.discount : `${product.RetailPrice.toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
             </Text> : <Text bold colored={true} size={'medium'}>
               По договорённости
             </Text>}
@@ -213,10 +235,24 @@ const Card: React.FC<ICardProps> = ({
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10 3.00019C8.20058 0.903175 5.19377 0.255098 2.93923 2.17534C0.68468 4.09558 0.367271 7.30612 2.13778 9.5772C3.60984 11.4654 8.06479 15.4479 9.52489 16.7369C9.68824 16.8811 9.76992 16.9532 9.86519 16.9815C9.94834 17.0062 10.0393 17.0062 10.1225 16.9815C10.2178 16.9532 10.2994 16.8811 10.4628 16.7369C11.9229 15.4479 16.3778 11.4654 17.8499 9.5772C19.6204 7.30612 19.3417 4.07538 17.0484 2.17534C14.7551 0.275296 11.7994 0.903175 10 3.00019Z" stroke="#5B74F9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </Button>
-            {true ? <Button
+            {!inBasket ? <Button
               // disabled={product.availability <= 0}
                      onClick={() => {
-                       // dispatch(addProductToBasket(product))
+                       if(!profile.isAuth){
+                         dispatch(setAuthShow(true))
+                         return
+                       }
+                       $api.post('/basket/', {product: product.id})
+                         .then((res) => {
+                           const obj = Object.assign({}, res.data, {
+                             product_id: product.id,
+                             ProductName: product.ProductName,
+                             discount: product.discount,
+                             image: product.image,
+                             RetailPrice: product.RetailPrice,
+                           })
+                           dispatch(addProductToBasket(obj))
+                         })
                      }}
                      size={'medium'}
                      style={'filled'}>
@@ -227,7 +263,10 @@ const Card: React.FC<ICardProps> = ({
               </svg>
               В корзину
             </Button> : <Button onClick={() => {
-                                  // dispatch(removeBasketProducts(product.id))
+                                  $api.delete(`/basket/${inBasket?.id}/`)
+                                    .then(() => {
+                                      dispatch(removeBasketProducts(inBasket?.id))
+                                    })
                                 }}
                                 size={'medium'}
                                 style={'outlined'}>

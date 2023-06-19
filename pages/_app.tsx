@@ -11,6 +11,7 @@ import {$api} from "@/http/axios";
 import {IUser} from "@/types/Profile.types";
 import {AxiosResponse} from "axios";
 import {useRouter} from "next/router";
+import {setBasketProducts} from "@/store/Slices/Basket.slice";
 
 const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
 
@@ -65,6 +66,27 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
       }
     }
   },[])
+
+  useEffect(() => {
+    if(profile.isAuth){
+      $api.get('/basket')
+        .then((res) => {
+          dispatch(setBasketProducts(res.data.data.map((el: any) => {
+            return {
+              id: el.id,
+              id_user: el.id_user,
+              product_id: el.product_id,
+              ProductName: el.product__ProductName,
+              discount: el.product__discount,
+              image: el.product__image,
+              RetailPrice: el.product__RetailPrice,
+              count: el.count,
+              buy_now: el.buy_now
+            }
+          })))
+        })
+    }
+  },[profile])
 
   return <ErrorBoundary>
     <Component {...pageProps} />

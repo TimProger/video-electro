@@ -127,14 +127,13 @@ export interface IProduct {
 
 export interface IBasketProduct {
   id: number;
-  name: string;
+  id_user: number;
+  product_id: number;
+  ProductName: number;
+  discount: null | number;
   image: string;
-  discount?: number | null;
-  article: string,
-  is_new?: boolean;
-  is_hit?: boolean;
-  availability: number;
-  price: number;
+  RetailPrice: number;
+  count: number;
   buy_now: boolean;
 }
 
