@@ -33,17 +33,7 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
 
   useEffect(()=>{
     window.addEventListener('resize', resize)
-    if(window){
-      if(window.innerWidth > 1150){
-        dispatch(setWidth('desktop'))
-      }else if(window.innerWidth <= 1150 && window.innerWidth > 820) {
-        setWidth('tablet')
-      }else if(window.innerWidth <= 820) {
-        dispatch(setWidth('mobile'))
-      }else{
-        dispatch(setWidth('desktop'))
-      }
-    }
+    resize()
 
     return () => {
       window.removeEventListener('resize', resize)
@@ -88,6 +78,9 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
           })))
           dispatch(setTotalPrice(res.data.total_price))
         })
+    }else{
+      dispatch(setBasketProducts([]))
+      dispatch(setTotalPrice(0))
     }
   },[profile])
 
