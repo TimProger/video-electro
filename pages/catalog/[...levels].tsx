@@ -338,6 +338,7 @@ const Catalog: React.FC<ICatalogProps> = ({
       })
     }
     setTempFilters([...JSON.parse(JSON.stringify(usedFilters))])
+    setNewProducts([...products])
   },[filtersArray])
 
   const togglePageHandler = (el: number) =>{
@@ -784,7 +785,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     })
     .catch(()=>{
       return {
-        data: [],
+        service: [],
         count_pages: 0
       }
     })
@@ -822,7 +823,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   return {
     props: {
       filtersArray: filters.filters,
-      products: products.data,
+      products: products.service,
       count_pages: products.count_pages,
       info: info,
       levels: params?.levels,
