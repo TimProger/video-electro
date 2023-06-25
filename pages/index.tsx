@@ -273,13 +273,17 @@ const Main: React.FC<IMainProps> = ({products}) => {
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  const products = await fetch(`${API_BASE_URL}/product`)
-
-  const productsData: IProductShort[] = await products.json()
+  const productsData: IProductShort[] = await fetch(`${API_BASE_URL}/product`)
+    .then((res) => {
+      return res.json()
+    })
+    .catch(() => {
+      return []
+    })
 
   return {
     props: {
-      products: productsData.splice(0, 8)
+      products: productsData.length > 8 ? productsData.splice(0, 8) : productsData
     },
     revalidate: 10,
   }

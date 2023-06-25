@@ -115,6 +115,52 @@
       }
     }
   }
+
+  &__placeholder_container {
+    position: relative;
+    width: 385px;
+    height: 441px;
+    border-radius: $border-radius-card;
+    background-color: $block-sec;
+    border: 1px solid #00000000;
+  }
+
+  &__placeholder {
+    height: 100%;
+    width: 100%;
+    animation: wave 1.5s infinite linear;
+  }
+
+  @keyframes wave {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% 0;
+    }
+  }
+
+  &__placeholder::after {
+    content: '';
+    height: 50px;
+    width: 100%;
+    background-image: linear-gradient(
+        90deg,
+        transparent,
+        rgba(168, 62, 62, 0.8),
+        transparent
+    );
+    animation: wave-gradient 1.5s infinite linear;
+  }
+
+  @keyframes wave-gradient {
+    0% {
+      background-position: -100% 0;
+    }
+    100% {
+      background-position: 100% 0;
+    }
+  }
 }
 
 .filters{

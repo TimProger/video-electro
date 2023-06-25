@@ -54,6 +54,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                                             count_pages}) => {
 
   const [newProducts, setNewProducts] = useState<IProductShort[]>([...products])
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { push } = useRouter()
 
@@ -156,6 +157,7 @@ const Catalog: React.FC<ICatalogProps> = ({
 
       window.removeEventListener('scroll', loadProducts)
       if(page + loadedPage > countPages) return
+      setLoading(true)
       $api.post(`/product/catalog/values/20/${page+loadedPage}/`, obj)
         .then((res) => {
           loadedPage += 1
@@ -164,7 +166,11 @@ const Catalog: React.FC<ICatalogProps> = ({
             window.addEventListener('scroll', loadProducts)
           }, 1500)
         })
-        .catch(() => {})
+        .catch(() => {
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     }
   }
 
@@ -202,13 +208,18 @@ const Catalog: React.FC<ICatalogProps> = ({
       obj.Level4 = levels[0]
     }
 
+    setLoading(true)
     setTimeout(()=>{
       $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
         .then((res) => {
           setNewProducts(res.data.data)
           setCountPages(res.data.count_pages)
         })
-        .catch(() => setNewProducts([]))
+        .catch(() => {
+          setNewProducts([])
+        })
+        .finally(() => {
+        })
     },500)
   }
 
@@ -241,14 +252,14 @@ const Catalog: React.FC<ICatalogProps> = ({
           .then((res) => {
             const elem = newFiltersArray.find(elem => elem.id === el.feature_id)
             if(elem){
-              console.log(JSON.stringify(newFiltersArray), newFiltersArray.length)
-              console.log(JSON.stringify(dropdownsOpen), dropdownsOpen.length)
               const index = newFiltersArray.indexOf(elem)
               newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
               dropdownsOpen[index] = true
               setDropdownsOpen([...dropdownsOpen])
               setNewFiltersArray([...newFiltersArray])
             }
+          })
+          .finally(() => {
           })
       })
       setUsedFilters([...usedFilters])
@@ -258,7 +269,9 @@ const Catalog: React.FC<ICatalogProps> = ({
       tempFilters.splice(0, tempFilters.length)
     }
 
-    updateCatalog(query.page ? +`${query.page}` : 1)
+    if(query.page || query.feature){
+      updateCatalog(query.page ? +`${query.page}` : 1)
+    }
   },[query])
 
   const [isFilters, setIsFilters] = useState<boolean>(false)
@@ -376,6 +389,14 @@ const Catalog: React.FC<ICatalogProps> = ({
   }
 
   const {width} = useTypedSelector(state => state.profile)
+
+  const displayPlaceholders = (count: number) => {
+
+    const placeholderArr = Array(count).fill(null);
+    return placeholderArr.map((_, index: number) => <div key={index} className={s.catalog__placeholder_container}>
+      <div className={s.catalog__placeholder}></div>
+    </div>)
+  }
 
   return (
     <Layout>
@@ -625,7 +646,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                       size={'bigger'}>Фильтры</Button>
             </div>}
             <div className={s.catalog__catalog__cards}>
-              {newProducts.length > 0 ? newProducts.map((el, _index)=>{
+              {loading ? displayPlaceholders(+count.key) : newProducts.length > 0 ? newProducts.map((el, _index)=>{
                 return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
@@ -645,8 +666,13 @@ const Catalog: React.FC<ICatalogProps> = ({
 
 export const getStaticPaths = async () => {
 
-  const res = await fetch(`${API_BASE_URL}/product/catalog/`)
-  const catalog = await res.json()
+  const catalog = await fetch(`${API_BASE_URL}/product/catalog/`)
+    .then((res) => {
+      return res.json()
+    })
+    .catch(() => {
+      return []
+    })
 
   const level4 = catalog.map((el: any) => {
     let arr = []
@@ -732,39 +758,44 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     }
   }
 
-  const res1 = await fetch(`${API_BASE_URL}/product/catalog/getFilters/`, {
+  const filters = await fetch(`${API_BASE_URL}/product/catalog/getFilters/`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(obj)
   })
+    .then((res) => {
+      return res.json()
+    })
     .catch(()=>{
-      return undefined
+      return {filters: []}
     })
 
-  const res2 = await fetch(`${API_BASE_URL}/product/catalog/values/20/1/`, {
+  const products = await fetch(`${API_BASE_URL}/product/catalog/values/20/1/`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(obj)
   })
+    .then((res) => {
+      return res.json()
+    })
     .catch(()=>{
-      return undefined
+      return {
+        data: [],
+        count_pages: 0
+      }
     })
 
-  if(!res1 || !res2){
-    return {
-      notFound: true,
-    }
-  }
-
-  const filters = await res1.json()
-  const products = await res2.json()
-
-  const res = await fetch(`${API_BASE_URL}/product/catalog/`)
-  const catalog = await res.json()
+  const catalog = await fetch(`${API_BASE_URL}/product/catalog/`)
+    .then((res) => {
+      return res.json()
+    })
+    .catch(() => {
+      return []
+    })
 
   let info: string[] = []
 

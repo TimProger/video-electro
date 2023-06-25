@@ -29,6 +29,9 @@ const Header: React.FC<IHeaderProps> = () => {
           newData.pop()
           setData(newData)
         })
+        .catch(() => {
+          setData([])
+        })
   }, [])
 
   const { pathname } = useRouter();

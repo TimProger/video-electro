@@ -169,12 +169,6 @@ const Product: React.FC<IProductProps> = ({info}) => {
 }
 
 export const getStaticPaths = async () => {
-  // const request  = await fetch('https://api.tvmaze.com/search/shows?q=batman')
-  // const movies = await request.json()
-
-  // const paths = movies.map((_: any, index: number) =>({
-  //   params: {id: `${index}`},
-  // }))
   return {
     paths: [
       { params: { id: '2' } }
@@ -185,18 +179,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
 
-  const product = await fetch(`${API_BASE_URL}/product/${params?.id}`)
-    .catch(() => {
-      return undefined
+  const productData: IProduct | null = await fetch(`${API_BASE_URL}/product/${params?.id}`)
+    .then((res) => {
+      return res.json()
     })
-
-  if (!product) {
-    return {
-      notFound: true,
-    }
-  }
-
-  const productData: IProduct = await product.json()
+    .catch(() => {
+      return null
+    })
 
   if (!productData) {
     return {
