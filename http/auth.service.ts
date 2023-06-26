@@ -3,44 +3,50 @@ import {$api} from "./axios";
 class AuthService {
 
   async confirm_phone(phone: number) {
-    $api
-      .post<{ code: number }>('/profile/confirm_phone', {
-        phone
-      })
-      .then((res)=>{
-        return res
-      })
-      .catch((e)=>{
-        throw e
-      })
+    return new Promise((resolve, reject) => {
+      $api
+        .post<{ code: number }>('/profile/confirm_phone', {
+          phone
+        })
+        .then((res)=>{
+          resolve(res)
+        })
+        .catch(()=>{
+          reject('Неверный номер телефона');
+        })
+    });
   }
 
   async confirm_code(phone: number, code: number) {
-    return await $api
-      .post('/profile/confirm_code', {
-        phone,
-        code
-      })
-      .then((res)=>{
-        return res
-      })
-      .catch((e)=>{
-        throw e
-      })
+    return new Promise((resolve, reject) => {
+      $api
+        .post('/profile/confirm_code', {
+          phone,
+          code
+        })
+        .then((res)=>{
+          resolve(res)
+        })
+        .catch(()=>{
+          reject('Неверные код');
+        })
+    });
   }
 
   async jwt(phone: number, password: string) {
-    return await $api
-      .post('/jwt', {
-        phone,
-        password
-      })
-      .then((res)=>{
-        return res
-      })
-      .catch((e)=>{
-        throw e
-      })
+    return new Promise((resolve, reject) => {
+      $api
+        .post('/jwt', {
+          phone,
+          password
+        })
+        .then((res)=>{
+          resolve(res);
+        })
+        .catch(()=>{
+          reject('Неверные учетные данные');
+        })
+    });
   }
 
   async patchProfile(first_name?: string,
@@ -48,20 +54,22 @@ class AuthService {
                      middle_name?: string,
                      email?: string,
                      password?: string) {
-    return await $api
-      .patch('/profile/', {
-        first_name,
-        last_name,
-        middle_name,
-        email,
-        password
-      })
-      .then((res)=>{
-        return res
-      })
-      .catch((e)=>{
-        throw e
-      })
+    return new Promise((resolve, reject) => {
+      $api
+        .patch('/profile/', {
+          first_name,
+          last_name,
+          middle_name,
+          email,
+          password
+        })
+        .then((res)=>{
+          resolve(res);
+        })
+        .catch(()=>{
+          reject('Ошибка');
+        })
+    });
   }
 
   async createProfile(code?: number,
@@ -71,33 +79,37 @@ class AuthService {
                       middle_name?: string,
                       email?: string,
                       password?: string) {
-    return await $api
-      .post('/profile/createUser', {
-        code,
-        phone,
-        first_name,
-        last_name,
-        middle_name,
-        email,
-        password
-      })
-      .then((res)=>{
-        return res
-      })
-      .catch((e)=>{
-        throw e
-      })
+    return new Promise((resolve, reject) => {
+      $api
+        .post('/profile/createUser', {
+          code,
+          phone,
+          first_name,
+          last_name,
+          middle_name,
+          email,
+          password
+        })
+        .then((res)=>{
+          resolve(res);
+        })
+        .catch(()=>{
+          reject('Ошибка');
+        })
+    });
   }
 
   async getProfile() {
-    return await $api
-      .get('/profile')
-      .then((res)=>{
-        return res
-      })
-      .catch((e)=>{
-        throw e
-      })
+    return new Promise((resolve, reject) => {
+      $api
+        .get('/profile')
+        .then((res)=>{
+          resolve(res);
+        })
+        .catch(()=>{
+          reject('Ошибка');
+        })
+    });
   }
 }
 

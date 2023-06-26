@@ -364,6 +364,7 @@ const Auth: React.FC<IAuthProps> = ({
         phone = body.auth.phone.replace(/\s/g, '').replace(/\+/, '')
         AuthService.jwt(+`8${phone.slice(1, phone.length)}`, body.auth.password)
           .then((res) => {
+            // @ts-ignore
             Storage.set('accessToken', `Bearer ${res.data.access}`)
             AuthService.getProfile()
               .then((res ) => {
@@ -372,11 +373,8 @@ const Auth: React.FC<IAuthProps> = ({
                 push('/profile')
               })
           })
-          .catch((res) => {
-            alert(JSON.stringify(res.data))
-            if(res.data.detail){
-              errors.auth.phone = [true, 'Неверный номер телефона или пароль']
-            }
+          .catch(() => {
+            errors.auth.phone = [true, 'Неверные учетные данные']
             setErrors(JSON.parse(JSON.stringify(errors)))
           })
         break;
@@ -433,6 +431,7 @@ const Auth: React.FC<IAuthProps> = ({
         phone = body.auth.phone.replace(/\s/g, '').replace(/\+/, '')
         AuthService.jwt(+`8${phone.slice(1, phone.length)}`, body.auth.password)
           .then((res) => {
+            // @ts-ignore
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             AuthService.getProfile()
               .then((res ) => {
@@ -441,7 +440,7 @@ const Auth: React.FC<IAuthProps> = ({
               })
           })
           .catch(() => {
-            errors.auth.code = [true, 'Неверный код']
+            errors.auth.code = [true, 'Неверный номер телефона или пароль']
             setErrors(JSON.parse(JSON.stringify(errors)))
           })
         break;

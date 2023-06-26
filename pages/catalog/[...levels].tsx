@@ -161,20 +161,16 @@ const Catalog: React.FC<ICatalogProps> = ({
       $api.post(`/product/catalog/values/20/${page+loadedPage}/`, obj)
         .then((res) => {
           loadedPage += 1
-          setNewProducts(prev => [...prev, ...res.data.data])
+          setNewProducts(prev => [...prev, ...res.data.service])
           setTimeout(()=>{
             window.addEventListener('scroll', loadProducts)
           }, 1500)
-        })
-        .catch(() => {
         })
         .finally(() => {
           setLoading(false)
         })
     }
   }
-
-  /////////////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     if(count.key === 'null'){
@@ -212,13 +208,14 @@ const Catalog: React.FC<ICatalogProps> = ({
     setTimeout(()=>{
       $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
         .then((res) => {
-          setNewProducts(res.data.data)
+          setNewProducts(res.data.service)
           setCountPages(res.data.count_pages)
         })
         .catch(() => {
           setNewProducts([])
         })
         .finally(() => {
+          setLoading(false)
         })
     },500)
   }

@@ -14,6 +14,7 @@ export interface IProductShort {
   EAN: string;
   GuaranteePeriod: string;
   image: string;
+  imageUrl: string;
   ItemID: number;
   ItemsPerUnit: number;
   Multiplicity: number;
@@ -81,8 +82,8 @@ export interface IProduct {
     MRC: number;
   },
   country: {
-    data: string | string[];
-  },
+    countries_id__data: string;
+  }[],
   certificate_infos: {
     data: string
   }[],

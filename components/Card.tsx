@@ -79,7 +79,7 @@ const Card: React.FC<ICardProps> = ({
                   Storage.set('prevPage', `${window.location.pathname}${window.location.search}`)
                 }}
                 className={s.cardLong__image}>
-            <img src={product.image} alt={product.ProductName}/>
+            <img src={product.image ? product.image : product.imageUrl} alt={product.ProductName}/>
           </Link>
           <div className={s.cardLong__info}>
             <Text type={'link'}
@@ -157,7 +157,7 @@ const Card: React.FC<ICardProps> = ({
                                              product_id: product.id,
                                              product__ProductName: product.ProductName,
                                              product__discount: product.discount,
-                                             product__image: product.image,
+                                             product__image: product.image ? product.image : product.imageUrl,
                                              product__RetailPrice: product.RetailPrice,
                                            })
                                            dispatch(addProductToBasket(obj))
@@ -203,7 +203,7 @@ const Card: React.FC<ICardProps> = ({
                 {product.is_new && <div>Новинка</div>}
                 {product.RetailPrice !== null && product.discount && <div>-${product.discount/(+product.RetailPrice.toFixed(2))*100}%</div>}
               </div>
-              <img src={product.image} alt={product.ProductName}/>
+              <img src={product.image ? product.image : product.imageUrl} alt={product.ProductName}/>
             </div>
           </Link>
           <div className={s.card__name}>
@@ -248,7 +248,7 @@ const Card: React.FC<ICardProps> = ({
                              product_id: product.id,
                              ProductName: product.ProductName,
                              discount: product.discount,
-                             image: product.image,
+                             image: product.image ? product.image : product.imageUrl,
                              RetailPrice: product.RetailPrice,
                            })
                            dispatch(addProductToBasket(obj))
