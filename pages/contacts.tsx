@@ -14,8 +14,8 @@ const Delivery: React.FC<IDeliveryProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>Контакты</title>
-        <meta name={"og:title"} content={"Контакты"} />
+        <title>Контакты | Video-Electro</title>
+        <meta name={"og:title"} content={"Контакты | Video-Electro"} />
       </Head>
         <Container>
           <div className={s.contacts}>

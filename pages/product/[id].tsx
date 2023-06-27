@@ -52,8 +52,8 @@ const Product: React.FC<IProductProps> = ({info}) => {
   return (
     <Layout>
       <Head>
-        <title>{product.ProductName}</title>
-        <meta name={"og:title"} content={product.ProductName} />
+        <title>{product.ProductName} | Video-Electro</title>
+        <meta name={"og:title"} content={`${product.ProductName} | Video-Electro`} />
       </Head>
       <Container>
         <div className={s.product}>

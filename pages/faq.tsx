@@ -101,8 +101,8 @@ const Faq: React.FC = () => {
   return (
     <Layout>
       <Head>
-        <title>FAQ</title>
-        <meta name={"og:title"} content={"FAQ"} />
+        <title>FAQ | Video-Electro</title>
+        <meta name={"og:title"} content={"FAQ | Video-Electro"} />
       </Head>
       <Container>
         <div className={s.faq}>

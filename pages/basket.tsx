@@ -276,8 +276,8 @@ const Basket: React.FC<IBasketProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>Корзина</title>
-        <meta name={"og:title"} content={"Корзина"} />
+        <title>Корзина | Video-Electro</title>
+        <meta name={"og:title"} content={"Корзина | Video-Electro"} />
       </Head>
       <Container>
         <div className={s.basket}>

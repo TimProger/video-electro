@@ -20,8 +20,8 @@ const Recovery: React.FC<IRecoveryProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>Возврат и обмен</title>
-        <meta name={"og:title"} content={"Доставка"} />
+        <title>Возврат и обмен | Video-Electro</title>
+        <meta name={"og:title"} content={"Возврат и обмен | Video-Electro"} />
       </Head>
         <Container>
           <div className={s.recovery}>

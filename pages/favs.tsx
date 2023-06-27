@@ -35,8 +35,8 @@ const Favs: React.FC<IFavsProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>Избранное</title>
-        <meta name={"og:title"} content={"Избранное"} />
+        <title>Избранное | Video-Electro</title>
+        <meta name={"og:title"} content={"Избранное | Video-Electro"} />
       </Head>
       <Container>
         <div className={s.favs}>

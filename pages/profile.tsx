@@ -357,8 +357,8 @@ const Profile: React.FC<IProfileProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>Профиль</title>
-        <meta name={"og:title"} content={"Контакты"} />
+        <title>Профиль | Video-Electro</title>
+        <meta name={"og:title"} content={"Профиль | Video-Electro"} />
       </Head>
         <Container>
           <div className={s.profile}>

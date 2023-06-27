@@ -150,8 +150,8 @@ const Main: React.FC<IMainProps> = ({products}) => {
   return (
     <Layout>
       <Head>
-        <title>Главная</title>
-        <meta name={"og:title"} content={"Главная"} />
+        <title>Главная | Video-Electro</title>
+        <meta name={"og:title"} content={"Главная | Video-Electro"} />
       </Head>
       <Container>
         {/*<Select value={value} values={values} onClick={onSelectClick} />*/}

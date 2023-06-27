@@ -23,8 +23,11 @@ const About: React.FC<IAboutProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>О нас</title>
-        <meta name={"og:title"} content={"О нас"} />
+        <title>О нас | Video-Electro</title>
+        <meta name={"og:title"} content={"О нас | Video-Electro"} />
+        <meta property="og:title" content={'О нас | Video-Electro'} />
+        <meta property="og:description" content={''} />
+        <meta/>
       </Head>
         <Container>
           <div className={s.about}>

@@ -87,8 +87,8 @@ const Coop: React.FC<ICoopProps> = () => {
   return (
     <Layout>
       <Head>
-        <title>Сотрудничество</title>
-        <meta name={"og:title"} content={"Сотрудничество"} />
+        <title>Сотрудничество | Video-Electro</title>
+        <meta name={"og:title"} content={"Сотрудничество | Video-Electro"} />
       </Head>
         <Container>
           <div className={s.coop}>
