@@ -41,46 +41,7 @@ export interface IProductShort {
 }
 
 export interface IProduct {
-  product: {
-    id: number;
-    is_new: boolean;
-    is_hit: boolean;
-    show: boolean;
-    discount: number;
-    delete: boolean;
-    Dimension: {
-      Depth: string;
-      Width: string;
-      Height: string;
-      DimensionUnit: string;
-    }
-    EAN: string;
-    GuaranteePeriod: string;
-    image: string;
-    ItemID: number;
-    ItemsPerUnit: number;
-    Multiplicity: number;
-    ParentProdCode: string;
-    ParentProdGroup: string;
-    ProductCode: string;
-    ProductDescription: string;
-    ProductGroup: string;
-    ProductName: string;
-    SenderPrdCode: number;
-    UOM: string;
-    VendorProdNum: string;
-    Weight: number;
-    brand: number;
-    Series: number;
-    AnalitCat: string;
-    QTY: number;
-    SumQTY: number;
-    Price2: number;
-    RetailPrice: number;
-    RetailCurrency: string;
-    CustPrice: number;
-    MRC: number;
-  },
+  product: IProductShort,
   country: {
     countries_id__data: string;
   }[],

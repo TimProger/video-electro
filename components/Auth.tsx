@@ -368,6 +368,7 @@ const Auth: React.FC<IAuthProps> = ({
             Storage.set('accessToken', `Bearer ${res.data.access}`)
             AuthService.getProfile()
               .then((res ) => {
+                // @ts-ignore
                 dispatch(setUser(res.data))
                 dispatch(setAuthShow(false))
                 push('/profile')
@@ -435,6 +436,7 @@ const Auth: React.FC<IAuthProps> = ({
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             AuthService.getProfile()
               .then((res ) => {
+                // @ts-ignore
                 dispatch(setUser(res.data))
                 push('/profile')
               })
@@ -449,9 +451,11 @@ const Auth: React.FC<IAuthProps> = ({
         phone = body.reg.phone.replace(/\s/g, '').replace(/\+/, '')
         AuthService.createProfile(+body.reg.code.replace(/\s/g, ''), +`8${phone.slice(1, phone.length)}`, names[0], names[1], names[2], body.reg.email, body.reg.password)
           .then((res ) => {
+            // @ts-ignore
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             AuthService.getProfile()
               .then((res) => {
+                // @ts-ignore
                 dispatch(setUser(res.data))
                 push('/profile')
               })
