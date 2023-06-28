@@ -89,6 +89,9 @@ const Coop: React.FC<ICoopProps> = () => {
       <Head>
         <title>Сотрудничество | Video-Electro</title>
         <meta name={"og:title"} content={"Сотрудничество | Video-Electro"} />
+        <meta property="description" content={'Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику.'} />
+        <meta property="og:description" content={'Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику.'} />
+        <meta property="og:url" content={'https://video-electro.ru/coop'} />
       </Head>
         <Container>
           <div className={s.coop}>

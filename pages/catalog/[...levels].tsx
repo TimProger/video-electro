@@ -401,6 +401,9 @@ const Catalog: React.FC<ICatalogProps> = ({
       <Head>
         <title>Каталог</title>
         <meta name={"og:title"} content={"Каталог"} />
+        <meta property="description" content={`Купить товары из категории ${info[0]}${info[1] ? ` в разделе ${info[1]}` : ``}`} />
+        <meta property="og:description" content={`Купить товары из категории ${info[0]}${info[1] ? ` в разделе ${info[1]}` : ``}`} />
+        <meta property="og:url" content={`https://video-electro.ru/catalog/${levels.join('/')}`} />
       </Head>
       <Container>
         <Modal showModal={isFilters} closeHandler={()=>{

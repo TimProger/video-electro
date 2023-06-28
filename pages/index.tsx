@@ -152,6 +152,9 @@ const Main: React.FC<IMainProps> = ({products}) => {
       <Head>
         <title>Главная | Video-Electro</title>
         <meta name={"og:title"} content={"Главная | Video-Electro"} />
+        <meta property="description" content={'Время приобрести электрику в Video-Electro.'} />
+        <meta property="og:description" content={'Время приобрести электрику в Video-Electro.'} />
+        <meta property="og:url" content={'https://video-electro.ru/'} />
       </Head>
       <Container>
         {/*<Select value={value} values={values} onClick={onSelectClick} />*/}

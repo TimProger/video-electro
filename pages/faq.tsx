@@ -103,12 +103,15 @@ const Faq: React.FC = () => {
       <Head>
         <title>FAQ | Video-Electro</title>
         <meta name={"og:title"} content={"FAQ | Video-Electro"} />
+        <meta property="description" content={'Ответы на все вопросы касаемо нашей компании.'} />
+        <meta property="og:description" content={'Ответы на все вопросы касаемо нашей компании.'} />
+        <meta property="og:url" content={'https://video-electro.ru/faq'} />
       </Head>
       <Container>
         <div className={s.faq}>
           <div className={s.faq__questions}>
             <div className={s.faq__questions__title}>
-              <Text size={'bigger'} type={'h2'}>О компании</Text>
+              <Text size={'bigger'} type={'h2'}>Вопросы и ответы</Text>
             </div>
             <div className={s.faq__questions__dropdowns}>
               {dropdownArray.map((el, index: number)=>{

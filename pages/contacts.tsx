@@ -16,6 +16,9 @@ const Delivery: React.FC<IDeliveryProps> = () => {
       <Head>
         <title>Контакты | Video-Electro</title>
         <meta name={"og:title"} content={"Контакты | Video-Electro"} />
+        <meta property="description" content={'Телефон, почта, адрес и реквизиты компании.'} />
+        <meta property="og:description" content={'Телефон, почта, адрес и реквизиты компании.'} />
+        <meta property="og:url" content={'https://video-electro.ru/contacts'} />
       </Head>
         <Container>
           <div className={s.contacts}>

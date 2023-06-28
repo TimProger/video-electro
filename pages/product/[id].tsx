@@ -53,7 +53,10 @@ const Product: React.FC<IProductProps> = ({info}) => {
     <Layout>
       <Head>
         <title>{product.ProductName} | Video-Electro</title>
-        <meta name={"og:title"} content={`${product.ProductName} | Video-Electro`} />
+        <meta name={"og:title"} content={`${product.ProductName} — купить в Video-Electro`} />
+        <meta property="description" content={`${product.ProductDescription}`} />
+        <meta property="og:description" content={`${product.ProductDescription}`} />
+        <meta property="og:url" content={`https://video-electro.ru/product/${product.id}`} />
       </Head>
       <Container>
         <div className={s.product}>

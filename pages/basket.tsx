@@ -278,6 +278,9 @@ const Basket: React.FC<IBasketProps> = () => {
       <Head>
         <title>Корзина | Video-Electro</title>
         <meta name={"og:title"} content={"Корзина | Video-Electro"} />
+        <meta property="description" content={'Список ваших товаров, добавленных в корзину.'} />
+        <meta property="og:description" content={'Список ваших товаров, добавленных в корзину.'} />
+        <meta property="og:url" content={'https://video-electro.ru/basket'} />
       </Head>
       <Container>
         <div className={s.basket}>
