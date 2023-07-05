@@ -22,6 +22,7 @@ import recovery_three from "@/public/images/pages/recovery/3.png";
 import {IBasketProduct} from "@/types/Product.types";
 import Checkbox from "@/components/UI/Checkbox";
 import {$api} from "@/http/axios";
+import { setAuthShow } from '@/store/Slices/Profile.slice';
 
 interface IBasketProps {
 }
@@ -82,6 +83,8 @@ const Basket: React.FC<IBasketProps> = () => {
   //   }
   // }
 
+  const profile = useTypedSelector(state => state.profile)
+
   const displayPages = () => {
     switch (page){
       case 0:
@@ -140,7 +143,16 @@ const Basket: React.FC<IBasketProps> = () => {
                   </div>
                 </div>
                 <Button size={'bigger'}
-                        onClick={()=>setPage(1)}
+                        onClick={()=>{
+                          if(!profile.isAuth){
+                            dispatch(setAuthShow(true))
+                          }
+                          if(selected.length > 0){
+                            setPage(1)
+                          }else{
+
+                          }
+                        }}
                         full>Оформить заказ</Button>
               </div>
             </div>
