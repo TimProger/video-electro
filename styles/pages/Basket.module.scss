@@ -1,4 +1,4 @@
-@import "../_vars.scss";
+  @import "../_vars.scss";
 
 .basket{
   width: 100%;
@@ -205,16 +205,47 @@
       gap: 30px;
       width: 100%;
 
+      @media screen and (max-width: 810px) {
+        & {
+          display: flex;
+          justify-content: flex-start;
+          flex-direction: column;
+          gap: 30px;
+
+          &__left{
+            width: 100% !important;
+          }
+
+          &__right{
+            width: 100% !important;
+          }
+        }
+      }
+
       &__left{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+
+        & ul {
+          margin-left: 50px;
+
+          & li {
+            color: $text-forth;
+            list-style: disc;
+          }
+        }
+      }
+
+      &__right{
         width: 50%;
         display: flex;
         flex-direction: column;
         gap: 30px;
       }
 
-      &__right{
-        width: 50%;
-        display: flex;
+      & h3{
+        margin-bottom: 10px;
       }
 
       & p{
