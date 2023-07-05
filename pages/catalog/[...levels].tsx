@@ -114,7 +114,7 @@ const Catalog: React.FC<ICatalogProps> = ({
   const onCountChange = (value: ISelectElement) => {
     setCount(value)
     if(value.key !== 'null'){
-      updateCatalog(page)
+      updateCatalog(value.key, page)
     }
   }
 
@@ -186,7 +186,7 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
 
-  const updateCatalog = (page: number) => {
+  const updateCatalog = (count: string, page: number) => {
 
     const obj: ICatalogQuery = {
       sort: sortType.key,
@@ -206,7 +206,7 @@ const Catalog: React.FC<ICatalogProps> = ({
 
     setLoading(true)
     setTimeout(()=>{
-      $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
+      $api.post(`/product/catalog/values/${count}/${page}/`, obj)
         .then((res) => {
           setNewProducts(res.data.service)
           setCountPages(res.data.count_pages)
@@ -267,7 +267,7 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
 
     if(query.page || query.feature){
-      updateCatalog(query.page ? +`${query.page}` : 1)
+      updateCatalog(count.key, query.page ? +`${query.page}` : 1)
     }
   },[query])
 
@@ -647,7 +647,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                       size={'bigger'}>Фильтры</Button>
             </div>}
             <div className={s.catalog__catalog__cards}>
-              {loading ? displayPlaceholders(+count.key) : newProducts.length > 0 ? newProducts.map((el, _index)=>{
+              {(count.key !== 'null' && loading) ? displayPlaceholders(+count.key) : newProducts.length > 0 ? newProducts.map((el, _index)=>{
                 return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
