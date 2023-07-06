@@ -114,7 +114,7 @@ const Basket: React.FC<IBasketProps> = () => {
                     <Card basket type={'long'} product={products[index]} />
                   </animated.div>
                 }) : <div className={s.basket__products__container__noCards}>
-                  <Text size={'small'} type={'p'}>В избранном нет товаров</Text>
+                  <Text size={'small'} type={'p'}>В корзине нет товаров</Text>
                   <Button size={'medium'}
                           type={'link'}
                           href={'catalog'}
