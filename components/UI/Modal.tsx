@@ -38,14 +38,17 @@ const Modal: React.FC<IModalProps> = ({showModal, closeHandler, children}) => {
   }, [height, showModal]);
 
   return (
-    <div onClick={outsideClickHandler}
+    <div onMouseDown={outsideClickHandler}
+         onMouseUp={(e) => e.preventDefault()}
          style={{opacity: showModal ? 1 : 0}}
          className={s.modal + ' ' + (showModal ? s.modal_active : '')}>
       <animated.div className={classNames(s.modal__animated)}
                     style={expand}>
         <div className={classNames(s.modal__block)}
              ref={refBlock}
-             onClick={insideClickHandler}>
+             onClick={insideClickHandler}
+             onMouseDown={insideClickHandler}
+             onMouseUp={insideClickHandler}>
           <div className={s.modal__block__container}>
             <div className={s.modal__block__close + ' ' + (showModal ? s.modal__block__close_active : '')}>
               <svg onClick={closeHandler}
