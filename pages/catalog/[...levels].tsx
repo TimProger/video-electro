@@ -457,7 +457,7 @@ const Catalog: React.FC<ICatalogProps> = ({
 
                                 $api.post(`/product/catalog/getFilters/${el.id}`,  obj)
                                   .then((res) => {
-                                    newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
+                                    newFiltersArray[index].featureValue = res.data.service.sort((el: IFilterFeatureValue) => !el.disable)
                                     setNewFiltersArray(prev => [...prev])
                                     dropdownsOpen[index] = !dropdownsOpen[index]
                                     setDropdownsOpen(prev => [...prev])
