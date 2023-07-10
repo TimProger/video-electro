@@ -83,10 +83,6 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const [sortType, setSortType] = useState<ISelectElement>(sortTypes[0])
 
-  const onSortChange = (value: ISelectElement) => {
-    setSortType(value)
-  }
-
   const [counts, _setCounts] = useState<ISelectElement[]>([
     {
       name: '20',
@@ -116,6 +112,11 @@ const Catalog: React.FC<ICatalogProps> = ({
     if(value.key !== 'null'){
       updateCatalog(value.key, page)
     }
+  }
+
+  const onSortChange = (value: ISelectElement) => {
+    setSortType(value)
+    updateCatalog(count.key === 'null' ? '20' : `${count.key}`, 1)
   }
 
   const [viewStyle, setViewStyle] = useState<number>(0)
