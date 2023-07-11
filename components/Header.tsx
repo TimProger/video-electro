@@ -14,6 +14,7 @@ import {animated, useSpring} from "react-spring";
 import {$api, API_BASE_URL} from "@/http/axios";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {setAuthShow, setHeader} from "@/store/Slices/Profile.slice";
+import { IProductShort } from '@/types/Product.types';
 
 interface IHeaderProps {
 }
@@ -41,6 +42,38 @@ const Header: React.FC<IHeaderProps> = () => {
   const basket = useTypedSelector(state => state.basket)
 
   const [searchValue, setSearchValue] = useState('')
+  const [searchProducts, setSearchProducts] = useState<IProductShort[]>([])
+  const [showSearchProducts, setShowSearchProducts] = useState<boolean>(false)
+  const [timeoutId, setTimeoutId] = useState(0)
+
+  const searchGetProducts = () => {
+    $api.post<IProductShort[]>('/product/search/', {
+      find: searchValue
+    })
+      .then(res => {
+        if(res.data && res.data.length > 0){
+          setSearchProducts(res.data.slice(0, 5))
+          setTimeout(() => setShowSearchProducts(true), 200)
+        }else{
+          setShowSearchProducts(true)
+        }
+      })
+      .catch(() => {
+
+      })
+  }
+
+  useEffect(() => {
+    window.clearTimeout(timeoutId)
+    if(searchValue === ''){
+      setShowSearchProducts(false)
+      setTimeout(() => setSearchProducts([]), 500)
+    }else{
+      let id = window.setTimeout(searchGetProducts, 1000)
+      setTimeoutId(id)
+    }
+  }, [searchValue])
+
   const [menuContent, setMenuContent] = useState<any[]>([])
   const [menuContentShow, setMenuContentShow] = useState<number>(0)
 
@@ -103,6 +136,36 @@ const Header: React.FC<IHeaderProps> = () => {
   }
 
   const [searchOpen, setSearchOpen] = useState<boolean>(false)
+
+  const [refBlock, { height }] = useMeasure<HTMLDivElement>();
+  
+  const expand = useSpring({
+    config: {
+      friction: showSearchProducts ? 17 : 40,
+      tension: showSearchProducts ? 200 : 300
+    },
+    height: showSearchProducts ? `${contentHeight+5}px` : '0px',
+    opacity: showSearchProducts ? 1 : 0,
+    overflow: 'hidden'
+  });
+
+  useEffect(() => {
+    setContentHeight(height);
+
+    window.addEventListener("resize", ()=>setContentHeight(height));
+
+    return window.removeEventListener("resize", ()=>setContentHeight(height));
+  }, [height, searchProducts]);
+
+  const refSearchProducts = useOnclickOutside((e: any) => {
+    if(e.target.classList && e.target.classList.length > 0 
+      && (e.target.classList[1] === s.header__bottom__search__products 
+        || (e.target.parentElement && e.target.parentElement.classList[1] === s.header__bottom__search__input)
+        )
+      ) return
+    setShowSearchProducts(false)
+
+  });
 
   return (
     <>
@@ -220,13 +283,34 @@ const Header: React.FC<IHeaderProps> = () => {
               </svg>
             </div>
           </div>}
-          {profile.width !== 'mobile' && <Input value={searchValue}
-                                        onChange={(e) => setSearchValue(e.target.value)}
-                                        placeholder={'Поиск'} key={'s'}
-                                        icon={<svg className={s.header__bottom__svg} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg>}
-          />}
+          <div className={s.header__bottom__search}>
+            {profile.width !== 'mobile' && <Input value={searchValue}
+                                                  className={s.header__bottom__search__input}
+                                                  onChange={(e) => setSearchValue(e.target.value)}
+                                                  placeholder={'Поиск'} key={'s'}
+                                                  onClick={() => {
+                                                    if(searchProducts.length > 0){
+                                                      setShowSearchProducts(true)
+                                                    }
+                                                  }}
+                                                  icon={<svg className={s.header__bottom__svg} width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M18.0607 18.0814L25 25M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                  </svg>}
+            />}
+            {profile.width !== 'mobile' && <animated.div className={classNames(s.header__bottom__search__animated, {[s.header__bottom__search__animated_active]: showSearchProducts})} style={expand}>
+              <div ref={refBlock}>
+                <div ref={refSearchProducts} className={classNames(s.header__bottom__search__products)}>
+                  <div className={s.header__bottom__search__products__space}></div>
+                  {searchProducts.length > 0 ? searchProducts.map((el)=>{
+                    return <Link href={`/product/${el.id}`} className={classNames(s.header__bottom__search__products__block)}>
+                      <Text>{el.ProductName}</Text>
+                    </Link>
+                  }) : <Text colored>Ничего не найдено</Text>}
+                  <div className={s.header__bottom__search__products__space}></div>
+                </div>
+              </div>
+            </animated.div>}
+          </div>
         </div>
       </div>
       <div className={s.headerMenu__container}>

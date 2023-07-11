@@ -14,6 +14,7 @@ export interface IInputProps {
   placeholder: string;
   key: any;
   disabled?: boolean;
+  onClick?: () => void;
   onClickEdit?: () => void;
   full?: boolean;
   short?: boolean;
@@ -38,7 +39,8 @@ const Input: React.FC<IInputProps> = ({
                                           medium,
                                           key,
                                           icon,
-                                          ref2
+                                          ref2,
+                                          onClick
                                         }) => {
 
   const ref = useOnclickOutside(() => {
@@ -67,6 +69,9 @@ const Input: React.FC<IInputProps> = ({
           {disabled ? <div className={s.input_input}>
             {value.length > 0 ? value : placeholder}
           </div> : <input
+            onClick={() => {
+              onClick && onClick()
+            }}
             ref={ref2}
             className={s.input_input}
             name={key}
