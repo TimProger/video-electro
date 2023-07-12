@@ -13,6 +13,7 @@ import {toggleFavsProduct} from "@/store/Slices/Favs.slice";
 import {IProduct} from "@/types/Product.types";
 import {API_BASE_URL} from "@/http/axios";
 import classNames from "classnames";
+import { setAuthShow } from '@/store/Slices/Profile.slice';
 
 interface IProductProps {
   info: IProduct
@@ -45,7 +46,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
     dispatch(toggleFavsProduct(product))
   }
 
-  const {width} = useTypedSelector(state => state.profile)
+  const {width, isAuth} = useTypedSelector(state => state.profile)
 
   const [image, setImage] = useState<string>(product.image)
 
@@ -121,6 +122,12 @@ const Product: React.FC<IProductProps> = ({info}) => {
               <div className={s.product__content__info__btns}>
                 <Button
                         // disabled={product.availability <= 0}
+                        onClick={() => {
+                          if(!isAuth){
+                            dispatch(setAuthShow(true))
+                            return
+                          }
+                        }}
                         size={width === 'desktop' ? 'bigger' : 'medium'}
                         style={'filled'}>
                   <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
