@@ -35,7 +35,7 @@ const Delivery: React.FC<IDeliveryProps> = () => {
                 </div>
                 <div className={s.contacts__content__blocks__block}>
                   <Text type={'h2'} size={'small'} colored>Email</Text>
-                  <Text type={'link'} href={'mailto:video-electro@help.ru'} bold size={'big+'}>video-electro@help.ru</Text>
+                  <Text type={'link'} href={'mailto:videoelectroru@gmail.com'} bold size={'big+'}>videoelectroru@gmail.com</Text>
                 </div>
               </div>
               <div className={s.contacts__content__more}>
@@ -45,7 +45,27 @@ const Delivery: React.FC<IDeliveryProps> = () => {
                 </div>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>ИНН</Text>
-                  <Text type={'p'} size={'medium'}>131245345943599646</Text>
+                  <Text type={'p'} size={'medium'}>3123341662</Text>
+                </div>
+                <div className={s.contacts__content__more__block}>
+                  <Text type={'h3'} size={'small'} colored>КПП</Text>
+                  <Text type={'p'} size={'medium'}>311501001</Text>
+                </div>
+                <div className={s.contacts__content__more__block}>
+                  <Text type={'h3'} size={'small'} colored>Банк</Text>
+                  <Text type={'p'} size={'medium'}>МОСКОВСКИЙ ФИЛИАЛ АО КБ "МОДУЛЬБАНК"</Text>
+                </div>
+                <div className={s.contacts__content__more__block}>
+                  <Text type={'h3'} size={'small'} colored>БИК</Text>
+                  <Text type={'p'} size={'medium'}>044525092</Text>
+                </div>
+                <div className={s.contacts__content__more__block}>
+                  <Text type={'h3'} size={'small'} colored>К/с №</Text>
+                  <Text type={'p'} size={'medium'}>30101810645250000092</Text>
+                </div>
+                <div className={s.contacts__content__more__block}>
+                  <Text type={'h3'} size={'small'} colored>Счёт №</Text>
+                  <Text type={'p'} size={'medium'}>40702810770010387761</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>ОГРНИП</Text>
@@ -57,13 +77,14 @@ const Delivery: React.FC<IDeliveryProps> = () => {
                 </div>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>Фактический адрес</Text>
-                  <Text type={'p'} size={'medium'}>Москва, ул. Новый Арбат 15, офис 317</Text>
+                  <Text  type={'link'} href={'https://yandex.ru/maps/213/moscow/house/ulitsa_novy_arbat_15/Z04Ycw5iTUcHQFtvfXt0c31nZQ==/?ll=37.592455%2C55.752155&z=17.55'} external size={'medium'}>Москва, ул. Новый Арбат 15, офис 317</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>Дополнительный телефон</Text>
                   <Text type={'link'} href={'tel:+78887771122'} size={'medium'}>+7 888 777 11 22</Text>
                 </div>
               </div>
+              <Text type={'h3'} size={'big'}>ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "ПРОГРЕСС-ЭЛЕКТРО"</Text>
             </div>
           </div>
         </Container>
