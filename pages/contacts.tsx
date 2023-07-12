@@ -6,10 +6,10 @@ import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/Contacts.module.scss'
 
-interface IDeliveryProps {
+interface IContactsProps {
 }
 
-const Delivery: React.FC<IDeliveryProps> = () => {
+const Contacts: React.FC<IContactsProps> = () => {
 
   return (
     <Layout>
@@ -100,4 +100,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Delivery
+export default Contacts
