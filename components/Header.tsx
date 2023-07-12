@@ -144,8 +144,9 @@ const Header: React.FC<IHeaderProps> = () => {
       friction: showSearchProducts ? 17 : 40,
       tension: showSearchProducts ? 200 : 300
     },
-    height: showSearchProducts ? `${contentHeight+5}px` : '0px',
+    height: showSearchProducts ? `${contentHeight+5}px` : `0px`,
     opacity: showSearchProducts ? 1 : 0,
+    marginTop: `15px`,
     overflow: 'hidden'
   });
 
@@ -286,7 +287,9 @@ const Header: React.FC<IHeaderProps> = () => {
           <div className={s.header__bottom__search}>
             {profile.width !== 'mobile' && <Input value={searchValue}
                                                   className={s.header__bottom__search__input}
-                                                  onChange={(e) => setSearchValue(e.target.value)}
+                                                  onChange={(e) => {
+                                                    setSearchValue(e.target.value.slice(0, 200))}
+                                                  }
                                                   placeholder={'Поиск'} key={'s'}
                                                   onClick={() => {
                                                     if(searchProducts.length > 0){

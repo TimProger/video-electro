@@ -194,6 +194,7 @@
 
       &__input{
         display: flex;
+        z-index: $z-index-header-search-input;
       }
 
       &__animated{
@@ -202,9 +203,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: 50px;
-        margin-left: -2px; 
-        z-index: $z-index-dropdown;
+        margin-left: -5px; 
+        z-index: $z-index-header-search-products;
       }
 
       &__products{
@@ -221,6 +221,7 @@
         align-items: center;
         flex-direction: column;
         gap: 10px;
+        margin-top: 40px;
 
         &__space{
           padding: 5px;
@@ -232,6 +233,7 @@
           align-items: center;
           cursor: pointer;
           transition: all .1s;
+          width: 100%;
 
           &:hover{
             background-color: $block-forth-hover;
@@ -245,7 +247,7 @@
         }
 
         &__products{
-          width: 300px;
+          width: 298px;
         }
       }
     }
