@@ -563,7 +563,7 @@ const Catalog: React.FC<ICatalogProps> = ({
         <div className={s.catalog}>
           <div className={s.catalog__catalog}>
             <div className={s.catalog__catalog__header}>
-              <Text size={'bigger'} type={'h1'}>{info.join(' / ')}</Text>
+              <Text size={'big+'} type={'h1'}>{info.join(' / ')}</Text>
               {width !== 'mobile' && <Button onClick={() => setIsFilters(true)}
                        size={'bigger'}>Фильтры</Button>}
             </div>
