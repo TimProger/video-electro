@@ -63,20 +63,26 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
     if(profile.isAuth){
       $api.get('/basket/')
         .then((res) => {
-          dispatch(setBasketProducts(res.data.data.map((el: any) => {
-            return {
-              id: el.id,
-              id_user: el.id_user,
-              product_id: el.product_id,
-              ProductName: el.product__ProductName,
-              discount: el.product__discount,
-              image: el.product__image,
-              RetailPrice: el.product__RetailPrice,
-              count: el.count,
-              buy_now: el.buy_now
-            }
-          })))
-          dispatch(setTotalPrice(res.data.total_price))
+          console.log(res)
+          if(res.data.detail === 'Нет товаров'){
+            dispatch(setBasketProducts([]))
+            dispatch(setTotalPrice(0))
+          }else{
+            dispatch(setBasketProducts(res.data.service.map((el: any) => {
+              return {
+                id: el.id,
+                id_user: el.id_user,
+                product_id: el.product_id,
+                ProductName: el.product__ProductName,
+                discount: el.product__discount,
+                image: el.product__image,
+                RetailPrice: el.product__RetailPrice,
+                count: el.count,
+                buy_now: el.buy_now
+              }
+            })))
+            dispatch(setTotalPrice(res.data.total_price))
+          }
         })
     }else{
       dispatch(setBasketProducts([]))
@@ -88,7 +94,11 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
     if(profile.isAuth){
       $api.get('/basket/')
         .then((res) => {
-          dispatch(setTotalPrice(res.data.total_price))
+          if(res.data.detail === 'Нет товаров'){
+            dispatch(setTotalPrice(0))
+          }else{
+            dispatch(setTotalPrice(res.data.total_price))
+          }
         })
     }
   }, [basket.products])

@@ -362,10 +362,10 @@ const Auth: React.FC<IAuthProps> = ({
         setErrors(JSON.parse(JSON.stringify(errors)))
         if(errors.auth.phone[1].length > 0 || errors.auth.password[1].length > 0) return
         phone = body.auth.phone.replace(/\s/g, '').replace(/\+/, '')
-        AuthService.jwt(+`8${phone.slice(1, phone.length)}`, body.auth.password)
+        AuthService.jwt(`7${phone.slice(1, phone.length)}`, body.auth.password)
           .then((res) => {
             // @ts-ignore
-            Storage.set('accessToken', `Bearer ${res.data.access}`)
+            Storage.set('accessToken', `Bearer ${res.data.access_token}`)
             AuthService.getProfile()
               .then((res ) => {
                 // @ts-ignore
@@ -409,7 +409,7 @@ const Auth: React.FC<IAuthProps> = ({
         || errors.reg.password_repeat[1].length > 0
         || errors.reg.confirmation[1].length > 0) return
         phone = body.reg.phone.replace(/\s/g, '').replace(/\+/, '')
-        AuthService.confirm_phone(+`8${phone.slice(1, phone.length)}`)
+        AuthService.confirm_phone(`7${phone.slice(1, phone.length)}`)
           .then(() => {
             setPage(2)
           })
@@ -430,7 +430,7 @@ const Auth: React.FC<IAuthProps> = ({
     switch (type){
       case "authorization":
         phone = body.auth.phone.replace(/\s/g, '').replace(/\+/, '')
-        AuthService.jwt(+`8${phone.slice(1, phone.length)}`, body.auth.password)
+        AuthService.jwt(`7${phone.slice(1, phone.length)}`, body.auth.password)
           .then((res) => {
             // @ts-ignore
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)
@@ -439,6 +439,8 @@ const Auth: React.FC<IAuthProps> = ({
                 // @ts-ignore
                 dispatch(setUser(res.data))
                 push('/profile')
+              })
+              .catch(() => {
               })
           })
           .catch(() => {
@@ -449,7 +451,7 @@ const Auth: React.FC<IAuthProps> = ({
       case "registration":
         const names = body.reg.name.split(' ')
         phone = body.reg.phone.replace(/\s/g, '').replace(/\+/, '')
-        AuthService.createProfile(+body.reg.code.replace(/\s/g, ''), +`8${phone.slice(1, phone.length)}`, names[0], names[1], names[2], body.reg.email, body.reg.password)
+        AuthService.createProfile(body.reg.code.replace(/\s/g, ''), `7${phone.slice(1, phone.length)}`, names[0], names[1], names[2], body.reg.email, body.reg.password)
           .then((res ) => {
             // @ts-ignore
             Storage.set('accessToken', `Bearer ${res.data.access_token}`)

@@ -55,7 +55,8 @@ const Header: React.FC<IHeaderProps> = () => {
           setSearchProducts(res.data.slice(0, 5))
           setTimeout(() => setShowSearchProducts(true), 200)
         }else{
-          setShowSearchProducts(true)
+          setSearchProducts([])
+          setTimeout(() => setShowSearchProducts(true), 200)
         }
       })
       .catch(() => {

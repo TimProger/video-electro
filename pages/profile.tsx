@@ -272,7 +272,7 @@ const Profile: React.FC<IProfileProps> = () => {
             </div>
           </div>
           <div className={s.page__user__password}>
-            <Button size={'small'} onClick={() => onSubmit()}>
+            <Button size={'small'}>
               Изменить пароль
             </Button>
             <Text size={'smaller'} className={s.page__user__password__text}>На ваш Email будет отправлена ссылка, для изменения пароля.</Text>

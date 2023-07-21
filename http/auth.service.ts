@@ -2,10 +2,10 @@ import {$api} from "./axios";
 
 class AuthService {
 
-  async confirm_phone(phone: number) {
+  async confirm_phone(phone: string) {
     return new Promise((resolve, reject) => {
       $api
-        .post<{ code: number }>('/profile/confirm_phone', {
+        .post<{ code: string }>('/profile/confirm_phone', {
           phone
         })
         .then((res)=>{
@@ -17,7 +17,7 @@ class AuthService {
     });
   }
 
-  async confirm_code(phone: number, code: number) {
+  async confirm_code(phone: string, code: string) {
     return new Promise((resolve, reject) => {
       $api
         .post('/profile/confirm_code', {
@@ -33,7 +33,7 @@ class AuthService {
     });
   }
 
-  async jwt(phone: number, password: string) {
+  async jwt(phone: string, password: string) {
     return new Promise((resolve, reject) => {
       $api
         .post('/jwt', {
@@ -72,8 +72,8 @@ class AuthService {
     });
   }
 
-  async createProfile(code?: number,
-                      phone?: number,
+  async createProfile(code?: string,
+                      phone?: string,
                       first_name?: string,
                       last_name?: string,
                       middle_name?: string,
