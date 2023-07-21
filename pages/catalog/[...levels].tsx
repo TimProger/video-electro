@@ -149,11 +149,11 @@ const Catalog: React.FC<ICatalogProps> = ({
       }
 
       if(levels.length === 3){
-        obj.Level2 = levels[2]
+        obj.level2 = +levels[2]
       }else if(levels.length === 2){
-        obj.Level3 = levels[1]
+        obj.level3 = +levels[1]
       }else {
-        obj.Level4 = levels[0]
+        obj.level4 = +levels[0]
       }
 
       window.removeEventListener('scroll', loadProducts)
@@ -198,11 +198,11 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
 
     if(levels.length === 3){
-      obj.Level2 = levels[2]
+      obj.level2 = +levels[2]
     }else if(levels.length === 2){
-      obj.Level3 = levels[1]
+      obj.level3 = +levels[1]
     }else {
-      obj.Level4 = levels[0]
+      obj.level4 = +levels[0]
     }
 
     setLoading(true)
@@ -239,11 +239,11 @@ const Catalog: React.FC<ICatalogProps> = ({
         }
 
         if(levels.length === 3){
-          obj.Level2 = levels[2]
+          obj.level2 = +levels[2]
         }else if(levels.length === 2){
-          obj.Level3 = levels[1]
+          obj.level3 = +levels[1]
         }else {
-          obj.Level4 = levels[0]
+          obj.level4 = +levels[0]
         }
 
         $api.post(`/product/catalog/getFilters/${el.feature_id}`,  obj)
@@ -251,7 +251,7 @@ const Catalog: React.FC<ICatalogProps> = ({
             const elem = newFiltersArray.find(elem => elem.id === el.feature_id)
             if(elem){
               const index = newFiltersArray.indexOf(elem)
-              newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
+              newFiltersArray[index].featureValue = res.data.service.sort((el: IFilterFeatureValue) => !el.disable)
               dropdownsOpen[index] = true
               setDropdownsOpen([...dropdownsOpen])
               setNewFiltersArray([...newFiltersArray])
@@ -448,11 +448,11 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 }
 
                                 if(levels.length === 3){
-                                  obj.Level2 = levels[2]
+                                  obj.level2 = +levels[2]
                                 }else if(levels.length === 2){
-                                  obj.Level3 = levels[1]
+                                  obj.level3 = +levels[1]
                                 }else {
-                                  obj.Level4 = levels[0]
+                                  obj.level4 = +levels[0]
                                 }
 
                                 $api.post(`/product/catalog/getFilters/${el.id}`,  obj)
@@ -744,13 +744,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   if(params?.levels){
     switch (params?.levels.length){
       case 3:
-        obj.Level2 = params?.levels[2]
+        obj.level2 = params?.levels[2]
         break;
       case 2:
-        obj.Level3 = params?.levels[1]
+        obj.level3 = params?.levels[1]
         break;
       case 1:
-        obj.Level4 = params?.levels[0]
+        obj.level4 = params?.levels[0]
         break;
 
       default:
