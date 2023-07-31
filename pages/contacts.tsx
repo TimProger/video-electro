@@ -31,7 +31,8 @@ const Contacts: React.FC<IContactsProps> = () => {
                 </div>
                 <div className={s.contacts__content__blocks__block}>
                   <Text type={'h2'} size={'small'} colored>Юридический адрес</Text>
-                  <Text type={'link'} href={'https://yandex.ru/maps/213/moscow/house/ulitsa_novy_arbat_15/Z04Ycw5iTUcHQFtvfXt0c31nZQ==/?ll=37.592455%2C55.752155&z=17.55'} external bold size={'big+'}>Москва, ул. Новый Арбат 15, офис 317</Text>
+                  <Text type={'link'} href={"https://www.google.com/maps/place/Ulitsa+Rotmistrova,+Prokhorovka,+Belgorodskaya+oblast',+Russia,+309000/data=!4m2!3m1!1s0x4125fa5557e90d8b:0x723ee168040e27aa?sa=X&ved=2ahUKEwiaoomvormAAxUnQ_EDHf0FAuEQ8gF6BAgWEAA&ved=2ahUKEwiaoomvormAAxUnQ_EDHf0FAuEQ8gF6BAgXEAI"} external bold size={'big+'}>309000,РФ,Белгородская обл. Прохоровский р-н, пгт.
+Прохоровка, ул Ротмистрова д6/1</Text>
                 </div>
                 <div className={s.contacts__content__blocks__block}>
                   <Text type={'h2'} size={'small'} colored>Email</Text>
@@ -41,7 +42,7 @@ const Contacts: React.FC<IContactsProps> = () => {
               <div className={s.contacts__content__more}>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>Реквизиты</Text>
-                  <Text type={'p'} size={'medium'}>ООО “Видео-электро”</Text>
+                  <Text type={'p'} size={'medium'}>ООО «ПРОГРЕСС-ЭЛЕКТРО»</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>ИНН</Text>
@@ -64,16 +65,17 @@ const Contacts: React.FC<IContactsProps> = () => {
                   <Text type={'p'} size={'medium'}>30101810645250000092</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
-                  <Text type={'h3'} size={'small'} colored>Счёт №</Text>
+                  <Text type={'h3'} size={'small'} colored>Р/С</Text>
                   <Text type={'p'} size={'medium'}>40702810770010387761</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
-                  <Text type={'h3'} size={'small'} colored>ОГРНИП</Text>
-                  <Text type={'p'} size={'medium'}>2341432554523123</Text>
+                  <Text type={'h3'} size={'small'} colored>ОГРН</Text>
+                  <Text type={'p'} size={'medium'}>1143123005486</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
-                  <Text type={'h3'} size={'small'} colored>Расчётный счёт</Text>
-                  <Text type={'p'} size={'medium'}>4080 4353 3453 4535 6757</Text>
+                  <Text type={'h3'} size={'small'} colored>Почтовый адрес</Text>
+                  <Text  type={'link'} href={"https://www.google.com/maps/place/Ulitsa+Rotmistrova,+Prokhorovka,+Belgorodskaya+oblast',+Russia,+309000/@51.0438241,36.7296713,17z/data=!3m1!4b1!4m6!3m5!1s0x4125fa5557e90d8b:0x723ee168040e27aa!8m2!3d51.0438241!4d36.7296713!16s%2Fg%2F1jkxl3wx0?entry=ttu"} external size={'medium'}>309000,РФ,Белгородская обл. Прохоровский р-н, пгт.
+Прохоровка, ул Ротмистрова д6/</Text>
                 </div>
                 <div className={s.contacts__content__more__block}>
                   <Text type={'h3'} size={'small'} colored>Фактический адрес</Text>
