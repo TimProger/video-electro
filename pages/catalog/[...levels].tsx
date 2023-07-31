@@ -495,6 +495,9 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 isChecked={(() => {
                                     const used = tempFilters.find((used) => used.feature_id === el.id)
                                     if (used) {
+                                      if(usedFilters[0] && usedFilters[0].feature_id === el.id) {
+                                        return used.data.length === el.featureValue.length
+                                      }
                                       const allThatNotDisabled = el.featureValue.filter((el) => !el.disable)
                                       return used.data.length === allThatNotDisabled.length
                                     }
@@ -503,7 +506,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 )()}
                                className={s.filters__content__filter__options__option}
                                onChange={() => {
-                                 const allThatNotDisabled = el.featureValue.filter((el) => !el.disable)
+                                 const allThatNotDisabled = (usedFilters[0] && usedFilters[0].feature_id === el.id) ? el.featureValue : el.featureValue.filter((el) => !el.disable)
                                  const used = tempFilters.find((used) => used.feature_id === el.id)
                                  if (used) {
                                    const index = tempFilters.indexOf(used)
@@ -531,7 +534,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                     {el.featureValue && el.featureValue.map((elem, index) => {
                       return <Checkbox key={index}
                                        className={s.filters__content__filter__options__option}
-                                       disabled={!!elem.disable}
+                                       disabled={(usedFilters[0] && usedFilters[0].feature_id === el.id) ? false : !!elem.disable}
                                        isChecked={(() => {
                                          const used = tempFilters.find((used) => used.feature_id === el.id)
                                          if(used){
