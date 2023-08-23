@@ -6,10 +6,10 @@ import Container from '@/components/UI/Container';
 import Head from "next/head";
 import s from '@/styles/pages/About.module.scss'
 // import about from "@/public/images/pages/main/about.jpg"
-import certificate0 from "@/public/images/pages/about/documents/certificate0.png"
-import certificate1 from "@/public/images/pages/about/documents/certificate1.png"
-import certificate2 from "@/public/images/pages/about/documents/certificate2.png"
-import certificate3 from "@/public/images/pages/about/documents/certificate3.png"
+// import certificate0 from "@/public/images/pages/about/documents/certificate0.png"
+// import certificate1 from "@/public/images/pages/about/documents/certificate1.png"
+// import certificate2 from "@/public/images/pages/about/documents/certificate2.png"
+// import certificate3 from "@/public/images/pages/about/documents/certificate3.png"
 import Image from "next/image";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
 
@@ -47,7 +47,7 @@ const About: React.FC<IAboutProps> = () => {
                 {width === 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
               </div>
             </div>
-            <div className={s.about__documents}>
+            {/* <div className={s.about__documents}>
               <Text type={'h2'} size={'bigger'}>Документы</Text>
               <div className={s.about__documents__list}>
                 <div className={s.about__documents__list__item}>
@@ -95,7 +95,7 @@ const About: React.FC<IAboutProps> = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </Container>
     </Layout>

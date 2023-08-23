@@ -132,9 +132,13 @@ const Faq: React.FC = () => {
 export const getStaticProps: GetStaticProps = async () => {
 
   return {
-    props: {},
-    revalidate: 10,
+    notFound: true
   }
+
+  // return {
+  //   props: {},
+  //   revalidate: 10,
+  // }
 }
 
 export default Faq

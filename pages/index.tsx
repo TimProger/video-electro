@@ -8,7 +8,7 @@ import Text from "@/components/UI/Text";
 import Card from "@/components/Card";
 import Button from "@/components/UI/Button";
 import welcome from "@/public/images/pages/main/welcome.jpg"
-import Image from "next/image";
+// import Image from "next/image";
 import Input from "@/components/UI/Input";
 import Dropdown from "@/components/UI/Dropdown";
 import {animated, useTrail} from "react-spring";
@@ -177,7 +177,7 @@ const Main: React.FC<IMainProps> = ({products}) => {
               })}
             </div>
           </div>
-          <div className={s.main__about}>
+          {/* <div className={s.main__about}>
             <div className={s.main__about__info}>
               <Text size={'bigger'} type={'h2'}>О компании</Text>
               {profile.width === 'mobile' && <div className={s.main__about__image}>
@@ -189,8 +189,8 @@ const Main: React.FC<IMainProps> = ({products}) => {
             {profile.width !== 'mobile' && <div className={s.main__about__image}>
               <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
             </div>}
-          </div>
-          <div className={s.main__team}>
+          </div> */}
+          {/* <div className={s.main__team}>
             <div className={s.main__team__title}>
               <Text size={'bigger'} type={'h2'}>Наша команда</Text>
             </div>
@@ -217,7 +217,7 @@ const Main: React.FC<IMainProps> = ({products}) => {
               </div>
             </div>
             <Button type={'link'} href={'/coop'} size={'bigger'}>Сотрудничать</Button>
-          </div>
+          </div> */}
           <div className={s.main__questions}>
             <div className={s.main__questions__title}>
               <Text size={'bigger'} type={'h2'}>Часто задаваемые вопросы</Text>
