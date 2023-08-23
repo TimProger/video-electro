@@ -110,8 +110,20 @@
         gap: 20px;
         height: 129px;
 
+        @media screen and (max-width: 420px){
+          height: 89px;
+        }
+
+        @media screen and (max-width: 340px){
+          gap: 5px;
+        }
+
         &__page{
           padding: 30px !important;
+
+          @media screen and (max-width: 420px){
+            padding: 0 !important;
+          }
         }
       }
     }
