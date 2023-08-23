@@ -12,12 +12,20 @@
     justify-content: space-between;
     gap: 30px;
 
+    @media screen and (max-width: 820px){
+      flex-direction: column;
+    }
+
     &__container{
       width: 65%;
       display: flex;
       flex-direction: column;
       min-height: 600px;
       gap: 30px;
+
+      @media screen and (max-width: 820px){
+        width: 100%;
+      }
 
       &__header{
         width: 100%;
@@ -54,6 +62,10 @@
       flex-direction: column;
       gap: 30px;
 
+      @media screen and (max-width: 820px){
+        width: 100%;
+      }
+
       &__placeholder{
         height: 56.7px;
 
@@ -61,6 +73,10 @@
           & {
             height: 37px;
           }
+        }
+
+        @media screen and (max-width: 820px){
+          display: none;
         }
       }
 

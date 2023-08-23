@@ -85,6 +85,10 @@ const Basket: React.FC<IBasketProps> = () => {
 
   const profile = useTypedSelector(state => state.profile)
 
+  useEffect(() => {
+    window.scrollTo({top: 200, behavior: 'smooth'})
+  },[page])
+
   const displayPages = () => {
     switch (page){
       case 0:
