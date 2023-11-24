@@ -459,6 +459,7 @@ const Auth: React.FC<IAuthProps> = ({
               .then((res) => {
                 // @ts-ignore
                 dispatch(setUser(res.data))
+                dispatch(setAuthShow(false))
                 push('/profile')
               })
           })

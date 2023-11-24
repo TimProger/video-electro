@@ -94,7 +94,7 @@ const Card: React.FC<ICardProps> = ({
               {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
               {product.is_hit && <div>Хит продаж</div>}
               {product.is_new && <div>Новинка</div>}
-              {product.discount && <div>-${product.discount}%</div>}
+              {!!product.discount && <div>-${product.discount}%</div>}
             </div>
           </div>
           <div className={s.cardLong__content}>
@@ -201,7 +201,7 @@ const Card: React.FC<ICardProps> = ({
                 {/*{product.availability <= 0 && <div className={s.cardLong__info__statuses__not}>Нет в наличии</div>}*/}
                 {product.is_hit && <div>Хит продаж</div>}
                 {product.is_new && <div>Новинка</div>}
-                {product.RetailPrice !== null && product.discount && <div>-${product.discount/(+product.RetailPrice.toFixed(2))*100}%</div>}
+                {product.RetailPrice !== null && !!product.discount && <div>-${product.discount/(+product.RetailPrice.toFixed(2))*100}%</div>}
               </div>
               <img src={product.image ? product.image : product.imageUrl} alt={product.ProductName}/>
             </div>
@@ -218,11 +218,11 @@ const Card: React.FC<ICardProps> = ({
             </Text>
           </div>
           <div className={s.card__price}>
-            {product.RetailPrice !== null && product.discount && <Text type={'span'} className={s.card__price__old} size={'small'}>
+            {product.RetailPrice !== null && !!product.discount && <Text type={'span'} className={s.card__price__old} size={'small'}>
               {`${product.discount}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
             </Text>}
             {product.RetailPrice !== null ? <Text bold colored={true} size={'medium'}>
-              {`${product.discount ? +product.RetailPrice.toFixed(2) - product.discount : `${product.RetailPrice.toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
+              {`${!!product.discount ? +product.RetailPrice.toFixed(2) - product.discount : `${product.RetailPrice.toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`} &#8381;
             </Text> : <Text bold colored={true} size={'medium'}>
               По договорённости
             </Text>}

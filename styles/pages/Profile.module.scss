@@ -1,5 +1,9 @@
 @import "../_vars.scss";
 
+.svg{
+  cursor: pointer;
+}
+
 .profile{
   width: 100%;
   display: flex;
@@ -42,6 +46,7 @@
     &__svg{
 
       &_disabled{
+        cursor: default;
 
         & path{
           stroke: $text-forth;

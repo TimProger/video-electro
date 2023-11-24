@@ -10,10 +10,11 @@ import {Storage} from "@/utils/storage";
 import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {toggleFavsProduct} from "@/store/Slices/Favs.slice";
-import {IProduct} from "@/types/Product.types";
-import {API_BASE_URL} from "@/http/axios";
+import {IBasketProduct, IProduct} from "@/types/Product.types";
+import {$api, API_BASE_URL} from "@/http/axios";
 import classNames from "classnames";
 import { setAuthShow } from '@/store/Slices/Profile.slice';
+import { addProductToBasket, removeBasketProducts } from '@/store/Slices/Basket.slice';
 
 interface IProductProps {
   info: IProduct
@@ -49,6 +50,17 @@ const Product: React.FC<IProductProps> = ({info}) => {
   const {width, isAuth} = useTypedSelector(state => state.profile)
 
   const [image, setImage] = useState<string>(product.image)
+  const [inBasket, setInBasket] = useState<IBasketProduct | null>(null)
+  const basketState = useTypedSelector(state => state.basket)
+
+  useEffect(()=>{
+    const includes = basketState.products.find(el => el.product_id === product.id)
+    if(includes){
+      setInBasket(includes)
+    }else{
+      setInBasket(null)
+    }
+  },[basketState.products])
 
   return (
     <Layout>
@@ -95,7 +107,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
                   {/*{product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}*/}
                   {product.is_hit && <div>Хит продаж</div>}
                   {product.is_new && <div>Новинка</div>}
-                  {product.discount && <div>-${product.discount}%</div>}
+                  {!!product.discount && <div>-${product.discount}%</div>}
                 </div>
                 <div className={s.product__content__info__header__article}>
                   <div>Артикул: {product.ProductCode}</div>
@@ -104,7 +116,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
               <Text type={'h1'}
                     size={'big+'}>{product.ProductName}</Text>
               <div className={s.product__content__info__price}>
-                {product.RetailPrice !== null ? product.discount && <Text type={'span'}
+                {product.RetailPrice !== null ? !!product.discount && <Text type={'span'}
                                            className={s.product__content__info__price__old}
                                            size={'medium'}>
                   {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
@@ -116,17 +128,29 @@ const Product: React.FC<IProductProps> = ({info}) => {
                 <Text bold
                       colored={true}
                       size={'big+'}>
-                  {`${product.RetailPrice !== null && product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.RetailPrice !== null && !!product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.product__content__info__btns}>
-                <Button
+                {!inBasket ? <Button
                         // disabled={product.availability <= 0}
                         onClick={() => {
                           if(!isAuth){
                             dispatch(setAuthShow(true))
                             return
                           }
+
+                        $api.post('/basket/', {product: product.id})
+                          .then((res) => {
+                            const obj = Object.assign({}, res.data, {
+                              product_id: product.id,
+                              ProductName: product.ProductName,
+                              discount: product.discount,
+                              image: product.image ? product.image : product.imageUrl,
+                              RetailPrice: product.RetailPrice,
+                            })
+                            dispatch(addProductToBasket(obj))
+                          })
                         }}
                         size={width === 'desktop' ? 'bigger' : 'medium'}
                         style={'filled'}>
@@ -134,7 +158,21 @@ const Product: React.FC<IProductProps> = ({info}) => {
                     <path d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z" stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                   Добавить в корзину
-                </Button>
+                </Button> : <Button onClick={() => {
+                                  $api.delete(`/basket/${inBasket?.id}/`)
+                                    .then(() => {
+                                      dispatch(removeBasketProducts(inBasket?.id))
+                                    })
+                                }}
+                                size={width === 'desktop' ? 'bigger' : 'medium'}
+                                style={'outlined'}>
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M5.39969 3.66667H25L22.3333 13H6.83562M23.6667 18.3333H7.66667L5 1H1M9 23.6667C9 24.403 8.40305 25 7.66667 25C6.93029 25 6.33333 24.403 6.33333 23.6667C6.33333 22.9303 6.93029 22.3333 7.66667 22.3333C8.40305 22.3333 9 22.9303 9 23.6667ZM23.6667 23.6667C23.6667 24.403 23.0697 25 22.3333 25C21.597 25 21 24.403 21 23.6667C21 22.9303 21.597 22.3333 22.3333 22.3333C23.0697 22.3333 23.6667 22.9303 23.6667 23.6667Z"
+                  stroke="#898989" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Удалить из корзины
+            </Button>}
                 <Button icon={true}
                         onClick={onToggleFavs}
                         size={'icon_bigger'}
