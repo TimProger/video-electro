@@ -396,7 +396,7 @@ const Profile: React.FC<IProfileProps> = () => {
         <meta name={"og:title"} content={"Профиль | Video-Electro"} />
       </Head>
         <Container>
-          <div className={s.profile__pages_new}>
+          {width === 'mobile' && <div className={s.profile__pages_new}>
             <svg className={classNames(s.svg, {[s.profile__pages_new__svg_disabled]: page === 1})}  onClick={() => push(`/profile?page=${page>1?page-1:1}`)} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="chevron-left">
                 <path id="Icon" d="M20 8L12 16L20 24" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -410,7 +410,7 @@ const Profile: React.FC<IProfileProps> = () => {
                 <path id="Icon" d="M12 24L20 16L12 8" stroke="#5B74F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </g>
             </svg>
-          </div>
+          </div>}
           <div className={s.profile}>
             <div className={s.profile__content}>
             {width !== 'mobile' && <div className={s.profile__pages}>

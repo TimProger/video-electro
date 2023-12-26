@@ -11,6 +11,7 @@ import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {setFavsProducts} from "@/store/Slices/Favs.slice";
 import {animated, useTrail} from "react-spring";
+import { setHeader } from '@/store/Slices/Profile.slice';
 
 interface IFavsProps {
 }
@@ -31,6 +32,8 @@ const Favs: React.FC<IFavsProps> = () => {
 
   useEffect(()=>{
   }, [])
+
+  const profile = useTypedSelector(state => state.profile)
 
   return (
     <Layout>
@@ -64,8 +67,9 @@ const Favs: React.FC<IFavsProps> = () => {
               }) : <div className={s.favs__container__noCards}>
                 <Text size={'small'} type={'p'}>В избранном нет товаров</Text>
                 <Button size={'medium'}
-                        type={'link'}
-                        href={'catalog'}
+                        onClick={() => {
+                          dispatch(setHeader(!profile.headerShow))
+                        }}
                 >В каталог</Button>
               </div>}
             </div>

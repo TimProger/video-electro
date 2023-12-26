@@ -63,7 +63,6 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
     if(profile.isAuth){
       $api.get('/basket/')
         .then((res) => {
-          console.log(res)
           if(res.data.detail === 'Нет товаров'){
             dispatch(setBasketProducts([]))
             dispatch(setTotalPrice(0))

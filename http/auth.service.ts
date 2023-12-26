@@ -11,8 +11,8 @@ class AuthService {
         .then((res)=>{
           resolve(res)
         })
-        .catch(()=>{
-          reject('Неверный номер телефона');
+        .catch((error)=>{
+          reject(error.response);
         })
     });
   }
@@ -27,8 +27,8 @@ class AuthService {
         .then((res)=>{
           resolve(res)
         })
-        .catch(()=>{
-          reject('Неверные код');
+        .catch((error)=>{
+          reject(error.response);
         })
     });
   }
@@ -43,8 +43,8 @@ class AuthService {
         .then((res)=>{
           resolve(res);
         })
-        .catch(()=>{
-          reject('Неверные учетные данные');
+        .catch((error)=>{
+          reject(error.response);
         })
     });
   }
@@ -66,8 +66,8 @@ class AuthService {
         .then((res)=>{
           resolve(res);
         })
-        .catch(()=>{
-          reject('Ошибка');
+        .catch((error)=>{
+          reject(error.response);
         })
     });
   }
@@ -93,8 +93,8 @@ class AuthService {
         .then((res)=>{
           resolve(res);
         })
-        .catch(()=>{
-          reject('Ошибка');
+        .catch((error)=>{
+          reject(error.response);
         })
     });
   }
@@ -106,8 +106,8 @@ class AuthService {
         .then((res)=>{
           resolve(res);
         })
-        .catch(()=>{
-          reject('Ошибка');
+        .catch((error)=>{
+          reject(error.response);
         })
     });
   }

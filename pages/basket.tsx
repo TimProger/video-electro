@@ -11,7 +11,9 @@ import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {
   selectBasketProduct,
+  setBasketProducts,
   setBasketProductsShort,
+  setTotalPrice,
 } from "@/store/Slices/Basket.slice";
 import {animated, useTrail} from "react-spring";
 import Image from "next/image";
@@ -22,7 +24,7 @@ import recovery_three from "@/public/images/pages/recovery/3.png";
 import {IBasketProduct} from "@/types/Product.types";
 import Checkbox from "@/components/UI/Checkbox";
 import {$api} from "@/http/axios";
-import { setAuthShow } from '@/store/Slices/Profile.slice';
+import { setAuthShow, setHeader } from '@/store/Slices/Profile.slice';
 
 interface IBasketProps {
 }
@@ -89,6 +91,41 @@ const Basket: React.FC<IBasketProps> = () => {
     window.scrollTo({top: 200, behavior: 'smooth'})
   },[page])
 
+  const buyHandler = () => {
+    $api.post('/order/buy/', {
+      address: 'Moscow',
+      delivery: 'cdek'
+    })
+      .then((res) => {
+        console.log(res)
+        $api.get('/basket/')
+          .then((res) => {
+            if(res.data.detail === 'Нет товаров'){
+              dispatch(setBasketProducts([]))
+              dispatch(setTotalPrice(0))
+            }else{
+              dispatch(setBasketProducts(res.data.service.map((el: any) => {
+                return {
+                  id: el.id,
+                  id_user: el.id_user,
+                  product_id: el.product_id,
+                  ProductName: el.product__ProductName,
+                  discount: el.product__discount,
+                  image: el.product__image,
+                  RetailPrice: el.product__RetailPrice,
+                  count: el.count,
+                  buy_now: el.buy_now
+                }
+              })))
+              dispatch(setTotalPrice(res.data.total_price))
+            }
+          })
+      })
+      .catch((res) => {
+        console.log(res)
+      })
+  }
+
   const displayPages = () => {
     switch (page){
       case 0:
@@ -120,8 +157,9 @@ const Basket: React.FC<IBasketProps> = () => {
                 }) : <div className={s.basket__products__container__noCards}>
                   <Text size={'small'} type={'p'}>В корзине нет товаров</Text>
                   <Button size={'medium'}
-                          type={'link'}
-                          href={'catalog'}
+                          onClick={() => {
+                            dispatch(setHeader(!profile.headerShow))
+                          }}
                   >В каталог</Button>
                 </div>}
               </div>
@@ -253,7 +291,7 @@ const Basket: React.FC<IBasketProps> = () => {
                   <Text bold>К оплате</Text>
                   <Text colored bold size={'medium'}>{`${+totalPrice.toFixed(2)-+discountedPrice.toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</Text>
                 </div>
-                <Button size={'bigger'} full>Оплатить</Button>
+                <Button onClick={() => buyHandler()} size={'bigger'} full>Оплатить</Button>
               </div>
               <div className={s.basket__order__main__right}>
                 <Text size={'big+'} type={'h2'}>Этапы сотрудничества</Text>
