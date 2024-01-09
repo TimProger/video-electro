@@ -11,9 +11,7 @@ import Button from "@/components/UI/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {
   selectBasketProduct,
-  setBasketProducts,
   setBasketProductsShort,
-  setTotalPrice,
 } from "@/store/Slices/Basket.slice";
 import {animated, useTrail} from "react-spring";
 import Image from "next/image";
@@ -97,32 +95,13 @@ const Basket: React.FC<IBasketProps> = () => {
       delivery: 'cdek'
     })
       .then((res) => {
-        console.log(res)
-        $api.get('/basket/')
-          .then((res) => {
-            if(res.data.detail === 'Нет товаров'){
-              dispatch(setBasketProducts([]))
-              dispatch(setTotalPrice(0))
-            }else{
-              dispatch(setBasketProducts(res.data.service.map((el: any) => {
-                return {
-                  id: el.id,
-                  id_user: el.id_user,
-                  product_id: el.product_id,
-                  ProductName: el.product__ProductName,
-                  discount: el.product__discount,
-                  image: el.product__image,
-                  RetailPrice: el.product__RetailPrice,
-                  count: el.count,
-                  buy_now: el.buy_now
-                }
-              })))
-              dispatch(setTotalPrice(res.data.total_price))
-            }
+        $api.get(`/order/pay_order/${res.data.id}`)
+          .then((res1) => {
+            window.location.href = res1.data.url
           })
       })
-      .catch((res) => {
-        console.log(res)
+      .catch((_res) => {
+        // console.log(res)
       })
   }
 
