@@ -262,6 +262,17 @@ const Profile: React.FC<IProfileProps> = () => {
       setReviewCheckboxArray(showProductsArray.map(_ => false))
     }
   }, [showProductsArray])
+
+  const paymentStatus = [
+    'Создано',
+    'Ожидает оплаты',
+    'На оплате',
+    'Отправлено в доставку',
+    'Оплачено',
+    'Произошла ошибка',
+    'Возврат',
+    'Доставлено'
+  ]
   
   const displayPages = () => {
     switch (page) {
@@ -389,21 +400,25 @@ const Profile: React.FC<IProfileProps> = () => {
                     <Text>Заказ оптовый:</Text>
                     <Text>Да</Text>
                   </div>
-                  <div className={s.page__orders__list__block}>
+                  {/* <div className={s.page__orders__list__block}>
                     <Text>Договор:</Text>
                     <Text>Ожидается</Text>
-                  </div>
-                  <div className={s.page__orders__list__block}>
+                  </div> */}
+                  {/* <div className={s.page__orders__list__block}>
                     <Text>Имя администратора:</Text>
                     <Text>Иван Викторович</Text>
-                  </div>
-                  <div className={s.page__orders__list__block}>
+                  </div> */}
+                  {/* <div className={s.page__orders__list__block}>
                     <Text>Сообщение администратора:</Text>
                     <Text>Здравствуйте! Ожидаем оплату и свяжемся с вами!</Text>
-                  </div>
-                  <div className={s.page__orders__list__block}>
+                  </div> */}
+                  {/* <div className={s.page__orders__list__block}>
                     <Text>Контакт администратора:</Text>
                     <Text>+7 999 011 58 60</Text>
+                  </div> */}
+                  <div className={s.page__orders__list__block}>
+                    <Text>Контакт службы поддержки:</Text>
+                    <Text>+7 (993) 271-75-11</Text>
                   </div>
                   <div className={s.page__orders__list__block}>
                     <Text>Ориентировочная дата доставки:</Text>
@@ -431,7 +446,7 @@ const Profile: React.FC<IProfileProps> = () => {
                         <Text size='medium' bold colored>{el.order.sum} &#8381;</Text>
                       </div>
                       <div>
-                        <Text colored>Оплата подтверждена</Text>
+                        <Text colored>{paymentStatus[el.order.status]}</Text>
                       </div>
                     </div>
                   </div>
