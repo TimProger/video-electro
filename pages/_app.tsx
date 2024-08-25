@@ -83,7 +83,7 @@ const WrappedApp: FC<AppProps> = ({Component, pageProps}) => {
       dispatch(setTotalPrice(0))
     }
   },[profile])
-
+ 
   useEffect(() => {
     if(profile.isAuth){
       $api.get('/basket/')
