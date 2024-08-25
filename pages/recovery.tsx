@@ -22,6 +22,9 @@ const Recovery: React.FC<IRecoveryProps> = () => {
       <Head>
         <title>Возврат и обмен | Video-Electro</title>
         <meta name={"og:title"} content={"Возврат и обмен | Video-Electro"} />
+        <meta property="description" content={'Этапы возврата товара.'} />
+        <meta property="og:description" content={'Этапы возврата товара.'} />
+        <meta property="og:url" content={'https://video-electro.ru/recovery'} />
       </Head>
         <Container>
           <div className={s.recovery}>

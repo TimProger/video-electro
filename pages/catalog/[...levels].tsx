@@ -83,10 +83,6 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const [sortType, setSortType] = useState<ISelectElement>(sortTypes[0])
 
-  const onSortChange = (value: ISelectElement) => {
-    setSortType(value)
-  }
-
   const [counts, _setCounts] = useState<ISelectElement[]>([
     {
       name: '20',
@@ -114,8 +110,13 @@ const Catalog: React.FC<ICatalogProps> = ({
   const onCountChange = (value: ISelectElement) => {
     setCount(value)
     if(value.key !== 'null'){
-      updateCatalog(page)
+      updateCatalog(value.key, page)
     }
+  }
+
+  const onSortChange = (value: ISelectElement) => {
+    setSortType(value)
+    updateCatalog(count.key === 'null' ? '20' : `${count.key}`, 1)
   }
 
   const [viewStyle, setViewStyle] = useState<number>(0)
@@ -148,11 +149,11 @@ const Catalog: React.FC<ICatalogProps> = ({
       }
 
       if(levels.length === 3){
-        obj.Level2 = levels[2]
+        obj.level2 = +levels[2]
       }else if(levels.length === 2){
-        obj.Level3 = levels[1]
+        obj.level3 = +levels[1]
       }else {
-        obj.Level4 = levels[0]
+        obj.level4 = +levels[0]
       }
 
       window.removeEventListener('scroll', loadProducts)
@@ -186,7 +187,7 @@ const Catalog: React.FC<ICatalogProps> = ({
 
   const [usedFilters, setUsedFilters] = useState<IFilter[]>([])
 
-  const updateCatalog = (page: number) => {
+  const updateCatalog = (count: string, page: number) => {
 
     const obj: ICatalogQuery = {
       sort: sortType.key,
@@ -197,16 +198,16 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
 
     if(levels.length === 3){
-      obj.Level2 = levels[2]
+      obj.level2 = +levels[2]
     }else if(levels.length === 2){
-      obj.Level3 = levels[1]
+      obj.level3 = +levels[1]
     }else {
-      obj.Level4 = levels[0]
+      obj.level4 = +levels[0]
     }
 
     setLoading(true)
     setTimeout(()=>{
-      $api.post(`/product/catalog/values/${count.key}/${page}/`, obj)
+      $api.post(`/product/catalog/values/${count}/${page}/`, obj)
         .then((res) => {
           setNewProducts(res.data.service)
           setCountPages(res.data.count_pages)
@@ -238,11 +239,11 @@ const Catalog: React.FC<ICatalogProps> = ({
         }
 
         if(levels.length === 3){
-          obj.Level2 = levels[2]
+          obj.level2 = +levels[2]
         }else if(levels.length === 2){
-          obj.Level3 = levels[1]
+          obj.level3 = +levels[1]
         }else {
-          obj.Level4 = levels[0]
+          obj.level4 = +levels[0]
         }
 
         $api.post(`/product/catalog/getFilters/${el.feature_id}`,  obj)
@@ -250,7 +251,7 @@ const Catalog: React.FC<ICatalogProps> = ({
             const elem = newFiltersArray.find(elem => elem.id === el.feature_id)
             if(elem){
               const index = newFiltersArray.indexOf(elem)
-              newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
+              newFiltersArray[index].featureValue = res.data.service.sort((el: IFilterFeatureValue) => !el.disable)
               dropdownsOpen[index] = true
               setDropdownsOpen([...dropdownsOpen])
               setNewFiltersArray([...newFiltersArray])
@@ -267,7 +268,7 @@ const Catalog: React.FC<ICatalogProps> = ({
     }
 
     if(query.page || query.feature){
-      updateCatalog(query.page ? +`${query.page}` : 1)
+      updateCatalog(count.key, query.page ? +`${query.page}` : 1)
     }
   },[query])
 
@@ -401,6 +402,9 @@ const Catalog: React.FC<ICatalogProps> = ({
       <Head>
         <title>Каталог</title>
         <meta name={"og:title"} content={"Каталог"} />
+        <meta property="description" content={`Купить товары из категории ${info[0]}${info[1] ? ` в разделе ${info[1]}` : ``}`} />
+        <meta property="og:description" content={`Купить товары из категории ${info[0]}${info[1] ? ` в разделе ${info[1]}` : ``}`} />
+        <meta property="og:url" content={`https://video-electro.ru/catalog/${levels.join('/')}`} />
       </Head>
       <Container>
         <Modal showModal={isFilters} closeHandler={()=>{
@@ -444,16 +448,16 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 }
 
                                 if(levels.length === 3){
-                                  obj.Level2 = levels[2]
+                                  obj.level2 = +levels[2]
                                 }else if(levels.length === 2){
-                                  obj.Level3 = levels[1]
+                                  obj.level3 = +levels[1]
                                 }else {
-                                  obj.Level4 = levels[0]
+                                  obj.level4 = +levels[0]
                                 }
 
                                 $api.post(`/product/catalog/getFilters/${el.id}`,  obj)
                                   .then((res) => {
-                                    newFiltersArray[index].featureValue = res.data.data.sort((el: IFilterFeatureValue) => !el.disable)
+                                    newFiltersArray[index].featureValue = res.data.service.sort((el: IFilterFeatureValue) => !el.disable)
                                     setNewFiltersArray(prev => [...prev])
                                     dropdownsOpen[index] = !dropdownsOpen[index]
                                     setDropdownsOpen(prev => [...prev])
@@ -491,6 +495,9 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 isChecked={(() => {
                                     const used = tempFilters.find((used) => used.feature_id === el.id)
                                     if (used) {
+                                      if(usedFilters[0] && usedFilters[0].feature_id === el.id) {
+                                        return used.data.length === el.featureValue.length
+                                      }
                                       const allThatNotDisabled = el.featureValue.filter((el) => !el.disable)
                                       return used.data.length === allThatNotDisabled.length
                                     }
@@ -499,7 +506,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                                 )()}
                                className={s.filters__content__filter__options__option}
                                onChange={() => {
-                                 const allThatNotDisabled = el.featureValue.filter((el) => !el.disable)
+                                 const allThatNotDisabled = (usedFilters[0] && usedFilters[0].feature_id === el.id) ? el.featureValue : el.featureValue.filter((el) => !el.disable)
                                  const used = tempFilters.find((used) => used.feature_id === el.id)
                                  if (used) {
                                    const index = tempFilters.indexOf(used)
@@ -527,7 +534,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                     {el.featureValue && el.featureValue.map((elem, index) => {
                       return <Checkbox key={index}
                                        className={s.filters__content__filter__options__option}
-                                       disabled={!!elem.disable}
+                                       disabled={(usedFilters[0] && usedFilters[0].feature_id === el.id) ? false : !!elem.disable}
                                        isChecked={(() => {
                                          const used = tempFilters.find((used) => used.feature_id === el.id)
                                          if(used){
@@ -559,7 +566,7 @@ const Catalog: React.FC<ICatalogProps> = ({
         <div className={s.catalog}>
           <div className={s.catalog__catalog}>
             <div className={s.catalog__catalog__header}>
-              <Text size={'bigger'} type={'h1'}>{info.join(' / ')}</Text>
+              <Text size={'big+'} type={'h1'}>{info.join(' / ')}</Text>
               {width !== 'mobile' && <Button onClick={() => setIsFilters(true)}
                        size={'bigger'}>Фильтры</Button>}
             </div>
@@ -644,7 +651,7 @@ const Catalog: React.FC<ICatalogProps> = ({
                       size={'bigger'}>Фильтры</Button>
             </div>}
             <div className={s.catalog__catalog__cards}>
-              {loading ? displayPlaceholders(+count.key) : newProducts.length > 0 ? newProducts.map((el, _index)=>{
+              {(count.key !== 'null' && loading) ? displayPlaceholders(+count.key) : newProducts.length > 0 ? newProducts.map((el, _index)=>{
                 return <Card type={viewStyle === 0 ? 'short' : 'long'} product={el} />
               }) : <Text className={s.catalog__catalog__cards__notFound}>Товары не найдены</Text>}
             </div>
@@ -740,13 +747,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   if(params?.levels){
     switch (params?.levels.length){
       case 3:
-        obj.Level2 = params?.levels[2]
+        obj.level2 = params?.levels[2]
         break;
       case 2:
-        obj.Level3 = params?.levels[1]
+        obj.level3 = params?.levels[1]
         break;
       case 1:
-        obj.Level4 = params?.levels[0]
+        obj.level4 = params?.levels[0]
         break;
 
       default:

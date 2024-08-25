@@ -65,6 +65,7 @@
         &__container{
           display: flex;
           justify-content: space-between;
+          gap: 10px;
         }
       }
     }
@@ -109,8 +110,20 @@
         gap: 20px;
         height: 129px;
 
+        @media screen and (max-width: 420px){
+          height: 89px;
+        }
+
+        @media screen and (max-width: 340px){
+          gap: 5px;
+        }
+
         &__page{
           padding: 30px !important;
+
+          @media screen and (max-width: 420px){
+            padding: 0 !important;
+          }
         }
       }
     }
@@ -180,9 +193,6 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
-
-      &__wrapper{
-      }
 
       &__name{
         padding: 5px 0;

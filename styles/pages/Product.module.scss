@@ -59,15 +59,16 @@
       &__list{
         width: 100%;
         display: flex;
-        gap: 5%;
+        flex-wrap: wrap;
+        gap: 5px;
 
         &_active{
           border: 1px solid $block-main-hover !important;
         }
 
         & img{
-          width: 120px;
-          height: 120px;
+          width: 80px;
+          height: 80px;
           border: 1px solid $border-color-sec;
           border-radius: $border-radius-card;
           overflow: hidden;
@@ -81,6 +82,13 @@
             & {
               width: 85px;
               height: 85px;
+            }
+          }
+
+          @media screen and (max-width: 420px) {
+            & {
+              width: 55px;
+              height: 55px;
             }
           }
 

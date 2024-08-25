@@ -106,9 +106,9 @@ export interface IFilter {
 
 export interface ICatalogQuery {
   sort?: string;
-  Level2?: string;
-  Level3?: string;
-  Level4?: string;
+  level2?: number;
+  level3?: number;
+  level4?: number;
   feature?: string;
   page?: number;
 }

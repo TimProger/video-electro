@@ -37,6 +37,9 @@ const Favs: React.FC<IFavsProps> = () => {
       <Head>
         <title>Избранное | Video-Electro</title>
         <meta name={"og:title"} content={"Избранное | Video-Electro"} />
+        <meta property="description" content={'Список ваших товаров, добавленных в список избранных.'} />
+        <meta property="og:description" content={'Список ваших товаров, добавленных в список избранных.'} />
+        <meta property="og:url" content={'https://video-electro.ru/favs'} />
       </Head>
       <Container>
         <div className={s.favs}>
