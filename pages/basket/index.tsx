@@ -27,10 +27,6 @@ import { setAuthShow, setHeader } from '@/store/Slices/Profile.slice';
 interface IBasketProps {
 }
 
-// const Basket = () => {
-//   return <div></div>
-// }
-
 const Basket: React.FC<IBasketProps> = () => {
 
   const dispatch = useAppDispatch()
