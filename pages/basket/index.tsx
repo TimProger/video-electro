@@ -22,7 +22,7 @@ import recovery_three from "@/public/images/pages/recovery/3.png";
 import {IBasketProduct} from "@/types/Product.types";
 import Checkbox from "@/components/UI/Checkbox/Checkbox";
 import {$api} from "@/http/axios";
-import { setAuthShow } from '@/store/Slices/Profile.slice';
+import { setAuthShow, setHeader } from '@/store/Slices/Profile.slice';
 
 interface IBasketProps {
 }
@@ -89,6 +89,22 @@ const Basket: React.FC<IBasketProps> = () => {
     window.scrollTo({top: 200, behavior: 'smooth'})
   },[page])
 
+  const buyHandler = () => {
+    $api.post('/order/buy/', {
+      address: 'Moscow',
+      delivery: 'cdek'
+    })
+      .then((res) => {
+        $api.get(`/order/pay_order/${res.data.id}`)
+          .then((res1) => {
+            window.location.href = res1.data.url
+          })
+      })
+      .catch((_res) => {
+        // console.log(res)
+      })
+  }
+
   const displayPages = () => {
     switch (page){
       case 0:
@@ -120,8 +136,9 @@ const Basket: React.FC<IBasketProps> = () => {
                 }) : <div className={s.basket__products__container__noCards}>
                   <Text size={'small'} type={'p'}>В корзине нет товаров</Text>
                   <Button size={'medium'}
-                          type={'link'}
-                          href={'catalog'}
+                          onClick={() => {
+                            dispatch(setHeader(!profile.headerShow))
+                          }}
                   >В каталог</Button>
                 </div>}
               </div>
@@ -253,7 +270,7 @@ const Basket: React.FC<IBasketProps> = () => {
                   <Text bold>К оплате</Text>
                   <Text colored bold size={'medium'}>{`${+totalPrice.toFixed(2)-+discountedPrice.toFixed(2)}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;</Text>
                 </div>
-                <Button size={'bigger'} full>Оплатить</Button>
+                <Button onClick={() => buyHandler()} size={'bigger'} full>Оплатить</Button>
               </div>
               <div className={s.basket__order__main__right}>
                 <Text size={'big+'} type={'h2'}>Этапы сотрудничества</Text>

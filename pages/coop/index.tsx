@@ -83,7 +83,6 @@ const Coop: React.FC<ICoopProps> = () => {
 
   const {width} = useTypedSelector(state => state.profile)
 
-
   return (
     <Layout>
       <Head>

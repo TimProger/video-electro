@@ -73,7 +73,7 @@ const Auth: React.FC<IAuthProps> = ({
       password: [false, ''],
       password_repeat: [false, ''],
       confirmation: [false, ''],
-      code: [false, '']
+      code: [false, ''],
     }
   })
 
@@ -231,6 +231,7 @@ const Auth: React.FC<IAuthProps> = ({
             },
           };
         });
+        errors.auth.phone = [false, '']
         errors.auth.password = [false, '']
         setErrors(JSON.parse(JSON.stringify(errors)))
         break;
@@ -459,11 +460,14 @@ const Auth: React.FC<IAuthProps> = ({
               .then((res) => {
                 // @ts-ignore
                 dispatch(setUser(res.data))
+                dispatch(setAuthShow(false))
                 push('/profile')
               })
           })
           .catch((res) => {
             if(res.data.detail === 'Такой пользователь уже существует'){
+              errors.reg.phone = [true, 'Пользователь с указанным номером телефона уже существует']
+              setErrors(JSON.parse(JSON.stringify(errors)))
               setPage(1)
             }
           })
