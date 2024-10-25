@@ -1,8 +1,8 @@
 import React, {FC, useEffect} from 'react';
 import {AppProps} from 'next/app';
 import {wrapper} from "@/store";
-import '@/styles/_globals.scss'
-import ErrorBoundary from "@/components/ErrorBoundary";
+import '@/_globals.scss'
+import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {setUser, setWidth} from "@/store/Slices/Profile.slice";
 import {useTypedSelector} from "@/hooks/useTypedSelector";

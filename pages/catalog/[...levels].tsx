@@ -1,17 +1,17 @@
 import {GetStaticProps} from 'next'
 import React, {useEffect, useState} from "react";
-import Layout from '@/components/Layout';
-import Container from '@/components/UI/Container';
+import Layout from '@/components/Layout/Layout';
+import Container from '@/components/UI/Container/Container';
 import Head from "next/head";
-import s from '@/styles/pages/Catalog.module.scss'
-import Text from "@/components/UI/Text";
-import Card from "@/components/Card";
-import Button from "@/components/UI/Button";
-import Select from "@/components/UI/Select";
+import s from './styles.module.scss'
+import Text from "@/components/UI/Text/Text";
+import Card from "@/components/Card/Card";
+import Button from "@/components/UI/Button/Button";
+import Select from "@/components/UI/Select/Select";
 import {Storage} from "@/utils/storage";
-import Modal from "@/components/UI/Modal";
-import Checkbox from "@/components/UI/Checkbox";
-import Dropdown from "@/components/UI/Dropdown";
+import Modal from "@/components/UI/Modal/Modal";
+import Checkbox from "@/components/UI/Checkbox/Checkbox";
+import Dropdown from "@/components/UI/Dropdown/Dropdown";
 import {ICatalogQuery, IFilter, IProductShort} from "@/types/Product.types";
 import {$api, API_BASE_URL} from "@/http/axios";
 import {useRouter} from "next/router";

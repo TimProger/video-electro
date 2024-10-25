@@ -1,0 +1,104 @@
+@import "../../../vars";
+
+.dropdown{
+  width: 100%;
+  max-width: 1110px;
+  background-color: $block-sec;
+  border-radius: $border-radius-block;
+  transition: all .3s linear;
+  border: 1px solid $border-color-sec;
+
+  & *{
+    margin: 0;
+  }
+
+  &_active{
+    border: 1px solid $border-color-main;
+    box-shadow: 0 0 5px 4px $border-color-third,
+    0 0 5px 2px $border-color-sec;
+  }
+
+  &__header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &__text {
+      display: flex;
+    }
+  }
+
+  &__text{
+    width: 100%;
+    transition: all .3s linear;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    & p{
+      margin: 0 30px 30px 30px;
+      color: $text-forth !important;
+      overflow: hidden;
+    }
+  }
+}
+
+.dropdown_inside{
+  width: 100%;
+  transition: all .3s linear;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  &__animated{
+    height: 0;
+    overflow: auto;
+
+    &_open{
+      height: auto;
+      max-height: 300px;
+    }
+  }
+
+  &__header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &__text {
+      display: flex;
+    }
+
+    &__svg{
+      min-width: 15px;
+
+      & path{
+        stroke: $text-forth;
+      }
+    }
+  }
+
+  &_active{
+
+
+    &__svg{
+
+      & path{
+        stroke: $text-sec !important
+      }
+    }
+  }
+
+  &__text{
+    width: 100%;
+    transition: all .3s linear;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+}

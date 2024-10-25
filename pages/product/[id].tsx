@@ -1,13 +1,13 @@
 import { GetStaticProps } from 'next'
 import React, {useEffect, useState} from "react";
 import Head from "next/head";
-import Container from "@/components/UI/Container";
+import Container from "@/components/UI/Container/Container";
 import {useTypedSelector} from "@/hooks/useTypedSelector";
-import s from '@/styles/pages/Product.module.scss'
-import Layout from "@/components/Layout";
-import Text from "@/components/UI/Text";
+import s from './styles.module.scss'
+import Layout from "@/components/Layout/Layout";
+import Text from "@/components/UI/Text/Text";
 import {Storage} from "@/utils/storage";
-import Button from "@/components/UI/Button";
+import Button from "@/components/UI/Button/Button";
 import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {toggleFavsProduct} from "@/store/Slices/Favs.slice";
 import {IProduct} from "@/types/Product.types";
@@ -95,7 +95,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
                   {/*{product.availability <= 0 && <div className={s.product__content__info__header__statuses__not}>Нет в наличии</div>}*/}
                   {product.is_hit && <div>Хит продаж</div>}
                   {product.is_new && <div>Новинка</div>}
-                  {product.discount && <div>-${product.discount}%</div>}
+                  {!!product.discount && <div>-${product.discount}%</div>}
                 </div>
                 <div className={s.product__content__info__header__article}>
                   <div>Артикул: {product.ProductCode}</div>
@@ -104,7 +104,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
               <Text type={'h1'}
                     size={'big+'}>{product.ProductName}</Text>
               <div className={s.product__content__info__price}>
-                {product.RetailPrice !== null ? product.discount && <Text type={'span'}
+                {product.RetailPrice !== null ? !!product.discount && <Text type={'span'}
                                            className={s.product__content__info__price__old}
                                            size={'medium'}>
                   {`${product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
@@ -116,7 +116,7 @@ const Product: React.FC<IProductProps> = ({info}) => {
                 <Text bold
                       colored={true}
                       size={'big+'}>
-                  {`${product.RetailPrice !== null && product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
+                  {`${product.RetailPrice !== null && !!product.discount ? product.RetailPrice-(product.RetailPrice / 100 * product.discount) : product.RetailPrice}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")} &#8381;
                 </Text>
               </div>
               <div className={s.product__content__info__btns}>

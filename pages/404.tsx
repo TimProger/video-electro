@@ -1,8 +1,8 @@
 import { GetStaticProps } from 'next'
 import React from "react";
-import ErrorPage from "@/components/ErrorPage";
+import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Head from "next/head";
-import Layout from "@/components/Layout";
+import Layout from "@/components/Layout/Layout";
 
 interface INotFoundProps {
   code: number;

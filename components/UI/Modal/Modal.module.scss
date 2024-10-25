@@ -1,0 +1,95 @@
+@import "../../../vars";
+
+.modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #00000050;
+  z-index: $z-index-modal;
+  opacity: 0;
+  display: flex;
+  visibility: hidden;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &_active{
+    visibility: visible;
+    opacity: 1 !important;
+  }
+
+  &__animated{
+    position: absolute;
+    min-height: auto;
+    height: auto;
+
+    @media screen and (max-width: 820px) {
+      & {
+        width: 100vw;
+        height: 100vh;
+        top: 0 !important;
+      }
+    }
+  }
+
+  &__block{
+    width: 550px;
+    height: auto;
+    padding: 25px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    background: $block-sec;
+    font-size: 18px;
+    cursor: auto;
+    border-radius: 40px;
+    overflow: hidden;
+
+    @media screen and (max-width: 820px) {
+      & {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+      }
+    }
+
+    &__content{
+      overflow-y: auto;
+      max-height: 80vh;
+
+      @media screen and (max-width: 820px) {
+        & {
+          max-height: 100%;
+        }
+      }
+      padding: 0 10px 10px 10px;
+    }
+
+    &__close {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+
+      svg {
+        position: relative;
+        top: 0;
+        transition: all 0.5s;
+        z-index: 9;
+        cursor: pointer;
+      }
+    }
+
+    &__container{
+      width: 90%;
+      height: 90%;
+      gap: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,162 @@
+@import "../../../vars";
+
+.select{
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all .3s linear;
+  border: 1px solid #00000000;
+  border-radius: $border-radius-card;
+
+  @media screen and (max-width: 1150px) {
+    & {
+      width: 250px;
+    }
+  }
+
+  @media screen and (max-width: 820px) {
+    & {
+      width: 110px;
+    }
+  }
+
+  *{
+    margin: 0;
+  }
+
+  & svg{
+    width: 17px;
+    min-width: 17px;
+
+    @media screen and (max-width: 820px) {
+      & {
+        width: 14px;
+        min-width: 14px;
+      }
+    }
+
+    & path{
+      transition: all .3s;
+      stroke: $text-forth;
+    }
+  }
+
+  &_active{
+    border: 1px solid $border-color-main;
+    box-shadow: 0 0 0 4px $border-color-third,
+    0 0 0 2px $border-color-sec;
+
+    & svg{
+
+      & path{
+        stroke: $text-sec;
+      }
+    }
+  }
+
+  &__value{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    cursor: pointer;
+    background-color: $block-sec;
+    border-radius: $border-radius-card;
+    border: 1px solid $border-color-sec;
+    box-sizing: border-box;
+    z-index: $z-index-dropdown-upper;
+
+    @media screen and (max-width: 820px) {
+      & {
+        padding: 5px 10px;
+      }
+    }
+
+    & p{
+      color: $text-forth;
+    }
+  }
+
+  &__values{
+    box-sizing: border-box;
+    border-radius: $border-radius-card;
+    width: 350px;
+    height: auto;
+    overflow: hidden;
+    background-color: $block-sec;
+    border: 1px solid $border-color-main;
+    box-shadow: 0 0 0 4px $border-color-third,
+    0 0 0 2px $border-color-sec;
+
+    &__container{
+      padding-top: 30px;
+      padding-bottom: 20px;
+    }
+
+    &__animated{
+      position: absolute;
+      width: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 15px;
+      z-index: $z-index-dropdown;
+
+      @media screen and (max-width: 820px) {
+        & {
+          margin-left: 137px;
+        }
+      }
+
+      @media screen and (max-width: 300px) {
+        & {
+          margin-left: 0;
+          width: 100%;
+          left: 0;
+        }
+      }
+    }
+
+    @media screen and (max-width: 1150px) {
+      & {
+        width: 250px;
+      }
+    }
+
+    &__space{
+      padding: 10px 15px;
+    }
+
+    &__block{
+      padding: 5px 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all .1s;
+
+      &:hover{
+        background-color: $block-forth-hover;
+      }
+
+      &_active{
+        background-color: $block-main !important;
+
+        &:hover{
+          background-color: $block-main-hover !important;
+        }
+
+        & p{
+          color: $text-third !important;
+        }
+      }
+    }
+
+    & p{
+      color: $text-forth;
+    }
+  }
+}
+

@@ -1,0 +1,45 @@
+@import "../../../vars";
+
+.label {
+  gap: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &_disabled{
+
+    & p{
+      color: $text-forth !important;
+    }
+
+    & .checkbox {
+      border-color: $text-forth;
+    }
+  }
+}
+
+.input {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.checkbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  background: #fff;
+  border: 1px solid #5B74F9;
+  border-radius: 5px;
+  margin-right: 4px;
+
+  &_error{
+    border: 1px solid $block-error;
+  }
+}

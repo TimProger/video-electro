@@ -1,0 +1,150 @@
+@import "../../_vars.scss";
+
+.authorization{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__header{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    &__title{
+      display: flex;
+      justify-content: space-between;
+
+      @media screen and (max-width: 420px) {
+        & {
+          display: flex;
+          gap: 10px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    }
+
+    &__text{
+      color: $text-forth;
+    }
+  }
+}
+
+.authorizationConfirm{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__text{
+    color: $text-forth;
+  }
+
+  &__back{
+    cursor: pointer;
+    color: $text-forth;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.registrationConfirm{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__text{
+    color: $text-forth;
+  }
+
+  &__back{
+    cursor: pointer;
+    color: $text-forth;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  &__input{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.registration{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__password{
+
+      &__text{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        & p{
+          color: $text-forth;
+        }
+      }
+    }
+
+    &__svg{
+
+      & path{
+        stroke: $text-forth;
+      }
+
+      &_active{
+
+        & path{
+          stroke: $text-sec;
+        }
+      }
+    }
+  }
+
+  &__header{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    &__title{
+      display: flex;
+      justify-content: space-between;
+
+      @media screen and (max-width: 320px) {
+        & {
+          display: flex;
+          gap: 10px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    }
+
+    &__text{
+      color: $text-forth;
+    }
+  }
+}
