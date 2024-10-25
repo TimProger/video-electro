@@ -16,7 +16,7 @@ import {Storage} from "@/utils/storage";
 import {$api, API_BASE_URL} from "@/http/axios";
 import img from '@/public/images/Icon.png'
 import Link from 'next/link';
-import Checkbox from '@/components/UI/Checkbox';
+import Checkbox from '@/components/UI/Checkbox/Checkbox';
 
 interface IProfileProps {
 }
