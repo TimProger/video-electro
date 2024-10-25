@@ -46,8 +46,8 @@ const Favs: React.FC<IFavsProps> = () => {
       </Head>
       <Container>
         <div className={s.favs}>
-          <div className={s.favs__container}>
-            <div className={s.favs__container__header}>
+          <div className={s.container}>
+            <div className={s.container__header}>
               <Text size={'bigger'} type={'h1'}>Избранное</Text>
               {products.length > 0 && <Button onClick={onClear}
                                               style={'borderless'}
@@ -59,12 +59,12 @@ const Favs: React.FC<IFavsProps> = () => {
                 </svg>
                 Удалить все</Button>}
             </div>
-            <div className={s.favs__container__cards}>
+            <div className={s.container__cards}>
               {trailProducts.length > 0 ? trailProducts.map((styles, index)=>{
-                return <animated.div className={s.favs__container__cards__animated} key={products[index].id} style={styles}>
+                return <animated.div className={s.container__cards__animated} key={products[index].id} style={styles}>
                   <Card favs type={'long'} product={products[index]} />
                 </animated.div>
-              }) : <div className={s.favs__container__noCards}>
+              }) : <div className={s.container__noCards}>
                 <Text size={'small'} type={'p'}>В избранном нет товаров</Text>
                 <Button size={'medium'}
                         onClick={() => {

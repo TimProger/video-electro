@@ -94,14 +94,14 @@ const Coop: React.FC<ICoopProps> = () => {
       </Head>
         <Container>
           <div className={s.coop}>
-            <div className={s.coop__content}>
-              <div className={s.coop__content__left}>
+            <div className={s.content}>
+              <div className={s.content__left}>
                 <Text type={'h1'} size={'bigger'}>Сотрудничество</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
               </div>
-              <div className={s.coop__content__right}>
+              <div className={s.content__right}>
                 {width !== 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
                 <Text type={'h2'} size={'big+'}>Процесс сотрудничества</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
@@ -110,13 +110,13 @@ const Coop: React.FC<ICoopProps> = () => {
                 {width === 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
               </div>
             </div>
-            <div className={s.coop__call}>
-              <div className={s.coop__call__left}>
+            <div className={s.call}>
+              <div className={s.call__left}>
                 <Text size={'bigger'} type={'h2'}>Сотрудничать с нами</Text>
                 <Text size={'small'} type={'p'}>Оставьте свои контактные данные, чтобы наши менеджеры с вами связались и обсудили условия сотрудничества.</Text>
               </div>
-              <div className={s.coop__call__right}>
-                <div className={s.coop__call__right__input}>
+              <div className={s.call__right}>
+                <div className={s.call__right__input}>
                   <Text size={'small'} type={'p'}>Ваше имя</Text>
                   <Input value={callName}
                          error={errors.name[0]}
@@ -129,7 +129,7 @@ const Coop: React.FC<ICoopProps> = () => {
                          key={'name'} />
                   {errors.name[1].length > 0 && <Text error={errors.name[0]}>{errors.name[1]}</Text>}
                 </div>
-                <div className={s.coop__call__right__input}>
+                <div className={s.call__right__input}>
                   <Text size={'small'} type={'p'}>Ваш телефон</Text>
                   <Input value={coopFormPhone}
                          error={errors.phone[0]}
@@ -142,7 +142,7 @@ const Coop: React.FC<ICoopProps> = () => {
                          key={'phone'} />
                   {errors.phone[1].length > 0 && <Text error={errors.phone[0]}>{errors.phone[1]}</Text>}
                 </div>
-                <div className={s.coop__call__right__input}>
+                <div className={s.call__right__input}>
                   <Text size={'small'} type={'p'}>Ваш вид деятельности</Text>
                   <Input value={coopFormDesc}
                          error={errors.desc[0]}
@@ -153,7 +153,7 @@ const Coop: React.FC<ICoopProps> = () => {
                          key={'desc'} />
                   {errors.desc[1].length > 0 && <Text error={errors.desc[0]}>{errors.desc[1]}</Text>}
                 </div>
-                <Button className={s.coop__call__right__button}
+                <Button className={s.call__right__button}
                         onClick={onSubmitCall}
                         full
                         size={'bigger'}>Заказать звонок</Button>
@@ -167,14 +167,14 @@ const Coop: React.FC<ICoopProps> = () => {
 
 export const getStaticProps: GetStaticProps = async () => {
 
-  return {
-    notFound: true
-  }
-
   // return {
-  //   props: {},
-  //   revalidate: 10,
+  //   notFound: true
   // }
+
+  return {
+    props: {},
+    revalidate: 10,
+  }
 }
 
 export default Coop

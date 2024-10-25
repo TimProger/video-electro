@@ -31,14 +31,14 @@ const About: React.FC<IAboutProps> = () => {
       </Head>
         <Container>
           <div className={s.about}>
-            <div className={s.about__content}>
-              <div className={s.about__content__left}>
+            <div className={s.content}>
+              <div className={s.content__left}>
                 <Text type={'h1'} size={'bigger'}>О компании</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
                 <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>
               </div>
-              <div className={s.about__content__right}>
+              <div className={s.content__right}>
                 {width !== 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
                 <Text type={'h2'} size={'big+'}>Что мы делаем?</Text>
                 <Text>Все виды выполняемых нами электромонтажных работ лицензированы. Потенциал компании позволяет реализовывать проекты любой сложности: от небольших частных заказов до крупных объектов в промышленной сфере до предоставления комплексного решения заказчику. В нашем активе более 250 крупных проектов, среди которых международный деловой центр «Москва-Сити».</Text>
@@ -47,13 +47,13 @@ const About: React.FC<IAboutProps> = () => {
                 {width === 'mobile' && <Image unoptimized width={225} height={225} src={'about.src'} alt=""/>}
               </div>
             </div>
-            <div className={s.about__documents}>
+            <div className={s.documents}>
               <Text type={'h2'} size={'bigger'}>Документы</Text>
-              <div className={s.about__documents__list}>
+              <div className={s.documents__list}>
                 <a target={'_blank'} href='https://drive.google.com/file/d/1K0_dOTAjf_FqgjL72d1LZvzhQIweWsAf/view?usp=sharing'>
-                  <div className={s.about__documents__list__item}>
+                  <div className={s.documents__list__item}>
                     <Image unoptimized width={225} height={650} src={certificate0.src} alt="Сертификат.docx"/>
-                    <div className={s.about__documents__list__item__text}>
+                    <div className={s.documents__list__item__text}>
                       <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M30.5 4H12C10.8954 4 10 4.89543 10 6V43C10 44.1046 10.8954 45 12 45H39C40.1046 45 41 44.1046 41 43V12.9995L30.5 4Z" fill="#1929BC"/>
                         <path d="M30.2991 14.3376C29.6448 14.4194 29.0919 13.8567 29.1851 13.2039L30.5001 3.99835L41 13L30.2991 14.3376Z" fill="#160E74"/>
