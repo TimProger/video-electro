@@ -1,6 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import Head from "next/head";
-import ErrorPage from "@/components/ErrorPage/ErrorPage";
+import ErrorPage from "@/pages/errorpage";
 import Layout from "@/components/Layout/Layout";
 
 interface Props {

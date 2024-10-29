@@ -1,20 +1,18 @@
 import { GetStaticProps } from 'next'
 import React from "react";
-import Text from "@/components/UI/Text/Text";
 import Layout from '@/components/Layout/Layout';
-import Container from '@/components/UI/Container/Container';
 import Head from "next/head";
-import s from './styles.module.scss'
 import { API_BASE_URL } from '@/http/axios';
+import Policy from '@/pages/policy';
 
-interface IPolicyProps {
+interface IPageProps {
   policy: {
     name: string;
     text: string;
   }[]
 }
 
-const Policy: React.FC<IPolicyProps> = ({policy}) => {
+const page: React.FC<IPageProps> = ({policy}) => {
   
   return (
     <Layout>
@@ -25,19 +23,7 @@ const Policy: React.FC<IPolicyProps> = ({policy}) => {
         <meta property="og:description" content={'Политика конфиденциальности компании.'} />
         <meta property="og:url" content={'https://video-electro.ru/policy'} />
       </Head>
-        <Container>
-          <div className={s.policy}>
-            <Text type={'h1'} size={'bigger'}>Политика конфиденциальности</Text>
-              <div className={s.content}>
-                {policy.map((el, index) => {
-                  return <div key={index} className={s.content__block}>
-                    <Text type={'h2'} size={'big+'}>{index+1}. {el.name}</Text>
-                    <Text type={'p'} size={'small'}>{el.text}</Text>
-                  </div>
-                })}
-            </div>
-          </div>
-        </Container>
+      <Policy policy={policy} />
     </Layout>
   )
 }
@@ -63,4 +49,4 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default Policy
+export default page

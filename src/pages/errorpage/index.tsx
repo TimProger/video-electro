@@ -1,6 +1,6 @@
 import React from "react";
 import Container from '@/components/UI/Container/Container';
-import s from './ErrorPage.module.scss'
+import s from './styles.module.scss'
 import Text from "@/components/UI/Text/Text";
 
 interface IErrorPageProps {

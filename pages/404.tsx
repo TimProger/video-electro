@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from "react";
-import ErrorPage from "@/components/ErrorPage/ErrorPage";
+import ErrorPage from "@/pages/errorpage";
 import Head from "next/head";
 import Layout from "@/components/Layout/Layout";
 

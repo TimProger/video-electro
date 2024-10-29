@@ -7,7 +7,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { setHeader } from '@/store/Slices/Profile.slice';
 import { animated, useTrail } from 'react-spring';
 import Card from '@/components/Card/Card';
-import welcome from "@/public/images/pages/main/welcome.jpg"
+import welcome from "../../../../../public/images/pages/main/welcome.jpg"
 
 interface IMainProps {
   products: any[]
