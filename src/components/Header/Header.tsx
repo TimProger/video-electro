@@ -175,7 +175,7 @@ const Header: React.FC<IHeaderProps> = () => {
       <div className={s.header}>
         <div className={s.header__top}>
           <div className={s.header__top__left}>
-            <Link href={'/'}>
+            <Link href={'/home'}>
               <svg width="176" height="22" viewBox="0 0 176 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11.2487 20.7508H6.54551L0.0820312 1.57944H4.20766L8.91087 16.314L13.5866 1.57944H17.7397L11.2487 20.7508Z" fill="#2D303B"/>
                 <path d="M20.6532 5.41371C20.0665 5.41371 19.5531 5.20374 19.113 4.7838C18.6913 4.34559 18.4804 3.83436 18.4804 3.25009C18.4804 2.66582 18.6913 2.15458 19.113 1.71638C19.5531 1.27818 20.0665 1.05908 20.6532 1.05908C21.2583 1.05908 21.7717 1.27818 22.1935 1.71638C22.6335 2.15458 22.8536 2.66582 22.8536 3.25009C22.8536 3.83436 22.6335 4.34559 22.1935 4.7838C21.7717 5.20374 21.2583 5.41371 20.6532 5.41371ZM22.441 20.7508H18.893V7.05697H22.441V20.7508Z" fill="#2D303B"/>
@@ -193,7 +193,7 @@ const Header: React.FC<IHeaderProps> = () => {
               </svg>
             </Link>
             <div className={s.header__top__left__links}>
-              <Text type={'link'} no_td={true} href={'/'} colored={pathname === "/"}>Главная</Text>
+              <Text type={'link'} no_td={true} href={'/home'} colored={pathname === "/home"}>Главная</Text>
               <Text type={'link'} no_td={true} href={'/about'} colored={pathname === "/about"}>О нас</Text>
               <Text type={'link'} no_td={true} href={'/coop'} colored={pathname === "/coop"}>Сотрудничество</Text>
               <Text type={'link'} no_td={true} href={'/contacts'} colored={pathname === "/contacts"}>Контакты</Text>
