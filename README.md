@@ -1,5 +1,3 @@
-Our [Storybook](https://642b138fc4896be59d17ada1-mgrfcoeaio.chromatic.com/?path=/story/ui-button--default)
-
 <h1 align="center">Video-Electro</h1>
 
 - 💻 Работу выполнил - [Акылверен Ата Тимофей Сюлейманович](https://github.com/TimProger)
